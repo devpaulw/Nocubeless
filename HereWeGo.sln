@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HereWeGo", "HereWeGo\HereWeGo.csproj", "{A0D0749B-E32B-4198-8EFF-7D1BA85D68EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nocubeless", "HereWeGo\Nocubeless.csproj", "{A0D0749B-E32B-4198-8EFF-7D1BA85D68EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThereWeGetAnEngine", "ThereWeGetAnEngine\ThereWeGetAnEngine.csproj", "{EF3751EE-84DD-4BBF-82AB-201D6484B10F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nocubeless.Engine", "ThereWeGetAnEngine\Nocubeless.Engine.csproj", "{EF3751EE-84DD-4BBF-82AB-201D6484B10F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpydotNet.GLGraphics", "SpydotNet.GLGraphics\SpydotNet.GLGraphics.csproj", "{439EA5F9-A551-4834-9743-7C3E17BE3DA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{EF3751EE-84DD-4BBF-82AB-201D6484B10F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF3751EE-84DD-4BBF-82AB-201D6484B10F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF3751EE-84DD-4BBF-82AB-201D6484B10F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{439EA5F9-A551-4834-9743-7C3E17BE3DA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{439EA5F9-A551-4834-9743-7C3E17BE3DA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{439EA5F9-A551-4834-9743-7C3E17BE3DA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{439EA5F9-A551-4834-9743-7C3E17BE3DA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

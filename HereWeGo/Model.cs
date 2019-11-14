@@ -47,6 +47,7 @@ namespace HereWeGo
         {
             // Vertex Buffer Data Set-up
             GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject);
+
             GL.BufferData(BufferTarget.ArrayBuffer,
                 Vertices.Length * Vector3.SizeInBytes, // size : how many bytes is the full vertices array?
                 Vertices,

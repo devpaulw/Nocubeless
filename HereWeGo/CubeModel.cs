@@ -20,7 +20,7 @@ namespace HereWeGo
             new Vector3(1.0f,  1.0f, -1.0f),
             new Vector3(-1.0f,  1.0f, -1.0f)
         };
-        protected override short[] Indices => new short[]
+        private short[] Indices => new short[]
         {
             // front
             0, 1, 2,
