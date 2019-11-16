@@ -26,6 +26,7 @@ namespace ThereWeGetAnEngine
         {
             camera = new Camera();
             cube = new CubeRenderer(graphics.GraphicsDevice);
+            //Content.RootDirectory = "";
 
             base.Initialize();
         }
@@ -37,7 +38,7 @@ namespace ThereWeGetAnEngine
 
         protected override void Draw(GameTime gameTime)
         {
-            cube.Draw(camera);
+            cube.Draw(camera, Color.Gold, Content.Load<Effect>("Content/CubeEffect"));
 
             base.Draw(gameTime);
         }

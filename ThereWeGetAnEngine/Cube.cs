@@ -19,16 +19,31 @@ namespace ThereWeGetAnEngine
            modelMeshPart = LoadCubeModel(_graphicsDevice);
         }
         
-        public void Draw(Camera camera, Color color)
+        public void Draw(Camera camera, Color color, Effect effect)
         {
-            BasicEffect effect = new BasicEffect(_graphicsDevice);
-            // TODO: Make my own shader effect
-            effect.LightingEnabled = false;
+            //BasicEffect effect = new BasicEffect(_graphicsDevice);
 
-            effect.Projection = camera.ProjectionMatrix;
-            effect.View = camera.ViewMatrix;
-            effect.World = Matrix.CreateScale(0.05f);
-            effect.VertexColorEnabled
+            effect.Parameters["Projection"].SetValue(camera.ProjectionMatrix);
+            effect.Parameters["View"].SetValue(camera.ViewMatrix);
+            effect.Parameters["World"].SetValue(Matrix.CreateScale(0.1f) * camera.WorldMatrix);
+
+            effect.Parameters["Color"].SetValue(color.ToVector3());
+
+            //effect.LightingEnabled = false;
+            //effect.VertexColorEnabled = true;
+
+            //effect.Projection = camera.ProjectionMatrix;
+            //effect.View = camera.ViewMatrix;
+            //effect.World = Matrix.CreateScale(0.1f) * camera.WorldMatrix;
+
+            //effect.Alpha = 1.0f;
+            //effect.AmbientLightColor = color.ToVector3();
+            //effect.DiffuseColor = color.ToVector3();
+            //effect.EmissiveColor = color.ToVector3();
+            //effect.FogColor = color.ToVector3();
+            //effect.SpecularColor = color.ToVector3();
+
+
 
             _graphicsDevice.Clear(Color.Purple);
 

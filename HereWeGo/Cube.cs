@@ -10,7 +10,7 @@ namespace HereWeGo
         public Cube(Color4 color, Coordinate position)
         {
             Color = color;
-            Position = position;
+            Position = position; 
         }
 
         // Deprecated :
