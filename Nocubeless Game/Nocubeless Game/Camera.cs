@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace ThereWeGetAnEngine
+namespace Nocubeless
 {
     public class Camera
     {

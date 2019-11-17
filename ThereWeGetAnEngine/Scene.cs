@@ -27,7 +27,7 @@ namespace ThereWeGetAnEngine
             camera = new Camera();
             cube = new CubeRenderer(graphics.GraphicsDevice);
             //Content.RootDirectory = "";
-
+            DrawableGameComponent
             base.Initialize();
         }
 

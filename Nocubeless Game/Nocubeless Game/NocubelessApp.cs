@@ -7,16 +7,24 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Nocubeless_Game
+namespace Nocubeless
 {
     class NocubelessApp : Game
     {
         GraphicsDeviceManager graphics;
 
+        Camera camera;
+        CubeRenderer cubeRenderer;
+
         public NocubelessApp()
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 800;
+
+            camera = new Camera();
+
+            Content.RootDirectory = "MGContent";
             IsMouseVisible = true;
         }
 
@@ -29,11 +37,8 @@ namespace Nocubeless_Game
 
         protected override void LoadContent()
         {
-            const string contentDirectory = "Content/bin/";
-
-            Content.RootDirectory = contentDirectory;
-
-
+            CubeEffect cubeEffect = new CubeEffect(Content.Load<Effect>("CubeEffect"));
+            cubeRenderer = new CubeRenderer(GraphicsDevice, cubeEffect, 0.1F);
         }
 
         protected override void Update(GameTime gameTime)
@@ -48,9 +53,9 @@ namespace Nocubeless_Game
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(new Color(32, 2, 128));
 
-            // TODO: Add your drawing code here
+            cubeRenderer.Draw(camera, Color.Gold);
 
             base.Draw(gameTime);
         }

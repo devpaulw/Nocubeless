@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nocubeless_Game
+namespace Nocubeless
 {
     public static class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             using (var app = new NocubelessApp())
             {

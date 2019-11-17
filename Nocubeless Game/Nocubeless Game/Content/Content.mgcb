@@ -1,8 +1,8 @@
 
 #----------------------------- Global Properties ----------------------------#
 
-/outputDir:bin/$(Platform)
-/intermediateDir:obj/$(Platform)
+/outputDir:../bin/Debug/MGContent
+/intermediateDir:../obj/Debug/MGContent
 /platform:DesktopGL
 /config:
 /profile:Reach
@@ -12,4 +12,10 @@
 
 
 #---------------------------------- Content ---------------------------------#
+
+#begin CubeEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:CubeEffect.fx
 

@@ -6,58 +6,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThereWeGetAnEngine
+namespace Nocubeless
 {
     class CubeRenderer
     {
         private readonly GraphicsDevice _graphicsDevice; // Where to draw
-        private readonly ModelMeshPart modelMeshPart; // Store rendering attributes
+        private readonly CubeEffect _cubeEffect;
+        private readonly ModelMeshPart cubeMeshPart; // Store rendering attributes
 
-        public CubeRenderer(GraphicsDevice graphicsDevice)
+        public float Height { get; set; }
+
+        public CubeRenderer(GraphicsDevice graphicsDevice, CubeEffect cubeEffect, float cubesHeight)
         {
             _graphicsDevice = graphicsDevice;
-           modelMeshPart = LoadCubeModel(_graphicsDevice);
+            _cubeEffect = cubeEffect;
+
+            Height = cubesHeight;
+
+           cubeMeshPart = LoadCubeModel(_graphicsDevice);
         }
         
-        public void Draw(Camera camera, Color color, Effect effect)
+        public void Draw(Camera camera, Color color)
         {
-            //BasicEffect effect = new BasicEffect(_graphicsDevice);
+            Matrix scale = Matrix.CreateScale(Height);
+            _cubeEffect.World = scale * camera.WorldMatrix;
+            _cubeEffect.View = camera.ViewMatrix;
+            _cubeEffect.Projection = camera.ProjectionMatrix;
+            _cubeEffect.Color = color;
 
-            effect.Parameters["Projection"].SetValue(camera.ProjectionMatrix);
-            effect.Parameters["View"].SetValue(camera.ViewMatrix);
-            effect.Parameters["World"].SetValue(Matrix.CreateScale(0.1f) * camera.WorldMatrix);
+            _graphicsDevice.SetVertexBuffer(cubeMeshPart.VertexBuffer);
+            _graphicsDevice.Indices = cubeMeshPart.IndexBuffer;
 
-            effect.Parameters["Color"].SetValue(color.ToVector3());
-
-            //effect.LightingEnabled = false;
-            //effect.VertexColorEnabled = true;
-
-            //effect.Projection = camera.ProjectionMatrix;
-            //effect.View = camera.ViewMatrix;
-            //effect.World = Matrix.CreateScale(0.1f) * camera.WorldMatrix;
-
-            //effect.Alpha = 1.0f;
-            //effect.AmbientLightColor = color.ToVector3();
-            //effect.DiffuseColor = color.ToVector3();
-            //effect.EmissiveColor = color.ToVector3();
-            //effect.FogColor = color.ToVector3();
-            //effect.SpecularColor = color.ToVector3();
-
-
-
-            _graphicsDevice.Clear(Color.Purple);
-
-            _graphicsDevice.SetVertexBuffer(modelMeshPart.VertexBuffer);
-            _graphicsDevice.Indices = modelMeshPart.IndexBuffer;
-
-            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in _cubeEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 _graphicsDevice.DrawIndexedPrimitives(
                 PrimitiveType.TriangleList,
                 0,
-                modelMeshPart.StartIndex,
-                modelMeshPart.PrimitiveCount);
+                cubeMeshPart.StartIndex,
+                cubeMeshPart.PrimitiveCount);
             }
         }
 
