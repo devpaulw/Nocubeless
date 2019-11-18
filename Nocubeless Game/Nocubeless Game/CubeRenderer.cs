@@ -29,7 +29,7 @@ namespace Nocubeless
         public void Draw(Camera camera, Color color)
         {
             Matrix scale = Matrix.CreateScale(Height);
-            _cubeEffect.World = scale * camera.WorldMatrix;
+            _cubeEffect.World = scale;
             _cubeEffect.View = camera.ViewMatrix;
             _cubeEffect.Projection = camera.ProjectionMatrix;
             _cubeEffect.Color = color;

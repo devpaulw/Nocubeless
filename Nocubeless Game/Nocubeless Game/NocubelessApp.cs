@@ -43,10 +43,14 @@ namespace Nocubeless
 
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            KeyboardState keyboard = Keyboard.GetState();
+            MouseState mouse = Mouse.GetState();
+
+            if (keyboard.IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            camera.MoveFromKeyboard(keyboard, gameTime.ElapsedGameTime.);
+            camera.RotateFromMouse(mouse);
 
             base.Update(gameTime);
         }
