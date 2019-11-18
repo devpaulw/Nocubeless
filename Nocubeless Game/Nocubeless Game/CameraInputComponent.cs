@@ -29,37 +29,37 @@ namespace Nocubeless
             }
         }
 
-        public GameInputKeys KeysInputs { get; set; }
+        public GameInputKeys InputKeys { get; set; }
         public Camera Camera { get; set; }
-        public float MoveSpeed { get; set; } = 0.25f;
-        public float MouseSensitivity { get; set; } = 0.1f;
-        public float RunSpeed { get; set; }
-
+        public float MoveSpeed { get; set; }
+        public float MouseSensitivity { get; set; }
+        public float RunProduct { get; set; }
 
         public CameraInputComponent(GameApp game, 
-            GameInputKeys keysInputs, 
+            GameInputKeys inputKeys, 
             Camera camera, 
             float moveSpeed, 
             float mouseSensitivity, 
             float runSpeed) 
             : base(game)
         {
-            KeysInputs = keysInputs;
+            InputKeys = inputKeys;
             Camera = camera;
             MoveSpeed = moveSpeed;
             MouseSensitivity = mouseSensitivity;
-            RunSpeed = runSpeed;
+            RunProduct = runSpeed;
         }
 
         public override void Update(GameTime gameTime)
         {
-            Point middlePoint = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Width / 2);
+            Point middlePoint = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
 
             currentKeyboardState = Keyboard.GetState();
             if (gameTime != null) MoveFromKeyboard(gameTime);
 
             currentMouseState = Mouse.GetState();
             RotateFromMouse(middlePoint);
+            Mouse.SetPosition(middlePoint.X, middlePoint.Y);
 
             base.Update(gameTime);
         }
@@ -69,19 +69,19 @@ namespace Nocubeless
             var moveDeltaSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * MoveSpeed;
             Vector3 moveX, moveY, moveZ;
 
-            if (currentKeyboardState.IsKeyDown(KeysInputs.Run))
-                moveDeltaSpeed *= RunSpeed;
+            if (currentKeyboardState.IsKeyDown(InputKeys.Run))
+                moveDeltaSpeed *= RunProduct;
 
             moveX = Vector3.Normalize(Vector3.Cross(Camera.Front, Camera.Up)) * moveDeltaSpeed;
             moveY = Camera.Up * moveDeltaSpeed;
             moveZ = Camera.Front * moveDeltaSpeed;
 
-            if (currentKeyboardState.IsKeyDown(KeysInputs.MoveForward)) Camera.Position += moveZ; // Z
-            if (currentKeyboardState.IsKeyDown(KeysInputs.MoveBackward)) Camera.Position -= moveZ; // S
-            if (currentKeyboardState.IsKeyDown(KeysInputs.MoveRight)) Camera.Position += moveX; // D
-            if (currentKeyboardState.IsKeyDown(KeysInputs.MoveLeft)) Camera.Position -= moveX; // Q
-            if (currentKeyboardState.IsKeyDown(KeysInputs.MoveUpward)) Camera.Position += moveY; // Space
-            if (currentKeyboardState.IsKeyDown(KeysInputs.MoveDown)) Camera.Position -= moveY; // Left SHift
+            if (currentKeyboardState.IsKeyDown(InputKeys.MoveForward)) Camera.Position += moveZ; // Z
+            if (currentKeyboardState.IsKeyDown(InputKeys.MoveBackward)) Camera.Position -= moveZ; // S
+            if (currentKeyboardState.IsKeyDown(InputKeys.MoveRight)) Camera.Position += moveX; // D
+            if (currentKeyboardState.IsKeyDown(InputKeys.MoveLeft)) Camera.Position -= moveX; // Q
+            if (currentKeyboardState.IsKeyDown(InputKeys.MoveUpward)) Camera.Position += moveY; // Space
+            if (currentKeyboardState.IsKeyDown(InputKeys.MoveDown)) Camera.Position -= moveY; // Left SHift
         }
 
 

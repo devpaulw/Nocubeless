@@ -21,7 +21,7 @@ namespace Nocubeless
 
         public Camera()
         {
-            Fov = 60;
+            radiansFov = MathHelper.PiOver2;
             AspectRatio = 1.0F;
             Position =Vector3.Zero;
             Front = -Vector3.UnitZ;

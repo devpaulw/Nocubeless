@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    class CubeRenderer
+    class CubeRenderer // TODO: Deprecate that class, use World (WITH CubeComposite) and cube classes, you'll see that works!
     {
         private readonly ModelMeshPart cubeMeshPart; // Store rendering attributes
 
@@ -27,13 +27,17 @@ namespace Nocubeless
            cubeMeshPart = LoadCubeModel(GraphicsDevice);
         }
         
-        public void Draw(Camera camera, Color color)
+        public void Draw(Camera camera, Cube cube)
         {
             Matrix scale = Matrix.CreateScale(Height);
-            CubeEffect.World = scale;
+            Matrix translation = Matrix.CreateTranslation(0.2f * cube.Position.X, 
+                0.2f * cube.Position.Y, 
+                0.2f * cube.Position.Z); // TEMP! We're waiting for CubeRenderer new organization.
+
+            CubeEffect.World = scale * translation;
             CubeEffect.View = camera.ViewMatrix;
             CubeEffect.Projection = camera.ProjectionMatrix;
-            CubeEffect.Color = color;
+            CubeEffect.Color = cube.Color;
 
             GraphicsDevice.SetVertexBuffer(cubeMeshPart.VertexBuffer);
             GraphicsDevice.Indices = cubeMeshPart.IndexBuffer;
