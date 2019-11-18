@@ -10,7 +10,7 @@ namespace Nocubeless
     {
         static void Main()
         {
-            using (var app = new NocubelessApp())
+            using (var app = new GameApp())
             {
                 app.Run();
             }

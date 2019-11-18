@@ -10,37 +10,38 @@ namespace Nocubeless
 {
     class CubeRenderer
     {
-        private readonly GraphicsDevice _graphicsDevice; // Where to draw
-        private readonly CubeEffect _cubeEffect;
         private readonly ModelMeshPart cubeMeshPart; // Store rendering attributes
+
+        private GraphicsDevice GraphicsDevice { get; } // Where to draw
+        private CubeEffect CubeEffect { get; }
 
         public float Height { get; set; }
 
         public CubeRenderer(GraphicsDevice graphicsDevice, CubeEffect cubeEffect, float cubesHeight)
         {
-            _graphicsDevice = graphicsDevice;
-            _cubeEffect = cubeEffect;
+            GraphicsDevice = graphicsDevice;
+            CubeEffect = cubeEffect;
 
             Height = cubesHeight;
 
-           cubeMeshPart = LoadCubeModel(_graphicsDevice);
+           cubeMeshPart = LoadCubeModel(GraphicsDevice);
         }
         
         public void Draw(Camera camera, Color color)
         {
             Matrix scale = Matrix.CreateScale(Height);
-            _cubeEffect.World = scale;
-            _cubeEffect.View = camera.ViewMatrix;
-            _cubeEffect.Projection = camera.ProjectionMatrix;
-            _cubeEffect.Color = color;
+            CubeEffect.World = scale;
+            CubeEffect.View = camera.ViewMatrix;
+            CubeEffect.Projection = camera.ProjectionMatrix;
+            CubeEffect.Color = color;
 
-            _graphicsDevice.SetVertexBuffer(cubeMeshPart.VertexBuffer);
-            _graphicsDevice.Indices = cubeMeshPart.IndexBuffer;
+            GraphicsDevice.SetVertexBuffer(cubeMeshPart.VertexBuffer);
+            GraphicsDevice.Indices = cubeMeshPart.IndexBuffer;
 
-            foreach (EffectPass pass in _cubeEffect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in CubeEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                _graphicsDevice.DrawIndexedPrimitives(
+                GraphicsDevice.DrawIndexedPrimitives(
                 PrimitiveType.TriangleList,
                 0,
                 cubeMeshPart.StartIndex,
