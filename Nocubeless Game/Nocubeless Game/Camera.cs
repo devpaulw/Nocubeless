@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Nocubeless
 {
-    public class Camera
+    internal class Camera
     {
         private float radiansFov;
         public float Fov {
@@ -15,17 +15,23 @@ namespace Nocubeless
         }
         public float AspectRatio { get; set; }
 
+        public Vector3 OriginalFront { get; } = -Vector3.UnitZ;
+        public Vector3 OriginalUp { get; } = Vector3.UnitY;
+
         public Vector3 Position { get; set; }
         public Vector3 Front { get; set; }
         public Vector3 Up { get; set; }
 
-        public Camera()
+        
+
+        public Camera(GameApp game)
         {
-            radiansFov = MathHelper.PiOver2;
-            AspectRatio = 1.0F;
-            Position =Vector3.Zero;
-            Front = -Vector3.UnitZ;
-            Up = Vector3.UnitY;
+            Fov = game.Settings.CameraFov;
+            AspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
+
+            Position = Vector3.Zero;
+            Front = OriginalFront;
+            Up = OriginalUp;
         }
 
         public Matrix ProjectionMatrix {

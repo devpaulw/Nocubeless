@@ -55,17 +55,20 @@
   <ItemGroup>
     <Compile Include="Camera.cs" />
     <Compile Include="CameraInputComponent.cs" />
-    <Compile Include="Coordinate.cs" />
+    <Compile Include="CubeCoordinate.cs" />
     <Compile Include="Cube.cs" />
     <Compile Include="CubeEffect.cs" />
-    <Compile Include="CubeRenderer.cs" />
+    <Compile Include="DrawableCubes.cs" />
     <Compile Include="GameApp.cs" />
     <Compile Include="GameInputKeys.cs" />
+    <Compile Include="GameSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="World.cs" />
+    <Compile Include="WorldSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".editorconfig" />
     <None Include="App.config" />
     <None Include="Content\Content.mgcb" />
     <None Include="packages.config" />

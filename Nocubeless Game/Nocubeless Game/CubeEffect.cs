@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    public class CubeEffect : Effect // TODO: change public to internal i guess
+    internal class CubeEffect : Effect
     {
         #region Effect Parameters
         EffectParameter worldParam;

@@ -7,70 +7,49 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+
 namespace Nocubeless
 {
-    public class GameApp : Game
+    internal class GameApp : Game
     {
-        GraphicsDeviceManager graphics;
+        private readonly GraphicsDeviceManager graphics;
 
-        GameInputKeys keys;
+        public GameSettings Settings { get; private set; }
+
+        public Camera Camera { get; set; }
+        public World World { get; set; }
         
 
         public GameApp()
         {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 800;
+            Settings = GameSettings.Default;
 
-            keys = new GameInputKeys
-            {
-                MoveForward = Keys.Z,
-                MoveLeft = Keys.Q,
-                MoveBackward = Keys.S,
-                MoveRight = Keys.D,
-                MoveUpward = Keys.Space,
-                MoveDown = Keys.LeftShift,
-                Run = Keys.A
-            };
+            graphics = new GraphicsDeviceManager(this);
+            Settings.SetGameSettings(this, graphics); // Graphics initialization from Settings
+
+            IsMouseVisible = false;
 
             Content.RootDirectory = "MGContent";
-            IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
-            Camera camera = new Camera { AspectRatio = GraphicsDevice.Viewport.AspectRatio }; // Configure camera properly (singleton or other technique)
-            CameraInputComponent cameraInputComponent = new CameraInputComponent(this, keys, camera, 0.25f, 0.1f, 2.5f);
-            CubeEffect cubeEffect = new CubeEffect(Content.Load<Effect>("CubeEffect")); // TODO: Load with Loaded Assets! Be able to separate LoadContent and Initialize and the construction, and do it.
-            World world = new World(this, camera, cubeEffect, 0.1f); // TO-DISPOSE
+            CameraInputComponent cameraInputComponent;
 
-            world.LayCube(new Cube(
-                    new Color(0f, 1f, 0f, 1f),
-                    new Coordinate(-1, -1, -1)));
-            world.LayCube(new Cube(
-                new Color(1f, 0.2f, 0f, 1f),
-                new Coordinate(0, 0, 0)));
-            world.LayCube(new Cube(
-                new Color(0f, 0.2f, 1f, 1f),
-                new Coordinate(2, 0, 0)));
-            world.LayCube(new Cube(
-                new Color(0f, 1f, 1f, 1f),
-                new Coordinate(-3, 2, 1)));
-            world.LayCube(new Cube(
-                new Color(1f, 1f, 0f, 1f),
-                new Coordinate(2, 3, 4)));
+            Camera = new Camera(this);
+            cameraInputComponent = new CameraInputComponent(this);
+
+            World = World.LoadFromTest(this);
 
             Components.Add(cameraInputComponent);
-            Components.Add(world);
-
-            IsMouseVisible = false;
+            Components.Add(World);
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            // entreprendre   
+            // When I'll have content
         }
 
         protected override void Update(GameTime gameTime)
