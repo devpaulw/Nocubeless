@@ -12,8 +12,6 @@ namespace Nocubeless
 {
     internal class GameApp : Game, IGameApp
     {
-        private readonly GraphicsDeviceManager graphics;
-
         public Game Instance { get; } // Allow interface to Components using
 
         public GameSettings Settings { get; set; }
@@ -25,11 +23,7 @@ namespace Nocubeless
             Instance = this as Game;
 
             Settings = GameSettings.Default;
-
-            graphics = new GraphicsDeviceManager(this);
-            Settings.SetGameSettings(this, graphics); // Graphics initialization from Settings
-
-            IsMouseVisible = true;
+            Settings.Graphics.SetToGame(this);
 
             Content.RootDirectory = "MGContent";
         }

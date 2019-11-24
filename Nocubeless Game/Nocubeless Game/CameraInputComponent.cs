@@ -32,23 +32,24 @@ namespace Nocubeless
             }
         }
 
-        public GameInputKeys InputKeys { get; set; }
+        public InputKeySettings InputKeys { get; set; }
         public Camera Camera { get; set; }
+        public CameraSettings Settings { get; set; }
         public float MoveSpeed { get; set; }
         public float MouseSensitivity { get; set; }
 
-        public CameraInputComponent(IGameApp game, Camera camera) : base(game.Instance)
+        public CameraInputComponent(IGameApp game) : base(game.Instance)
         {
             InputKeys = game.Settings.InputKeys;
-            MoveSpeed = game.Settings.MoveSpeed;
-            MouseSensitivity = game.Settings.MouseSensitivity;
-            Camera = Camera;
+            Settings = game.Settings.Camera;
+            Camera = gcamera;
 
-            // Camera Settings ? (graphics, inputs, camera, world settings)
+            // the world input component and camera input component paradox, where to store camera? gl
+
              // put every world in the world class (with effect for example)
              // advise from me: think about world returns over world private statements and then update World (scene, drawableCubes d-update)
 
-            middlePoint = new Point(game.Instance.GraphicsDevice.Viewport.Width / 2, game.Instance.GraphicsDevice.Viewport.Height / 2);
+            middlePoint = new Point(Game.GraphicsDevice.Viewport.Width / 2, Game.GraphicsDevice.Viewport.Height / 2);
         }
 
         public override void Update(GameTime gameTime)

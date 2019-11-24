@@ -8,6 +8,8 @@ namespace Nocubeless
 {
     internal class Camera
     {
+
+
         private float radiansFov;
         public float Fov {
             get => MathHelper.ToDegrees(radiansFov);
@@ -28,10 +30,10 @@ namespace Nocubeless
             }
         }
 
-        public Camera(IGameApp game)
+        public Camera(Game game, CameraSettings settings)
         {
-            Fov = game.Settings.CameraFov;
-            AspectRatio = game.Instance.GraphicsDevice.Viewport.AspectRatio;
+            Fov = settings.Fov;
+            AspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
 
             Position = Vector3.Zero;
             Front = OriginalFront;

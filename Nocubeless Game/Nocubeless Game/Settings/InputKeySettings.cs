@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class GameInputKeys
+    internal class InputKeySettings
     {
         public Keys MoveForward { get; set; }
         public Keys MoveBackward { get; set; }
@@ -17,9 +17,9 @@ namespace Nocubeless
         public Keys MoveDown { get; set; }
         public Keys Run { get; set; }
 
-        public static GameInputKeys DefaultUSEnglish {
+        public static InputKeySettings DefaultUSEnglish {
             get {
-                return new GameInputKeys
+                return new InputKeySettings
                 {
                     MoveForward = Keys.W,
                     MoveLeft = Keys.A,
@@ -32,10 +32,10 @@ namespace Nocubeless
             }
         }
 
-        public static GameInputKeys DefaultFrench
+        public static InputKeySettings DefaultFrench
         {
             get {
-                return new GameInputKeys
+                return new InputKeySettings
                 {
                     MoveForward = Keys.Z,
                     MoveLeft = Keys.Q,

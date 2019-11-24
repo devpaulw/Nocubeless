@@ -9,7 +9,7 @@ namespace Nocubeless
 {
     class WorldInputComponent : GameComponent
     {
-        public GameInputKeys InputKeys { get; set; }
+        public InputKeySettings InputKeys { get; set; }
         public World World { get; set; }
         public Camera Camera { get; set; }
         public
@@ -26,7 +26,7 @@ namespace Nocubeless
         public override void Initialize()
         {
             // Settings
-
+            // Max laying distance: where?
             base.Initialize();
         }
 
@@ -39,7 +39,7 @@ namespace Nocubeless
 
         public CubeCoordinate GetAvailableSpaceFromCamera(Camera camera) // Is not 100% trustworthy, and is not powerful, be careful
         {
-            float sceneCubeRatio = 1.0f / World.Settings.CubesHeight / 2.0f; // Because a cube is x times smaller/bigger compared to the scene representation
+            float sceneCubeRatio = 1.0f / World.Settings.HeightOfCubes / 2.0f; // Because a cube is x times smaller/bigger compared to the scene representation
             // cube ratio in world
 
             Vector3 checkPosition = camera.Position * sceneCubeRatio;

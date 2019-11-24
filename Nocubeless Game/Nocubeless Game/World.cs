@@ -19,7 +19,7 @@ namespace Nocubeless
         {
             Settings = settings;
 
-            cubes = new DrawableCubes(game, settings.CubesHeight);
+            cubes = new DrawableCubes(game, settings.HeightOfCubes);
         }
 
         public override void Draw(GameTime gameTime)
@@ -46,7 +46,7 @@ namespace Nocubeless
 
         public static World LoadFromTest(GameApp game)
         {
-            WorldSettings worldSettings = new WorldSettings { CubesHeight = 0.1f };
+            WorldSettings worldSettings = new WorldSettings { HeightOfCubes = 0.1f };
 
             World world = new World(game, worldSettings); // TO-DISPOSE
 
