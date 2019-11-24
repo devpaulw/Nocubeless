@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,8 @@ namespace Nocubeless
 {
     internal interface IGameApp
     {
+        Game Instance { get; }
         GameSettings Settings { get; set; }
-        Camera Camera { get; set; }
         World World { get; set; }
     }
 }

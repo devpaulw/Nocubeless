@@ -12,21 +12,21 @@ namespace Nocubeless
     {
         private readonly List<Cube> toDraw;
         private readonly ModelMeshPart cubeMeshPart; // Store rendering attributes
-        private readonly CubeEffect cubeEffect;
         private Matrix scale;
+        private readonly CubeEffect effect;
 
         public Camera Camera { get; set; }
         public float Height { get; }
 
-        public DrawableCubes(GameApp game, float cubesHeight) : base(game)
+        public DrawableCubes(IGameApp game, float cubesHeight) : base(game.Instance)
         {
             Height = cubesHeight;
             Camera = game.Camera;
 
             toDraw = new List<Cube>();
             cubeMeshPart = Cube.LoadModel(GraphicsDevice);
-            cubeEffect = new CubeEffect(Game.Content.Load<Effect>("CubeEffect")); // DOLATER: deprecate and use bytecode instead.
             scale = Matrix.CreateScale(Height);
+            effect = new CubeEffect(Game.Content.Load<Effect>("CubeEffect"));
         }
 
         public void Add(Cube cube)
@@ -36,51 +36,45 @@ namespace Nocubeless
 
         public override void Draw(GameTime gameTime)
         {
-            // there, do later the light!
-            //BasicEffect eff = new BasicEffect(Game.GraphicsDevice);
-            //eff.LightingEnabled = true;
-            //eff.EnableDefaultLighting();
-
             foreach (Cube cube in toDraw)
             {
-                Matrix translation = cube.Position.CreateWorldTranslation(Height);
-
-                //eff.World = scale * translation;
-                //eff.View = Camera.ViewMatrix;
-                //eff.Projection = Camera.ProjectionMatrix;
-                //eff.AmbientLightColor = cube.Color.ToVector3();
-                //eff.Alpha = 1.0f;
-
-                cubeEffect.World = scale * translation;
-                cubeEffect.View = Camera.ViewMatrix;
-                cubeEffect.Projection = Camera.ProjectionMatrix;
-                cubeEffect.Color = cube.Color;
-
-                GraphicsDevice.SetVertexBuffer(cubeMeshPart.VertexBuffer);
-                GraphicsDevice.Indices = cubeMeshPart.IndexBuffer;
-
-                foreach (EffectPass pass in cubeEffect.CurrentTechnique.Passes)
-                {
-                    pass.Apply();
-                    GraphicsDevice.DrawIndexedPrimitives(
-                    PrimitiveType.TriangleList,
-                    0,
-                    cubeMeshPart.StartIndex,
-                    cubeMeshPart.PrimitiveCount);
-                }
-
-                //foreach (EffectPass pass in eff.CurrentTechnique.Passes)
-                //{
-                //    pass.Apply();
-                //    GraphicsDevice.DrawIndexedPrimitives(
-                //    PrimitiveType.TriangleList,
-                //    0,
-                //    cubeMeshPart.StartIndex,
-                //    cubeMeshPart.PrimitiveCount);
-                //}
+                DrawCube(cube);
             }
 
             base.Draw(gameTime);
+        }
+
+        public void DrawCube(Cube cube)
+        {
+            Matrix translation = Matrix.CreateTranslation(cube.Position.GetScenePosition(Height));
+
+            effect.World = scale * translation;
+            effect.View = Camera.ViewMatrix;
+            effect.Projection = Camera.ProjectionMatrix;
+            effect.Color = cube.Color;
+
+            GraphicsDevice.SetVertexBuffer(cubeMeshPart.VertexBuffer);
+            GraphicsDevice.Indices = cubeMeshPart.IndexBuffer;
+
+            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                GraphicsDevice.DrawIndexedPrimitives(
+                PrimitiveType.TriangleList,
+                0,
+                cubeMeshPart.StartIndex,
+                cubeMeshPart.PrimitiveCount);
+            }
+        }
+        public bool IsFreeSpace(CubeCoordinate position)
+        {
+            foreach (Cube cube in toDraw)
+                if (cube.Position.X == position.X &&
+                    cube.Position.Y == position.Y &&
+                    cube.Position.Z == position.Z)
+                    return false;
+
+            return true;
         }
     }
 }

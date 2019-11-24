@@ -66,7 +66,7 @@ namespace Nocubeless
             const string worldParamName = "World";
             const string viewParamName = "View";
             const string projectionParamName = "Projection";
-            const string colorParamName = "Color";
+            const string colorParamName = "AmbientColor";
 
             worldParam = Parameters[worldParamName];
             viewParam = Parameters[viewParamName];

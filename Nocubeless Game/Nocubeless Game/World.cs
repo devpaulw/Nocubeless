@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +15,7 @@ namespace Nocubeless
 
         public WorldSettings Settings { get; }
 
-        public World(GameApp game, WorldSettings settings) : base(game)
+        public World(IGameApp game, WorldSettings settings) : base(game.Instance)
         {
             Settings = settings;
 
@@ -33,24 +34,34 @@ namespace Nocubeless
             cubes.Add(cube);
         }
 
+        public void BreakCube(CubeCoordinate position)
+        {
+
+        }
+
+        public void PreviewCube(Cube cube)
+        {
+            cubes.DrawCube(cube);
+        }
+
         public static World LoadFromTest(GameApp game)
         {
             WorldSettings worldSettings = new WorldSettings { CubesHeight = 0.1f };
 
             World world = new World(game, worldSettings); // TO-DISPOSE
 
-            world.LayCube(new Cube(
-                    new Color(0f, 1f, 0f, 1f),
-                    new CubeCoordinate(-1, -1, -1)));
-            world.LayCube(new Cube(
-                new Color(1f, 0.2f, 0f, 1f),
-                new CubeCoordinate(0, 0, 0)));
-            world.LayCube(new Cube(
-                new Color(0f, 0.2f, 1f, 1f),
-                new CubeCoordinate(2, 0, 0)));
-            world.LayCube(new Cube(
-                new Color(0f, 1f, 1f, 1f),
-                new CubeCoordinate(-3, 2, 1)));
+            //world.LayCube(new Cube(
+            //        new Color(0f, 1f, 0f, 1f),
+            //        new CubeCoordinate(-1, -1, -1)));
+            //world.LayCube(new Cube(
+            //    new Color(1f, 0.2f, 0f, 1f),
+            //    new CubeCoordinate(0, 0, 0)));
+            //world.LayCube(new Cube(
+            //    new Color(0f, 0.2f, 1f, 1f),
+            //    new CubeCoordinate(2, 0, 0)));
+            //world.LayCube(new Cube(
+            //    new Color(0f, 1f, 1f, 1f),
+            //    new CubeCoordinate(-3, 2, 1)));
             world.LayCube(new Cube(
                 new Color(1f, 1f, 0f, 1f),
                 new CubeCoordinate(2, 3, 4)));

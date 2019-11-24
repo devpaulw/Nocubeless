@@ -29,7 +29,7 @@ namespace Nocubeless
         {
             graphics.IsFullScreen = FullScreen;
             graphics.SynchronizeWithVerticalRetrace = VSync;
-            if (FullScreen) // Make the fullscreen mode consistent with window resolution
+            if (FullScreen | true) // Make the fullscreen mode consistent with window resolution
             {
                 graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
                 graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
@@ -50,7 +50,7 @@ namespace Nocubeless
 
                     Framerate = 120,
                     UnlimitedFramerate = false,
-                    VSync = true,
+                    VSync =  true,
                     FullScreen = true,
                     CameraFov = 70
                 };

@@ -22,12 +22,16 @@ namespace Nocubeless
         public Vector3 Front { get; set; }
         public Vector3 Up { get; set; }
 
-        
+        public Vector3 Target {
+            get {
+                return Position + Front;
+            }
+        }
 
-        public Camera(GameApp game)
+        public Camera(IGameApp game)
         {
             Fov = game.Settings.CameraFov;
-            AspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
+            AspectRatio = game.Instance.GraphicsDevice.Viewport.AspectRatio;
 
             Position = Vector3.Zero;
             Front = OriginalFront;
@@ -36,7 +40,7 @@ namespace Nocubeless
 
         public Matrix ProjectionMatrix {
             get {
-                const float zNear = 0.05f, zFar = 50f;
+                const float zNear = 0.6f, zFar = 600.0f;
                 return Matrix.CreatePerspectiveFieldOfView(radiansFov,
                     AspectRatio,
                     zNear, zFar);
@@ -45,8 +49,7 @@ namespace Nocubeless
 
         public Matrix ViewMatrix {
             get {
-                Vector3 target = Position + Front;
-                return Matrix.CreateLookAt(Position, target, Up);
+                return Matrix.CreateLookAt(Position, Target, Up);
             }
         }
     }

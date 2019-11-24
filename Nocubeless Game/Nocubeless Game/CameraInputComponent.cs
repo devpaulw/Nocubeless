@@ -37,14 +37,18 @@ namespace Nocubeless
         public float MoveSpeed { get; set; }
         public float MouseSensitivity { get; set; }
 
-        public CameraInputComponent(GameApp game) : base(game)
+        public CameraInputComponent(IGameApp game, Camera camera) : base(game.Instance)
         {
             InputKeys = game.Settings.InputKeys;
             MoveSpeed = game.Settings.MoveSpeed;
             MouseSensitivity = game.Settings.MouseSensitivity;
-            Camera = game.Camera;
+            Camera = Camera;
 
-            middlePoint = new Point(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height / 2);
+            // Camera Settings ? (graphics, inputs, camera, world settings)
+             // put every world in the world class (with effect for example)
+             // advise from me: think about world returns over world private statements and then update World (scene, drawableCubes d-update)
+
+            middlePoint = new Point(game.Instance.GraphicsDevice.Viewport.Width / 2, game.Instance.GraphicsDevice.Viewport.Height / 2);
         }
 
         public override void Update(GameTime gameTime)
@@ -52,8 +56,9 @@ namespace Nocubeless
             currentMouseState = Mouse.GetState();
             if (cursorSet > 1) RotateFromMouse();
             else cursorSet++; // Prevent bad camera arisen
-            Mouse.SetPosition(middlePoint.X, middlePoint.Y);
 
+            Mouse.SetPosition(middlePoint.X, middlePoint.Y); 
+            
             currentKeyboardState = Keyboard.GetState();
             if (gameTime != null) MoveFromKeyboard(gameTime);
 
@@ -82,12 +87,16 @@ namespace Nocubeless
 
         public void RotateFromMouse()
         {
+            Matrix rotation;
+
             var deltaPoint = new Point(currentMouseState.X - middlePoint.X, currentMouseState.Y - middlePoint.Y);
+            //lastCursorPosition = new Point(currentMouseState.X, currentMouseState.Y);
 
             Yaw -= deltaPoint.X * MouseSensitivity;
             Pitch -= deltaPoint.Y * MouseSensitivity;
 
-            Matrix rotation = Matrix.CreateRotationX(radiansPitch) * Matrix.CreateRotationY(radiansYaw);
+            rotation = Matrix.CreateRotationX(radiansPitch) *
+                Matrix.CreateRotationY(radiansYaw);
             Camera.Front = Vector3.Transform(Camera.OriginalFront, rotation);
             Camera.Up = Vector3.Transform(Camera.OriginalUp, rotation);
 

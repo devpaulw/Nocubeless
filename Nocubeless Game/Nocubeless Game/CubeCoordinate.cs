@@ -25,9 +25,22 @@ namespace Nocubeless
             return new Vector3(X, Y, Z);
         }
 
-        public Matrix CreateWorldTranslation(float cubesHeight)
+        public Vector3 GetScenePosition(float cubesHeight)
         {
-            return Matrix.CreateTranslation(ToVector3() * 2.0f * cubesHeight);
+            return ToVector3() * 2.0f * cubesHeight;
+        }
+
+        public override string ToString()
+        {
+            return "{X:" + X + " Y:" + Y + " Z:" + Z + "}";
+        }
+    }
+
+    internal static class CubeCoordinateExtension
+    {
+        public static CubeCoordinate ToCubeCoordinate(this Vector3 position)
+        {
+            return new CubeCoordinate((int)Math.Round(position.X), (int)Math.Round(position.Y), (int)Math.Round(position.Z));
         }
     }
 }

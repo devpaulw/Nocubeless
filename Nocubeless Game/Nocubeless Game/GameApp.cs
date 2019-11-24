@@ -10,24 +10,26 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Nocubeless
 {
-    internal class GameApp : Game
+    internal class GameApp : Game, IGameApp
     {
         private readonly GraphicsDeviceManager graphics;
 
-        public GameSettings Settings { get; private set; }
+        public Game Instance { get; } // Allow interface to Components using
 
-        public Camera Camera { get; set; }
+        public GameSettings Settings { get; set; }
+
         public World World { get; set; }
-        
 
         public GameApp()
         {
+            Instance = this as Game;
+
             Settings = GameSettings.Default;
 
             graphics = new GraphicsDeviceManager(this);
             Settings.SetGameSettings(this, graphics); // Graphics initialization from Settings
 
-            IsMouseVisible = false;
+            IsMouseVisible = true;
 
             Content.RootDirectory = "MGContent";
         }
@@ -36,7 +38,7 @@ namespace Nocubeless
         {
             CameraInputComponent cameraInputComponent;
 
-            Camera = new Camera(this);
+            
             cameraInputComponent = new CameraInputComponent(this);
 
             World = World.LoadFromTest(this);
@@ -52,6 +54,8 @@ namespace Nocubeless
             // When I'll have content
         }
 
+        private bool pressed = false; // WTF, why "kio"
+
         protected override void Update(GameTime gameTime)
         {
             if (!IsActive) // Don't take in care when window is not focused
@@ -60,13 +64,25 @@ namespace Nocubeless
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            Random rnd = new Random();
+
+            if (!pressed && Mouse.GetState().RightButton == ButtonState.Pressed)// WTF, why "kio"
+            {
+                pressed = true;
+                World.LayCube(new Cube(new Color(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(0, 256)), World.GetAvailableSpaceFromCamera(Camera)));
+            }
+            else if (Mouse.GetState().RightButton == ButtonState.Released)// WTF, why "kio"
+                pressed = false;// WTF, why "kio"
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(new Color(32, 2, 128));
-            
+            GraphicsDevice.Clear(Color.SkyBlue);
+
+            World.PreviewCube(new Cube(Color.PaleVioletRed, World.GetAvailableSpaceFromCamera(Camera)));
+
             base.Draw(gameTime);
         }
     }
