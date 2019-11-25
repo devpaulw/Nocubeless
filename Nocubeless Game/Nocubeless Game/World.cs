@@ -35,7 +35,8 @@ namespace Nocubeless
             {
                 DrawCube(cube);
             }
-            DrawCube(previewableCube);
+            if (previewableCube != null) 
+                DrawCube(previewableCube);
 
             base.Draw(gameTime);
         }
@@ -47,11 +48,22 @@ namespace Nocubeless
 
         public void BreakCube(CubeCoordinate position)
         {
-            
+            for (int i = 0; i < drawingCubes.Count; i++)
+            {
+                if(drawingCubes[i].Position.X == position.X &&  // DESIGN: Make that way cleaner
+                    drawingCubes[i].Position.Y == position.Y &&
+                    drawingCubes[i].Position.Z == position.Z)
+                {
+                    drawingCubes.RemoveAt(i);
+                }
+            }
         }
 
         public void PreviewCube(CubeCoordinate position)
         {
+            if (position == null)
+                previewableCube = null;
+
             Color color = Color.PaleVioletRed;
             Cube cube = new Cube(color, position);
 

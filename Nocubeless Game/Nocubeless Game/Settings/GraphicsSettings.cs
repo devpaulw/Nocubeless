@@ -15,8 +15,6 @@ namespace Nocubeless
         public bool VSync { get; set; }
         public bool FullScreen { get; set; }
 
-        
-
         public void SetToGame(Game game, GraphicsDeviceManager graphicsDeviceManager)
         {
             graphicsDeviceManager.IsFullScreen = FullScreen;

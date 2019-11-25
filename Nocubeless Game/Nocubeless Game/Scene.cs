@@ -19,23 +19,6 @@ namespace Nocubeless
             Effect = new CubeEffect(Game.Content.Load<Effect>("CubeEffect"));
             Camera = new Camera(gameApp.Settings.Camera, Game.GraphicsDevice.Viewport);
             World = new World(gameApp, Effect);
-            {
-                World.LayCube(new Cube(
-                    new Color(0f, 1f, 0f, 1f),
-                    new CubeCoordinate(-1, -1, -1)));
-                World.LayCube(new Cube(
-                    new Color(1f, 0.2f, 0f, 1f),
-                    new CubeCoordinate(0, 0, 0)));
-                World.LayCube(new Cube(
-                    new Color(0f, 0.2f, 1f, 1f),
-                    new CubeCoordinate(2, 0, 0)));
-                World.LayCube(new Cube(
-                    new Color(0f, 1f, 1f, 1f),
-                    new CubeCoordinate(-3, 2, 1)));
-                World.LayCube(new Cube(
-                    new Color(1f, 1f, 0f, 1f),
-                    new CubeCoordinate(2, 3, 4)));
-            }
         }
 
         public override void Initialize()

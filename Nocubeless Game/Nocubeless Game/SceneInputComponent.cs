@@ -15,7 +15,7 @@ namespace Nocubeless
 
         private int cursorSet;
         private Point middlePoint;
-        private bool mouseLeftButtonPressed;
+        private bool mouseRightButtonPressed;
 
         private float radiansPitch;
         private float radiansYaw;
@@ -35,13 +35,13 @@ namespace Nocubeless
 
         public InputKeySettings InputKeys { get; set; }
         public Camera Camera { get; set; }
-        public CameraSettings Settings { get; set; }
+        public CameraSettings CameraSettings { get; set; }
         public World World { get; set; }
 
         public SceneInputComponent(IGameApp game, Scene scene) : base(game.Instance)
         {
             InputKeys = game.Settings.InputKeys;
-            Settings = game.Settings.Camera;
+            CameraSettings = game.Settings.Camera;
             Camera = scene.Camera;
             World = scene.World;
         }
@@ -66,8 +66,8 @@ namespace Nocubeless
                 var deltaPoint = new Point(currentMouseState.X - middlePoint.X, currentMouseState.Y - middlePoint.Y);
                 //lastCursorPosition = new Point(currentMouseState.X, currentMouseState.Y);
 
-                Yaw -= deltaPoint.X * Settings.MouseSensitivity;
-                Pitch -= deltaPoint.Y * Settings.MouseSensitivity;
+                Yaw -= deltaPoint.X * CameraSettings.MouseSensitivity;
+                Pitch -= deltaPoint.Y * CameraSettings.MouseSensitivity;
 
                 rotation = Matrix.CreateRotationX(radiansPitch) *
                     Matrix.CreateRotationY(radiansYaw);
@@ -80,7 +80,7 @@ namespace Nocubeless
             #region Move camera
             currentKeyboardState = Keyboard.GetState();
 
-            var moveDeltaSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * Settings.MoveSpeed;
+            var moveDeltaSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * CameraSettings.MoveSpeed;
             Vector3 xAxis, yAxis, zAxis;
 
             if (currentKeyboardState.IsKeyDown(InputKeys.Run))
@@ -98,15 +98,15 @@ namespace Nocubeless
             if (currentKeyboardState.IsKeyDown(InputKeys.MoveDown)) Camera.Position -= yAxis; // Left SHift
             #endregion
 
-            #region Preview & Lay Cubes in the World
+            #region Preview, Lay & Break Cubes in the World
             CubeCoordinate previewCubePosition = GetWorldAvailableSpace();
             { // Prev
                 World.PreviewCube(previewCubePosition);
             } // Lay
             {
-                if (!mouseLeftButtonPressed && currentMouseState.RightButton == ButtonState.Pressed)
+                if (!mouseRightButtonPressed && currentMouseState.RightButton == ButtonState.Pressed)
                 {
-                    mouseLeftButtonPressed = true;
+                    mouseRightButtonPressed = true;
 
                     Random random = new Random();
                     Color cubeColor = new Color(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256));
@@ -114,7 +114,7 @@ namespace Nocubeless
                     World.LayCube(newCube);
                 }
                 else if (currentMouseState.RightButton == ButtonState.Released)
-                    mouseLeftButtonPressed = false;
+                    mouseRightButtonPressed = false;
             }
             #endregion
 
@@ -132,12 +132,12 @@ namespace Nocubeless
             CubeCoordinate actualPosition = null;
             CubeCoordinate convertedCheckPosition;
 
-            int checkIntensity = 40;
-            float checkIncrement = 4 / (float)checkIntensity;
+            int checkIntensity = 80;
+            float checkIncrement = CameraSettings.MaxLayingDistance / (float)checkIntensity;
 
             for (int i = 0; i < checkIntensity; i++)
             { // In World, is free space
-                checkPosition += Camera.Front /*Fix design there*/ * checkIncrement; // Increment check zone
+                checkPosition += Camera.Front * checkIncrement; // Increment check zone
                 convertedCheckPosition = checkPosition.ToCubeCoordinate();
 
                 if (convertedCheckPosition != actualPosition) // Perf maintainer

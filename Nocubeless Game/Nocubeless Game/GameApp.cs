@@ -12,7 +12,7 @@ namespace Nocubeless
 {
     internal class GameApp : Game, IGameApp
     {
-        // TO-DO: elimate IGameApp and pass Game and settings instead.
+        // TODO: elimate IGameApp and pass Game and settings instead.
         private readonly GraphicsDeviceManager graphicsDeviceManager;
 
         public Game Instance { get; } // Allow interface to Components using
