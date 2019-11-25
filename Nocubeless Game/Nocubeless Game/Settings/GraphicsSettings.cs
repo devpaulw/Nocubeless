@@ -17,17 +17,15 @@ namespace Nocubeless
 
         
 
-        public void SetToGame(Game game)
+        public void SetToGame(Game game, GraphicsDeviceManager graphicsDeviceManager)
         {
-            GraphicsDeviceManager graphics = new GraphicsDeviceManager(game);
-
-            graphics.IsFullScreen = FullScreen;
-            graphics.SynchronizeWithVerticalRetrace = VSync;
+            graphicsDeviceManager.IsFullScreen = FullScreen;
+            graphicsDeviceManager.SynchronizeWithVerticalRetrace = VSync;
 
             if (FullScreen | true) // Make the fullscreen mode consistent with window resolution
             {
-                graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-                graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+                graphicsDeviceManager.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+                graphicsDeviceManager.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             }
 
             game.IsFixedTimeStep = !UnlimitedFramerate;

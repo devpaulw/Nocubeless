@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class SceneInputComponent : DrawableGameComponent
+    internal class SceneInputComponent : GameComponent
     {
         private KeyboardState currentKeyboardState;
         private MouseState currentMouseState;
 
         private int cursorSet;
         private Point middlePoint;
+        private bool mouseLeftButtonPressed;
 
         private float radiansPitch;
         private float radiansYaw;
@@ -42,31 +43,43 @@ namespace Nocubeless
             InputKeys = game.Settings.InputKeys;
             Settings = game.Settings.Camera;
             Camera = scene.Camera;
+            World = scene.World;
+        }
 
+        public override void Initialize()
+        {
             middlePoint = new Point(Game.GraphicsDevice.Viewport.Width / 2, Game.GraphicsDevice.Viewport.Height / 2);
+
+            base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
+            #region Rotate head
             currentMouseState = Mouse.GetState();
-            if (cursorSet > 1) RotateFromMouse();
+            Mouse.SetPosition(middlePoint.X, middlePoint.Y);
+
+            if (cursorSet > 1)
+            {
+                Matrix rotation;
+
+                var deltaPoint = new Point(currentMouseState.X - middlePoint.X, currentMouseState.Y - middlePoint.Y);
+                //lastCursorPosition = new Point(currentMouseState.X, currentMouseState.Y);
+
+                Yaw -= deltaPoint.X * Settings.MouseSensitivity;
+                Pitch -= deltaPoint.Y * Settings.MouseSensitivity;
+
+                rotation = Matrix.CreateRotationX(radiansPitch) *
+                    Matrix.CreateRotationY(radiansYaw);
+                Camera.Front = Vector3.Transform(Camera.OriginalFront, rotation);
+                Camera.Up = Vector3.Transform(Camera.OriginalUp, rotation);
+            }
             else cursorSet++; // Prevent bad camera arisen
+            #endregion
 
-            Mouse.SetPosition(middlePoint.X, middlePoint.Y); 
-            
+            #region Move camera
             currentKeyboardState = Keyboard.GetState();
-            if (gameTime != null) MoveFromKeyboard(gameTime);
 
-            base.Update(gameTime);
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
-        }
-
-        private void MoveFromKeyboard(GameTime gameTime)
-        {
             var moveDeltaSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * Settings.MoveSpeed;
             Vector3 xAxis, yAxis, zAxis;
 
@@ -83,44 +96,32 @@ namespace Nocubeless
             if (currentKeyboardState.IsKeyDown(InputKeys.MoveLeft)) Camera.Position -= xAxis; // Q
             if (currentKeyboardState.IsKeyDown(InputKeys.MoveUpward)) Camera.Position += yAxis; // Space
             if (currentKeyboardState.IsKeyDown(InputKeys.MoveDown)) Camera.Position -= yAxis; // Left SHift
+            #endregion
+
+            #region Preview & Lay Cubes in the World
+            CubeCoordinate previewCubePosition = GetWorldAvailableSpace();
+            { // Prev
+                World.PreviewCube(previewCubePosition);
+            } // Lay
+            {
+                if (!mouseLeftButtonPressed && currentMouseState.RightButton == ButtonState.Pressed)
+                {
+                    mouseLeftButtonPressed = true;
+
+                    Random random = new Random();
+                    Color cubeColor = new Color(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256));
+                    Cube newCube = new Cube(cubeColor, previewCubePosition);
+                    World.LayCube(newCube);
+                }
+                else if (currentMouseState.RightButton == ButtonState.Released)
+                    mouseLeftButtonPressed = false;
+            }
+            #endregion
+
+            base.Update(gameTime);
         }
 
-        public void RotateFromMouse()
-        {
-            Matrix rotation;
-
-            var deltaPoint = new Point(currentMouseState.X - middlePoint.X, currentMouseState.Y - middlePoint.Y);
-            //lastCursorPosition = new Point(currentMouseState.X, currentMouseState.Y);
-
-            Yaw -= deltaPoint.X * Settings.MouseSensitivity;
-            Pitch -= deltaPoint.Y * Settings.MouseSensitivity;
-
-            rotation = Matrix.CreateRotationX(radiansPitch) *
-                Matrix.CreateRotationY(radiansYaw);
-            Camera.Front = Vector3.Transform(Camera.OriginalFront, rotation);
-            Camera.Up = Vector3.Transform(Camera.OriginalUp, rotation);
-
-            // Before - deprecated
-            //Camera.Front = Vector3.Normalize(new Vector3(
-            //    (float)Math.Cos(radiansYaw) * (float)Math.Cos(radiansPitch),
-            //    (float)Math.Sin(radiansPitch),
-            //    (float)Math.Sin(radiansYaw) * (float)Math.Cos(radiansPitch)));
-        }
-
-        public void PreviewCube()
-        {
-            World.PreviewCube(GetAvailableSpace());
-        }
-
-        public void LayCube() // en plus on avait mousestate
-        {
-            Random rnd = new Random();
-            Color cubeColor = new Color(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(0, 256));
-            Cube newCube = new Cube(cubeColor, GetAvailableSpace());
-            World.LayCube(newCube);
-        }
-
-        public CubeCoordinate GetAvailableSpace() // Is not 100% trustworthy, and is not powerful, be careful
+        private CubeCoordinate GetWorldAvailableSpace() // Is not 100% trustworthy, and is not powerful, be careful
         {
             float sceneCubeRatio = 1.0f / World.Settings.HeightOfCubes / 2.0f; // Because a cube is x times smaller/bigger compared to the scene representation
             // cube ratio in world

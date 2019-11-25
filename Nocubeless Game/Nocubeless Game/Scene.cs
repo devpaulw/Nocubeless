@@ -47,6 +47,8 @@ namespace Nocubeless
 
         public override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.DarkGray);
+
             Effect.View = Camera.ViewMatrix;
             Effect.Projection = Camera.ProjectionMatrix;
 

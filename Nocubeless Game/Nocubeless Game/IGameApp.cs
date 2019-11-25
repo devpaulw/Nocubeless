@@ -11,6 +11,5 @@ namespace Nocubeless
     {
         Game Instance { get; }
         GameSettings Settings { get; set; }
-        Scene Scene { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace Nocubeless
                 return new WorldSettings
                 {
                     HeightOfCubes = 0.1f
-                }
+                };
             }
         }
     }

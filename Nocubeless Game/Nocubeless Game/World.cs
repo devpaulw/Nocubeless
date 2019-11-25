@@ -12,8 +12,9 @@ namespace Nocubeless
     internal class World : DrawableGameComponent
     {
         private readonly ModelMeshPart cubeMeshPart; // Store rendering attributes
-        private readonly List<Cube> toDraw;
         private readonly Matrix scale;
+        private readonly List<Cube> drawingCubes;
+        private Cube previewableCube;
 
         public CubeEffect Effect { get; }
         public WorldSettings Settings { get; }
@@ -24,23 +25,24 @@ namespace Nocubeless
             Effect = effect;
 
             cubeMeshPart = Cube.LoadModel(Game.GraphicsDevice);
-            toDraw = new List<Cube>();
+            drawingCubes = new List<Cube>();
             scale = Matrix.CreateScale(Settings.HeightOfCubes);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            foreach (Cube cube in toDraw)
+            foreach (Cube cube in drawingCubes)
             {
                 DrawCube(cube);
             }
+            DrawCube(previewableCube);
 
             base.Draw(gameTime);
         }
 
         public void LayCube(Cube cube)
         {
-            toDraw.Add(cube);
+            drawingCubes.Add(cube);
         }
 
         public void BreakCube(CubeCoordinate position)
@@ -50,15 +52,15 @@ namespace Nocubeless
 
         public void PreviewCube(CubeCoordinate position)
         {
-            Color cubeColor = Color.PaleVioletRed;
-            Cube previewCube = new Cube(cubeColor, position);
+            Color color = Color.PaleVioletRed;
+            Cube cube = new Cube(color, position);
 
-            DrawCube(previewCube);
+            previewableCube = cube;
         }
 
         public bool IsFreeSpace(CubeCoordinate position)
         {
-            foreach (Cube cube in toDraw)
+            foreach (Cube cube in drawingCubes)
                 if (cube.Position.X == position.X &&
                     cube.Position.Y == position.Y &&
                     cube.Position.Z == position.Z)

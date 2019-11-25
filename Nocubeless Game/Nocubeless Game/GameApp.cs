@@ -13,35 +13,31 @@ namespace Nocubeless
     internal class GameApp : Game, IGameApp
     {
         // TO-DO: elimate IGameApp and pass Game and settings instead.
+        private readonly GraphicsDeviceManager graphicsDeviceManager;
+
         public Game Instance { get; } // Allow interface to Components using
 
         public GameSettings Settings { get; set; }
-
-        public Scene Scene { get; set; }
 
         public GameApp()
         {
             Instance = this as Game;
 
-            Settings = GameSettings.Default;
-            Settings.Graphics.SetToGame(this);
-
             Content.RootDirectory = "MGContent";
+
+            Settings = GameSettings.Default;
+
+            graphicsDeviceManager = new GraphicsDeviceManager(this);
+            Settings.Graphics.SetToGame(this, graphicsDeviceManager);
         }
 
         protected override void Initialize()
         {
+            var scene = new Scene(this);
+            var sceneInput = new SceneInputComponent(this, scene);
 
-
-            SceneInputComponent cameraInputComponent;
-
-            
-            cameraInputComponent = new SceneInputComponent(this);
-
-            World = World.LoadFromTest(this);
-
-            Components.Add(cameraInputComponent);
-            Components.Add(Scene);
+            Components.Add(scene);
+            Components.Add(sceneInput);
 
             base.Initialize();
         }
@@ -51,8 +47,6 @@ namespace Nocubeless
             // When I'll have content
         }
 
-        private bool pressed = false; // WTF, why "kio"
-
         protected override void Update(GameTime gameTime)
         {
             if (!IsActive) // Don't take in care when window is not focused
@@ -61,24 +55,7 @@ namespace Nocubeless
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            Random rnd = new Random();
-
-            if (!pressed && Mouse.GetState().RightButton == ButtonState.Pressed)// WTF, why "kio"
-            {
-                pressed = true;
-                World.LayCube(new Cube(new Color(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(0, 256)), World.GetAvailableSpaceFromCamera(Camera)));
-            }
-            else if (Mouse.GetState().RightButton == ButtonState.Released)// WTF, why "kio"
-                pressed = false;// WTF, why "kio"
-
             base.Update(gameTime);
-        }
-
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.SkyBlue);
-
-            base.Draw(gameTime);
         }
     }
 }
