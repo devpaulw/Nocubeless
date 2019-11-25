@@ -30,10 +30,10 @@ namespace Nocubeless
             }
         }
 
-        public Camera(Game game, CameraSettings settings)
+        public Camera(CameraSettings settings, Viewport viewport)
         {
             Fov = settings.Fov;
-            AspectRatio = game.GraphicsDevice.Viewport.AspectRatio;
+            AspectRatio = viewport.AspectRatio;
 
             Position = Vector3.Zero;
             Front = OriginalFront;

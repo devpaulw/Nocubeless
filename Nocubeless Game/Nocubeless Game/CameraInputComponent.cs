@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class CameraInputComponent : GameComponent
+    internal class SceneInputComponent : DrawableGameComponent
     {
         private KeyboardState currentKeyboardState;
         private MouseState currentMouseState;
@@ -35,19 +35,13 @@ namespace Nocubeless
         public InputKeySettings InputKeys { get; set; }
         public Camera Camera { get; set; }
         public CameraSettings Settings { get; set; }
-        public float MoveSpeed { get; set; }
-        public float MouseSensitivity { get; set; }
+        public World World { get; set; }
 
-        public CameraInputComponent(IGameApp game) : base(game.Instance)
+        public SceneInputComponent(IGameApp game, Scene scene) : base(game.Instance)
         {
             InputKeys = game.Settings.InputKeys;
             Settings = game.Settings.Camera;
-            Camera = gcamera;
-
-            // the world input component and camera input component paradox, where to store camera? gl
-
-             // put every world in the world class (with effect for example)
-             // advise from me: think about world returns over world private statements and then update World (scene, drawableCubes d-update)
+            Camera = scene.Camera;
 
             middlePoint = new Point(Game.GraphicsDevice.Viewport.Width / 2, Game.GraphicsDevice.Viewport.Height / 2);
         }
@@ -66,9 +60,14 @@ namespace Nocubeless
             base.Update(gameTime);
         }
 
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+        }
+
         private void MoveFromKeyboard(GameTime gameTime)
         {
-            var moveDeltaSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * MoveSpeed;
+            var moveDeltaSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * Settings.MoveSpeed;
             Vector3 xAxis, yAxis, zAxis;
 
             if (currentKeyboardState.IsKeyDown(InputKeys.Run))
@@ -93,8 +92,8 @@ namespace Nocubeless
             var deltaPoint = new Point(currentMouseState.X - middlePoint.X, currentMouseState.Y - middlePoint.Y);
             //lastCursorPosition = new Point(currentMouseState.X, currentMouseState.Y);
 
-            Yaw -= deltaPoint.X * MouseSensitivity;
-            Pitch -= deltaPoint.Y * MouseSensitivity;
+            Yaw -= deltaPoint.X * Settings.MouseSensitivity;
+            Pitch -= deltaPoint.Y * Settings.MouseSensitivity;
 
             rotation = Matrix.CreateRotationX(radiansPitch) *
                 Matrix.CreateRotationY(radiansYaw);
@@ -106,6 +105,52 @@ namespace Nocubeless
             //    (float)Math.Cos(radiansYaw) * (float)Math.Cos(radiansPitch),
             //    (float)Math.Sin(radiansPitch),
             //    (float)Math.Sin(radiansYaw) * (float)Math.Cos(radiansPitch)));
+        }
+
+        public void PreviewCube()
+        {
+            World.PreviewCube(GetAvailableSpace());
+        }
+
+        public void LayCube() // en plus on avait mousestate
+        {
+            Random rnd = new Random();
+            Color cubeColor = new Color(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(0, 256));
+            Cube newCube = new Cube(cubeColor, GetAvailableSpace());
+            World.LayCube(newCube);
+        }
+
+        public CubeCoordinate GetAvailableSpace() // Is not 100% trustworthy, and is not powerful, be careful
+        {
+            float sceneCubeRatio = 1.0f / World.Settings.HeightOfCubes / 2.0f; // Because a cube is x times smaller/bigger compared to the scene representation
+            // cube ratio in world
+
+            Vector3 checkPosition = Camera.Position * sceneCubeRatio;
+
+            CubeCoordinate oldPosition = null;
+            CubeCoordinate actualPosition = null;
+            CubeCoordinate convertedCheckPosition;
+
+            int checkIntensity = 40;
+            float checkIncrement = 4 / (float)checkIntensity;
+
+            for (int i = 0; i < checkIntensity; i++)
+            { // In World, is free space
+                checkPosition += Camera.Front /*Fix design there*/ * checkIncrement; // Increment check zone
+                convertedCheckPosition = checkPosition.ToCubeCoordinate();
+
+                if (convertedCheckPosition != actualPosition) // Perf maintainer
+                {
+                    if (oldPosition != null && !World.IsFreeSpace(convertedCheckPosition)) // Check if it's a free space
+                        return oldPosition;
+                    else if (actualPosition != null) // Or accept the new checkable position (or exit if actualPosition wasn't initialized)
+                        oldPosition = actualPosition;
+                }
+
+                actualPosition = convertedCheckPosition;
+            }
+
+            return actualPosition;
         }
     }
 }

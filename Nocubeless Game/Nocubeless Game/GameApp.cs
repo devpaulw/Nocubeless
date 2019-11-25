@@ -12,11 +12,12 @@ namespace Nocubeless
 {
     internal class GameApp : Game, IGameApp
     {
+        // TO-DO: elimate IGameApp and pass Game and settings instead.
         public Game Instance { get; } // Allow interface to Components using
 
         public GameSettings Settings { get; set; }
 
-        public World World { get; set; }
+        public Scene Scene { get; set; }
 
         public GameApp()
         {
@@ -30,15 +31,17 @@ namespace Nocubeless
 
         protected override void Initialize()
         {
-            CameraInputComponent cameraInputComponent;
+
+
+            SceneInputComponent cameraInputComponent;
 
             
-            cameraInputComponent = new CameraInputComponent(this);
+            cameraInputComponent = new SceneInputComponent(this);
 
             World = World.LoadFromTest(this);
 
             Components.Add(cameraInputComponent);
-            Components.Add(World);
+            Components.Add(Scene);
 
             base.Initialize();
         }
@@ -74,8 +77,6 @@ namespace Nocubeless
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.SkyBlue);
-
-            World.PreviewCube(new Cube(Color.PaleVioletRed, World.GetAvailableSpaceFromCamera(Camera)));
 
             base.Draw(gameTime);
         }
