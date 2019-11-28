@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal interface IGameApp
+    internal interface IGameApp // to deprecate
     {
         Game Instance { get; }
         GameSettings Settings { get; set; }

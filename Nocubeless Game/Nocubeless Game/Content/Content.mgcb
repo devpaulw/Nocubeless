@@ -19,3 +19,9 @@
 /processorParam:DebugMode=Auto
 /build:CubeEffect.fx
 
+#begin main_theme.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:main_theme.mp3
+

@@ -25,7 +25,7 @@ namespace Nocubeless
             return new Vector3(X, Y, Z);
         }
 
-        public Vector3 GetScenePosition(float cubesHeight)
+        public Vector3 GetScenePosition(float cubesHeight) // DESIGN: To Move Place
         {
             return ToVector3() * 2.0f * cubesHeight;
         }

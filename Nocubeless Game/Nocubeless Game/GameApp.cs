@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-
+using Microsoft.Xna.Framework.Media;
 
 namespace Nocubeless
 {
@@ -34,10 +34,8 @@ namespace Nocubeless
         protected override void Initialize()
         {
             var scene = new Scene(this);
-            var sceneInput = new SceneInputComponent(this, scene);
 
             Components.Add(scene);
-            Components.Add(sceneInput);
 
             base.Initialize();
         }
@@ -45,6 +43,7 @@ namespace Nocubeless
         protected override void LoadContent()
         {
             // When I'll have content
+            MediaPlayer.Play(Content.Load<Song>("main_theme")); // I'm nice, I am making only one line for fun by waiting Content Design Update
         }
 
         protected override void Update(GameTime gameTime)
@@ -60,11 +59,8 @@ namespace Nocubeless
     }
 }
 
-// UNDONE:
+// DOLATER: it's in the long run "to-do list"
 // Make the light!
-// be able to lay cubes and perceive which cube we are pointing for
-// gravity and collisions
-// song
 // menu and saves
 // online
 // extra funcs

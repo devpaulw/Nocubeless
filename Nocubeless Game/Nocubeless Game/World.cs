@@ -35,7 +35,7 @@ namespace Nocubeless
             {
                 DrawCube(cube);
             }
-            if (previewableCube != null) 
+            if (previewableCube != null)
                 DrawCube(previewableCube);
 
             base.Draw(gameTime);
@@ -50,7 +50,7 @@ namespace Nocubeless
         {
             for (int i = 0; i < drawingCubes.Count; i++)
             {
-                if(drawingCubes[i].Position.X == position.X &&  // DESIGN: Make that way cleaner
+                if (drawingCubes[i].Position.X == position.X &&  // DESIGN: Make that way cleaner, an object equals override
                     drawingCubes[i].Position.Y == position.Y &&
                     drawingCubes[i].Position.Z == position.Z)
                 {

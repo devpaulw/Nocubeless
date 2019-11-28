@@ -54,7 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
-    <Compile Include="SceneInputComponent.cs" />
+    <Compile Include="CubeLayerInputComponent.cs" />
+    <Compile Include="CameraInputComponent.cs" />
     <Compile Include="GameSettings.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Settings\CameraSettings.cs" />
