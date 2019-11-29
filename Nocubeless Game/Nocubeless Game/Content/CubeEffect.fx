@@ -27,18 +27,18 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	float diffuseIntensity = 1.0;
 	float4 lightDirection = float4(-0.66, 1.0, 0.33, 1.0);
 	
-	float4 normal = mul(input.Normal, World);
+	//float4 normal = normalize(mul(input.Normal, World));
 	
-	float lightIntensity = dot(lightDirection, normal);
+	float lightIntensity = dot(lightDirection, input.Normal);
 
-	output.Color = diffuseColor * diffuseIntensity * lightIntensity;
+	output.Color = saturate(diffuseColor * diffuseIntensity * lightIntensity);
 
 	return output;
 }
 
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
-	return input.Color + AmbientColor;
+	return saturate(input.Color + AmbientColor);
 }
 
 technique Color
