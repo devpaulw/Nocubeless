@@ -18,11 +18,13 @@ namespace Nocubeless
 
         public CubeEffect Effect { get; }
         public WorldSettings Settings { get; }
+        public Camera Camera { get; set; }
 
-        public World(IGameApp game, CubeEffect effect) : base(game.Instance)
+        public World(IGameApp game, CubeEffect effect, Camera camera) : base(game.Instance)
         {
             Settings = game.Settings.World;
             Effect = effect;
+            Camera = camera;
 
             cubeMeshPart = Cube.LoadModel(Game.GraphicsDevice);
             drawingCubes = new List<Cube>();
@@ -35,6 +37,7 @@ namespace Nocubeless
             {
                 DrawCube(cube);
             }
+
             if (previewableCube != null)
                 DrawCube(previewableCube);
 
@@ -86,6 +89,8 @@ namespace Nocubeless
             Vector3 cubeScenePosition = cube.Position.GetScenePosition(Settings.HeightOfCubes);
             Matrix translation = Matrix.CreateTranslation(cubeScenePosition);
 
+            Effect.View = Camera.ViewMatrix;
+            Effect.Projection = Camera.ProjectionMatrix;
             Effect.World = scale * translation;
             Effect.Color = cube.Color;
 

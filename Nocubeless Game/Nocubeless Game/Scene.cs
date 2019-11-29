@@ -19,7 +19,7 @@ namespace Nocubeless
         {
             Effect = new CubeEffect(Game.Content.Load<Effect>("CubeEffect")); // DESIGN: Content better handler
             Camera = new Camera(gameApp.Settings.Camera, Game.GraphicsDevice.Viewport);
-            World = new World(gameApp, Effect);
+            World = new World(gameApp, Effect, Camera);
             GameSettings = gameApp.Settings;
         }
 
@@ -38,9 +38,6 @@ namespace Nocubeless
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkGray);
-
-            Effect.View = Camera.ViewMatrix;
-            Effect.Projection = Camera.ProjectionMatrix;
 
             base.Draw(gameTime);
         }
