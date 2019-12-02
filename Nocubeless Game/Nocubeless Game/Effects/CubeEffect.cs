@@ -15,6 +15,7 @@ namespace Nocubeless
         EffectParameter viewParam;
         EffectParameter projectionParam;
         EffectParameter colorParam;
+        EffectParameter alphaParam;
         #endregion
 
         #region Fields
@@ -22,6 +23,7 @@ namespace Nocubeless
         private Matrix view;
         private Matrix projection;
         private Color color;
+        private float alpha;
         #endregion
 
         #region Public Properties
@@ -50,7 +52,15 @@ namespace Nocubeless
             get => color;
             set {
                 colorParam.SetValue(value.ToVector3()); // Is converted to a Vector3, because the effect don't know Color struct
+                Alpha = (float)value.A / 256; // Normalization
                 color = value;
+            }
+        }
+        public float Alpha {
+            get => alpha;
+            set {
+                alphaParam.SetValue(value);
+                alpha = value;
             }
         }
         #endregion
@@ -66,12 +76,14 @@ namespace Nocubeless
             const string worldParamName = "World";
             const string viewParamName = "View";
             const string projectionParamName = "Projection";
-            const string colorParamName = "AmbientColor";
+            const string colorParamName = "CubeColor";
+            const string alphaParamName = "CubeAlpha";
 
             worldParam = Parameters[worldParamName];
             viewParam = Parameters[viewParamName];
             projectionParam = Parameters[projectionParamName];
             colorParam = Parameters[colorParamName];
+            alphaParam = Parameters[alphaParamName];
         }
         #endregion
     }

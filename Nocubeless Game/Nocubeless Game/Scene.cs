@@ -21,6 +21,14 @@ namespace Nocubeless
             Camera = new Camera(gameApp.Settings.Camera, Game.GraphicsDevice.Viewport);
             World = new World(gameApp, Effect, Camera);
             GameSettings = gameApp.Settings;
+
+            #region Graphics Config
+            var rasterizerState = new RasterizerState()
+            {
+                CullMode = CullMode.CullClockwiseFace
+            };
+            GraphicsDevice.RasterizerState = rasterizerState;
+            #endregion
         }
 
         public override void Initialize()

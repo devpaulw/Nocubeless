@@ -23,17 +23,17 @@ namespace Nocubeless
         {
             const int primitiveCount = 36;
 
-            VertexPositionNormal[] vertices = new VertexPositionNormal[]
+            VertexPosition[] vertices = new VertexPosition[]
             {
-                new VertexPositionNormal(new Vector3(-1.0f, -1.0f,  1.0f), Vector3.Zero),
-                new VertexPositionNormal(new Vector3(1.0f, -1.0f,  1.0f), Vector3.Zero),
-                new VertexPositionNormal(new Vector3(1.0f,  1.0f,  1.0f), Vector3.Zero),
-                new VertexPositionNormal(new Vector3(-1.0f,  1.0f,  1.0f), Vector3.Zero),
+                new VertexPosition(new Vector3(-1.0f, -1.0f,  1.0f)),
+                new VertexPosition(new Vector3(1.0f, -1.0f,  1.0f)),
+                new VertexPosition(new Vector3(1.0f,  1.0f,  1.0f)),
+                new VertexPosition(new Vector3(-1.0f,  1.0f,  1.0f)),
                 // back
-                new VertexPositionNormal(new Vector3(-1.0f, -1.0f, -1.0f), Vector3.Zero),
-                new VertexPositionNormal(new Vector3(1.0f, -1.0f, -1.0f), Vector3.Zero),
-                new VertexPositionNormal(new Vector3(1.0f,  1.0f, -1.0f), Vector3.Zero),
-                new VertexPositionNormal(new Vector3(-1.0f,  1.0f, -1.0f), Vector3.Zero)
+                new VertexPosition(new Vector3(-1.0f, -1.0f, -1.0f)),
+                new VertexPosition(new Vector3(1.0f, -1.0f, -1.0f)),
+                new VertexPosition(new Vector3(1.0f,  1.0f, -1.0f)),
+                new VertexPosition(new Vector3(-1.0f,  1.0f, -1.0f))
             };
             short[] indices = new short[primitiveCount]
             {
@@ -62,27 +62,11 @@ namespace Nocubeless
 
             ModelMeshPart modelMeshPart;
 
-            vertexBuffer = new VertexBuffer(graphicsDevice, typeof(VertexPositionNormal), vertices.Length, BufferUsage.WriteOnly); ;
-            //vertexBuffer.SetData(vertices);
+            vertexBuffer = new VertexBuffer(graphicsDevice, VertexPosition.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly); ;
+            vertexBuffer.SetData(vertices);
 
             indexBuffer = new IndexBuffer(graphicsDevice, typeof(short), indices.Length, BufferUsage.WriteOnly);
             indexBuffer.SetData(indices);
-
-            for (int i = 0; i < vertices.Length; i++)
-                vertices[i].Normal = new Vector3(0, 0, 0);
-
-            for (int i = 0; i < indices.Length / 3; i++)
-            {
-                Vector3 firstvec = vertices[indices[i * 3 + 1]].Position - vertices[indices[i * 3]].Position;
-                Vector3 secondvec = vertices[indices[i * 3]].Position - vertices[indices[i * 3 + 2]].Position;
-                Vector3 normal = Vector3.Cross(firstvec, secondvec);
-                normal.Normalize();
-                vertices[indices[i * 3]].Normal += normal;
-                vertices[indices[i * 3 + 1]].Normal += normal;
-                vertices[indices[i * 3 + 2]].Normal += normal;
-            }
-
-            vertexBuffer.SetData(vertices);
 
             modelMeshPart = new ModelMeshPart()
             {

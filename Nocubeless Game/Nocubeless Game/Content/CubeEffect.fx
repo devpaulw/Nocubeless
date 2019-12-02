@@ -2,12 +2,12 @@ float4x4 World;
 float4x4 View;
 float4x4 Projection;
 
-float4 AmbientColor; // to make a float3, and is a Cube Color
+float3 CubeColor;
+float CubeAlpha;
 
 struct VertexShaderInput
 {
 	float4 Position : POSITION0;
-	float4 Normal : NORMAL0;
 };
 
 struct VertexShaderOutput
@@ -24,16 +24,6 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	float4 viewPosition = mul(worldPosition, View);
 	output.Position = mul(viewPosition, Projection);
     output.PositionWorld = worldPosition;
-	
-	//float diffuseIntensity = 1.0;
-	////float4 lightDirection = float4(-0.66, 1.0, 0.33, 1.0);
-    
-	
- //   float3 normal = normalize(cross(ddy(worldPosition.xyz), ddx(worldPosition.xyz)));
-	
-	//float lightIntensity = dot(lightDirection.rgb, normal);
-
-	//output.Color = diffuseColor * diffuseIntensity * lightIntensity;
 
 	return output;
 }
@@ -49,15 +39,18 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     
     float lightIntensity = dot(lightDirection, normal);
     
-    float3 lightColor = diffuseColor * diffuseIntensity * lightIntensity + AmbientColor.rgb;
+    float3 color = diffuseColor * diffuseIntensity * lightIntensity + CubeColor;
     
-    return saturate(float4(lightColor, 1.0));
+    return saturate(float4(color, CubeAlpha));
 }
 
 technique Color
 {
 	pass Pass1
 	{
+        AlphaBlendEnable = TRUE;
+        DestBlend = INVSRCALPHA;
+        SrcBlend = SRCALPHA;
 		VertexShader = compile vs_3_0 VertexShaderFunction();
 		PixelShader = compile ps_3_0 PixelShaderFunction();
 	}

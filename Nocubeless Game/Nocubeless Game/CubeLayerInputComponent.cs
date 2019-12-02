@@ -14,6 +14,8 @@ namespace Nocubeless
 
         private bool mouseRightButtonPressed;
 
+        private Color nextColor;
+
         public World World { get; set; }
         public Camera Camera { get; set; }
         public float MaxLayingDistance { get; set; }
@@ -30,8 +32,10 @@ namespace Nocubeless
             currentMouseState = Mouse.GetState();
 
             CubeCoordinate previewCubePosition = GetWorldTargetedPosition();
+            Cube newCube = new Cube(nextColor, previewCubePosition);
+
             { // Prev
-                World.PreviewCube(previewCubePosition);
+                World.PreviewCube(newCube);
             } // Lay
             {
                 if (!mouseRightButtonPressed && currentMouseState.RightButton == ButtonState.Pressed)
@@ -39,8 +43,8 @@ namespace Nocubeless
                     mouseRightButtonPressed = true;
 
                     Random random = new Random();
-                    Color cubeColor = new Color(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256));
-                    Cube newCube = new Cube(cubeColor, previewCubePosition);
+                    nextColor = new Color(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256));
+                    
                     World.LayCube(newCube);
                 }
                 else if (currentMouseState.RightButton == ButtonState.Released)

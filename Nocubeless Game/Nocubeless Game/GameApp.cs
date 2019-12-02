@@ -42,7 +42,6 @@ namespace Nocubeless
 
         protected override void LoadContent()
         {
-            // When I'll have content
             MediaPlayer.Play(Content.Load<Song>("main_theme")); // I'm nice, I am making only one line for fun by waiting Content Design Update
         }
 

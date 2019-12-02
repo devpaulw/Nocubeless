@@ -39,7 +39,7 @@ namespace Nocubeless
             }
 
             if (previewableCube != null)
-                DrawCube(previewableCube);
+                DrawCube(previewableCube, 0.5f);
 
             base.Draw(gameTime);
         }
@@ -47,6 +47,11 @@ namespace Nocubeless
         public void LayCube(Cube cube)
         {
             drawingCubes.Add(cube);
+        }
+
+        public void LayPreviewedCube()
+        {
+            LayCube(previewableCube);
         }
 
         public void BreakCube(CubeCoordinate position)
@@ -62,14 +67,8 @@ namespace Nocubeless
             }
         }
 
-        public void PreviewCube(CubeCoordinate position)
+        public void PreviewCube(Cube cube)
         {
-            if (position == null)
-                previewableCube = null;
-
-            Color color = Color.PaleVioletRed;
-            Cube cube = new Cube(color, position);
-
             previewableCube = cube;
         }
 
@@ -84,15 +83,17 @@ namespace Nocubeless
             return true;
         }
 
-        private void DrawCube(Cube cube)
+        private void DrawCube(Cube cube, float transparency = 1.0f)
         {
             Vector3 cubeScenePosition = cube.Position.GetScenePosition(Settings.HeightOfCubes);
             Matrix translation = Matrix.CreateTranslation(cubeScenePosition);
+            Matrix world = scale * translation;
 
             Effect.View = Camera.ViewMatrix;
             Effect.Projection = Camera.ProjectionMatrix;
-            Effect.World = scale * translation;
+            Effect.World = world;
             Effect.Color = cube.Color;
+            Effect.Alpha = transparency;
 
             GraphicsDevice.SetVertexBuffer(cubeMeshPart.VertexBuffer);
             GraphicsDevice.Indices = cubeMeshPart.IndexBuffer;
