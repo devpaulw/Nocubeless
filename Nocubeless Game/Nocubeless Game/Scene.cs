@@ -34,7 +34,7 @@ namespace Nocubeless
         public override void Initialize()
         {
             var cameraInput = new CameraInputComponent(Game, Camera, GameSettings);
-            var cubeLayerInput = new CubeLayerInputComponent(Game, World, Camera, GameSettings.Camera.MaxLayingDistance);
+            var cubeLayerInput = new CubeHandlerInputComponent(Game, GameSettings.InputKeys, World, Camera, GameSettings.Camera.MaxLayingDistance);
 
             Game.Components.Add(cameraInput);
             Game.Components.Add(World);

@@ -56,6 +56,9 @@ namespace Nocubeless
 
         public void BreakCube(CubeCoordinate position)
         {
+            if (position == null)
+                return;
+
             for (int i = 0; i < drawingCubes.Count; i++)
             {
                 if (drawingCubes[i].Position.X == position.X &&  // DESIGN: Make that way cleaner, an object equals override
