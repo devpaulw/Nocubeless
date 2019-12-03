@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    // TODO: InputGameComponent upd, Settings, break, IGameApp byebye, equals, break cubes with effect (same for lay), Design Up
+    // TODO: break, break cubes with effect (same for lay), Design Up
     // 
 
     internal class CubeHandlerInputComponent : InputGameComponent
@@ -19,19 +19,18 @@ namespace Nocubeless
 
         public World World { get; set; }
         public Camera Camera { get; set; }
-        public float MaxLayingDistance { get; set; }
+        public CubeHandlerSettings Settings { get; set; }
 
-        public CubeHandlerInputComponent(Game game, InputKeySettings keySettings, World world, Camera camera, float maxLayingDistance) : base(game, keySettings) // New kind of design just tested
+        public CubeHandlerInputComponent(Game game, InputKeySettings keySettings, CubeHandlerSettings settings, World world, Camera camera) : base(game, keySettings) // New kind of design just tested
         {
             World = world;
             Camera = camera;
-            MaxLayingDistance = maxLayingDistance;
+            Settings = settings;
         }
 
         public override void Update(GameTime gameTime)
         {
-            CurrentMouseState = Mouse.GetState(); // to encapsulate
-            CurrentKeyboardState = Keyboard.GetState();
+            ReloadStates();
 
             { // Break/Lay switcher
                 if (CurrentKeyboardState.IsKeyDown(KeySettings.SwitchLayBreak) && OldKeyboardState.IsKeyUp(KeySettings.SwitchLayBreak))
@@ -42,7 +41,7 @@ namespace Nocubeless
 
             if (!@break)
             {
-                CubeCoordinate previewCubePosition = GetNewWorldTargetedPosition();
+                CubeCoordinate previewCubePosition = GetNewWorldTargetedCube();
                 Cube newCube = new Cube(nextColor, previewCubePosition);
                 { // Prev
                     World.PreviewCube(newCube);
@@ -53,7 +52,7 @@ namespace Nocubeless
                         Random random = new Random();
                         nextColor = new Color(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256));
 
-                        World.LayCube(newCube);
+                        World.LayPreviewedCube();
                     }
                 }
             }
@@ -63,26 +62,24 @@ namespace Nocubeless
 
                 if (CurrentMouseState.LeftButton == ButtonState.Pressed && OldMouseState.LeftButton == ButtonState.Released)
                 {
-                    World.BreakCube(GetTrueWorldTargetedPosition()); // DESIGN: You know the way
+                    CubeCoordinate toBreakCube = GetWorldTargetedCube();
+                    World.BreakCube(toBreakCube); // DESIGN: You know the way
                 }
             }
 
             base.Update(gameTime);
         }
 
-        private CubeCoordinate GetNewWorldTargetedPosition() // Is not 100% trustworthy, and is not powerful, be careful
+        private CubeCoordinate GetNewWorldTargetedCube() // Is not 100% trustworthy, and is not powerful, be careful
         {
-            float sceneCubeRatio = 1.0f / World.Settings.HeightOfCubes / 2.0f; // Because a cube is x times smaller/bigger compared to the scene representation
-            // cube ratio in world
-
-            Vector3 checkPosition = Camera.Position * sceneCubeRatio;
+            Vector3 checkPosition = Camera.Position * World.SceneCubeRatio;
 
             CubeCoordinate oldPosition = null;
             CubeCoordinate actualPosition = null;
             CubeCoordinate convertedCheckPosition;
 
             const int checkIntensity = 80;
-            float checkIncrement = MaxLayingDistance / checkIntensity;
+            float checkIncrement = (float)Settings.MaxLayingDistance / checkIntensity;
 
             for (int i = 0; i < checkIntensity; i++)
             { // In World, is free space
@@ -103,25 +100,28 @@ namespace Nocubeless
             return actualPosition;
         }
 
-        private CubeCoordinate GetTrueWorldTargetedPosition() // Is not 100% trustworthy, and is not powerful, be careful
+        private CubeCoordinate GetWorldTargetedCube() // Is not 100% trustworthy, and is not powerful, be careful
         {
-            float sceneCubeRatio = 1.0f / World.Settings.HeightOfCubes / 2.0f; // Because a cube is x times smaller/bigger compared to the scene representation
-            // cube ratio in world
+            Vector3 checkPosition = Camera.Position * World.SceneCubeRatio;
 
-            Vector3 checkPosition = Camera.Position * sceneCubeRatio;
-
+            CubeCoordinate actualPosition = null;
             CubeCoordinate convertedCheckPosition;
 
             const int checkIntensity = 80;
-            float checkIncrement = MaxLayingDistance / checkIntensity;
+            float checkIncrement = (float)Settings.MaxLayingDistance / checkIntensity;
 
             for (int i = 0; i < checkIntensity; i++)
             { // In World, is free space
                 checkPosition += Camera.Front * checkIncrement; // Increment check zone
                 convertedCheckPosition = checkPosition.ToCubeCoordinate();
 
-                if (!World.IsFreeSpace(convertedCheckPosition)) // Check if it's a free space
-                    return convertedCheckPosition;
+                if (convertedCheckPosition != actualPosition)
+                {
+                    if (!World.IsFreeSpace(convertedCheckPosition)) // Check if it's a free space
+                        return convertedCheckPosition;
+                }
+
+                actualPosition = convertedCheckPosition;
             }
 
             return null;

@@ -10,19 +10,14 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Nocubeless
 {
-    internal class GameApp : Game, IGameApp
+    internal class GameApp : Game
     {
-        // TODO: elimate IGameApp and pass Game and settings instead.
         private readonly GraphicsDeviceManager graphicsDeviceManager;
-
-        public Game Instance { get; } // Allow interface to Components using
 
         public GameSettings Settings { get; set; }
 
         public GameApp()
         {
-            Instance = this as Game;
-
             Content.RootDirectory = "MGContent";
 
             Settings = GameSettings.Default;
@@ -33,7 +28,7 @@ namespace Nocubeless
 
         protected override void Initialize()
         {
-            var scene = new Scene(this);
+            var scene = new Scene(this as Game, Settings);
 
             Components.Add(scene);
 
@@ -42,7 +37,7 @@ namespace Nocubeless
 
         protected override void LoadContent()
         {
-            MediaPlayer.Play(Content.Load<Song>("main_theme")); // I'm nice, I am making only one line for fun by waiting Content Design Update
+            if (Settings.Song.MusicEnabled) MediaPlayer.Play(Content.Load<Song>("main_theme")); // I'm nice, I am making only one line for fun by waiting Content Design Update
         }
 
         protected override void Update(GameTime gameTime)

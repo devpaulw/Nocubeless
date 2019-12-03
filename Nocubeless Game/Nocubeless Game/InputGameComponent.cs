@@ -23,6 +23,12 @@ namespace Nocubeless
             KeySettings = keySettings;
         }
 
+        protected void ReloadStates()
+        {
+            CurrentKeyboardState = Keyboard.GetState();
+            CurrentMouseState = Mouse.GetState();
+        }
+
         public override void Update(GameTime gameTime)
         {
             OldKeyboardState = CurrentKeyboardState;

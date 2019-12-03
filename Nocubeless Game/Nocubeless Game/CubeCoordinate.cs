@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class CubeCoordinate
+    class CubeCoordinate
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -25,9 +25,21 @@ namespace Nocubeless
             return new Vector3(X, Y, Z);
         }
 
-        public Vector3 GetScenePosition(float cubesHeight) // DESIGN: To Move Place
+        public override bool Equals(object obj)
         {
-            return ToVector3() * 2.0f * cubesHeight;
+            if (!(obj is CubeCoordinate))
+                return false;
+
+            var other = (CubeCoordinate)obj;
+
+            return X == other.X &&
+                Y == other.Y &&
+                Z == other.Z;
+        }
+
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() + Y.GetHashCode() + Z.GetHashCode();
         }
 
         public override string ToString()

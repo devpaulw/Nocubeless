@@ -11,8 +11,6 @@ namespace Nocubeless
         public float Fov { get; set; }
         public float MoveSpeed { get; set; }
         public float MouseSensitivity { get; set; }
-        public int MaxLayingDistance { get; set; } // DESIGN: CRITICAL
-        public float PreviewCubeTransparency { get; set; }// DESIGN: CRITICAL
 
         public static CameraSettings Default {
             get {
@@ -21,8 +19,6 @@ namespace Nocubeless
                     Fov = 70,
                     MoveSpeed = 0.75f,
                     MouseSensitivity = 0.175f,
-                    MaxLayingDistance = 16,
-                    PreviewCubeTransparency = 0.2f
                 };
             }
         }

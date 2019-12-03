@@ -15,13 +15,14 @@ namespace Nocubeless
         public Camera Camera { get; set; }
         public World World { get; set; }
 
-        public Scene(IGameApp gameApp) : base(gameApp.Instance)
+        public Scene(Game game, GameSettings gameSettings) : base(game)
         {
-            Effect = new CubeEffect(Game.Content.Load<Effect>("CubeEffect")); // DESIGN: Content better handler
-            Camera = new Camera(gameApp.Settings.Camera, Game.GraphicsDevice.Viewport);
-            World = new World(gameApp, Effect, Camera);
-            GameSettings = gameApp.Settings;
+            GameSettings = gameSettings;
 
+            Effect = new CubeEffect(Game.Content.Load<Effect>("CubeEffect")); // DESIGN: Content better handler
+            Camera = new Camera(GameSettings.Camera, Game.GraphicsDevice.Viewport);
+            World = new World(game, GameSettings.World, Effect, Camera);
+            
             #region Graphics Config
             var rasterizerState = new RasterizerState()
             {
@@ -34,11 +35,11 @@ namespace Nocubeless
         public override void Initialize()
         {
             var cameraInput = new CameraInputComponent(Game, Camera, GameSettings);
-            var cubeLayerInput = new CubeHandlerInputComponent(Game, GameSettings.InputKeys, World, Camera, GameSettings.Camera.MaxLayingDistance);
+            var cubeHandlerInput = new CubeHandlerInputComponent(Game, GameSettings.InputKeys, GameSettings.CubeHandler, World, Camera);
 
             Game.Components.Add(cameraInput);
             Game.Components.Add(World);
-            Game.Components.Add(cubeLayerInput);
+            Game.Components.Add(cubeHandlerInput);
 
             base.Initialize();
         }

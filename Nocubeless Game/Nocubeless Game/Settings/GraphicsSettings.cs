@@ -39,7 +39,7 @@ namespace Nocubeless
                     Framerate = 120,
                     UnlimitedFramerate = false,
                     VSync =  true,
-                    FullScreen = false,
+                    FullScreen = true,
                 };
             }
         }

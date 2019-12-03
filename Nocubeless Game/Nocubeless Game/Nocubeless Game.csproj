@@ -57,6 +57,7 @@
     <Compile Include="CubeHandlerInputComponent.cs" />
     <Compile Include="CameraInputComponent.cs" />
     <Compile Include="InputGameComponent.cs" />
+    <Compile Include="Settings\CubeHandlerSettings.cs" />
     <Compile Include="Settings\GameSettings.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Settings\CameraSettings.cs" />
@@ -66,9 +67,9 @@
     <Compile Include="GameApp.cs" />
     <Compile Include="Settings\InputKeySettings.cs" />
     <Compile Include="Settings\GraphicsSettings.cs" />
-    <Compile Include="IGameApp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\SongSettings.cs" />
     <Compile Include="World.cs" />
     <Compile Include="Settings\WorldSettings.cs" />
   </ItemGroup>

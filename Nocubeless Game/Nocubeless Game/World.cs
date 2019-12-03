@@ -20,15 +20,23 @@ namespace Nocubeless
         public WorldSettings Settings { get; }
         public Camera Camera { get; set; }
 
-        public World(IGameApp game, CubeEffect effect, Camera camera) : base(game.Instance)
+        public float SceneCubeRatio { 
+            get {
+                return 1.0f / Settings.HeightOfCubes / 2.0f;
+            } 
+        }
+
+        public World(Game game, WorldSettings settings, CubeEffect effect, Camera camera) : base(game)
         {
-            Settings = game.Settings.World;
+            Settings = settings;
             Effect = effect;
             Camera = camera;
 
             cubeMeshPart = Cube.LoadModel(Game.GraphicsDevice);
             drawingCubes = new List<Cube>();
             scale = Matrix.CreateScale(Settings.HeightOfCubes);
+
+            LayCube(new Cube(Color.DarkBlue, new CubeCoordinate(0, 0, -5)));
         }
 
         public override void Draw(GameTime gameTime)
@@ -60,14 +68,8 @@ namespace Nocubeless
                 return;
 
             for (int i = 0; i < drawingCubes.Count; i++)
-            {
-                if (drawingCubes[i].Position.X == position.X &&  // DESIGN: Make that way cleaner, an object equals override
-                    drawingCubes[i].Position.Y == position.Y &&
-                    drawingCubes[i].Position.Z == position.Z)
-                {
+                if (drawingCubes[i].Position.Equals(position))
                     drawingCubes.RemoveAt(i);
-                }
-            }
         }
 
         public void PreviewCube(Cube cube)
@@ -78,17 +80,20 @@ namespace Nocubeless
         public bool IsFreeSpace(CubeCoordinate position)
         {
             foreach (Cube cube in drawingCubes)
-                if (cube.Position.X == position.X &&
-                    cube.Position.Y == position.Y &&
-                    cube.Position.Z == position.Z)
+                if (cube.Position.Equals(position))
                     return false;
 
             return true;
         }
 
+        public Vector3 GetCubeScenePosition(CubeCoordinate cubePosition) // DESIGN: To Move Place
+        {
+            return cubePosition.ToVector3() * 2.0f * Settings.HeightOfCubes;
+        }
+
         private void DrawCube(Cube cube, float transparency = 1.0f)
         {
-            Vector3 cubeScenePosition = cube.Position.GetScenePosition(Settings.HeightOfCubes);
+            Vector3 cubeScenePosition = GetCubeScenePosition(cube.Position);
             Matrix translation = Matrix.CreateTranslation(cubeScenePosition);
             Matrix world = scale * translation;
 
