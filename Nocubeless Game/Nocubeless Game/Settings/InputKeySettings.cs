@@ -17,6 +17,7 @@ namespace Nocubeless
         public Keys MoveDown { get; set; }
         public Keys Run { get; set; }
         public Keys SwitchLayBreak { get; set; }
+        public Keys ShowColorPicker { get; set; }
 
         public static InputKeySettings DefaultUSEnglish {
             get {
@@ -29,7 +30,8 @@ namespace Nocubeless
                     MoveUpward = Keys.Space,
                     MoveDown = Keys.LeftShift,
                     Run = Keys.Q,
-                    SwitchLayBreak = Keys.X
+                    SwitchLayBreak = Keys.X,
+                    ShowColorPicker = Keys.C
                 };
             }
         }
@@ -46,7 +48,8 @@ namespace Nocubeless
                     MoveUpward = Keys.Space,
                     MoveDown = Keys.LeftShift,
                     Run = Keys.A,
-                    SwitchLayBreak = Keys.X
+                    SwitchLayBreak = Keys.X,
+                    ShowColorPicker = Keys.C
                 };
             }
         }

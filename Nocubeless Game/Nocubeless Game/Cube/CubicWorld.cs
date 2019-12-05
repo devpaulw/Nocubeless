@@ -9,34 +9,34 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class World : DrawableGameComponent
+    internal class CubicWorld : DrawableGameComponent
     {
         private readonly ModelMeshPart cubeMeshPart; // Store rendering attributes
-        private readonly Matrix scale;
+        private readonly Matrix cubeScale;
         private readonly List<Cube> drawingCubes;
         private Cube previewableCube;
 
-        public CubeEffect Effect { get; }
         public WorldSettings Settings { get; }
+        public CubeEffect Effect { get; }
         public Camera Camera { get; set; }
 
         public float SceneCubeRatio { 
             get {
                 return 1.0f / Settings.HeightOfCubes / 2.0f;
-            } 
+            }
         }
 
-        public World(Game game, WorldSettings settings, CubeEffect effect, Camera camera) : base(game)
+        public CubicWorld(IGameApp gameApp) : base(gameApp.Instance)
         {
-            Settings = settings;
-            Effect = effect;
-            Camera = camera;
+            Settings = gameApp.Settings.World;
+            Effect = new CubeEffect(Game.Content.Load<Effect>("CubeEffect")); // DESIGN: Content better handler
+            Camera = gameApp.Camera;
 
             cubeMeshPart = Cube.LoadModel(Game.GraphicsDevice);
+            cubeScale = Matrix.CreateScale(Settings.HeightOfCubes);
             drawingCubes = new List<Cube>();
-            scale = Matrix.CreateScale(Settings.HeightOfCubes);
 
-            LayCube(new Cube(Color.DarkBlue, new CubeCoordinate(0, 0, -5)));
+            LayCube(new Cube(Color.DarkBlue, new CubeCoordinate(0, 0, -21))); // TestCube
         }
 
         public override void Draw(GameTime gameTime)
@@ -95,7 +95,7 @@ namespace Nocubeless
         {
             Vector3 cubeScenePosition = GetCubeScenePosition(cube.Position);
             Matrix translation = Matrix.CreateTranslation(cubeScenePosition);
-            Matrix world = scale * translation;
+            Matrix world = cubeScale * translation;
 
             Effect.View = Camera.ViewMatrix;
             Effect.Projection = Camera.ProjectionMatrix;

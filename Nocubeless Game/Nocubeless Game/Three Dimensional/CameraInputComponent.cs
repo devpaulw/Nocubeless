@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class CameraInputComponent : GameComponent
+    internal class CameraInputComponent : InputGameComponent
     {
         private KeyboardState currentKeyboardState;
         private MouseState currentMouseState;
@@ -32,15 +32,13 @@ namespace Nocubeless
             }
         }
 
-        public InputKeySettings InputKeys { get; set; }
         public Camera Camera { get; set; }
         public CameraSettings CameraSettings { get; set; }
 
-        public CameraInputComponent(Game game, Camera camera, GameSettings settings) : base(game) // TODO: Organize settings ; I don't know how to organize settings.. 
+        public CameraInputComponent(IGameApp gameApp) : base(gameApp)
         {
-            InputKeys = settings.InputKeys;
-            CameraSettings = settings.Camera;
-            Camera = camera;
+            CameraSettings = gameApp.Settings.Camera;
+            Camera = gameApp.Camera;
         }
 
         public override void Initialize()
@@ -80,19 +78,19 @@ namespace Nocubeless
             var moveDeltaSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * CameraSettings.MoveSpeed;
             Vector3 xAxis, yAxis, zAxis;
 
-            if (currentKeyboardState.IsKeyDown(InputKeys.Run))
+            if (currentKeyboardState.IsKeyDown(KeySettings.Run))
                 moveDeltaSpeed *= 2.5f;
 
             xAxis = Vector3.Normalize(Vector3.Cross(Camera.Front, Camera.Up)) * moveDeltaSpeed;
             yAxis = Camera.Up * moveDeltaSpeed;
             zAxis = Camera.Front * moveDeltaSpeed;
 
-            if (currentKeyboardState.IsKeyDown(InputKeys.MoveForward)) Camera.Position += zAxis; // Z
-            if (currentKeyboardState.IsKeyDown(InputKeys.MoveBackward)) Camera.Position -= zAxis; // S
-            if (currentKeyboardState.IsKeyDown(InputKeys.MoveRight)) Camera.Position += xAxis; // D
-            if (currentKeyboardState.IsKeyDown(InputKeys.MoveLeft)) Camera.Position -= xAxis; // Q
-            if (currentKeyboardState.IsKeyDown(InputKeys.MoveUpward)) Camera.Position += yAxis; // Space
-            if (currentKeyboardState.IsKeyDown(InputKeys.MoveDown)) Camera.Position -= yAxis; // Left SHift
+            if (currentKeyboardState.IsKeyDown(KeySettings.MoveForward)) Camera.Position += zAxis; // Z
+            if (currentKeyboardState.IsKeyDown(KeySettings.MoveBackward)) Camera.Position -= zAxis; // S
+            if (currentKeyboardState.IsKeyDown(KeySettings.MoveRight)) Camera.Position += xAxis; // D
+            if (currentKeyboardState.IsKeyDown(KeySettings.MoveLeft)) Camera.Position -= xAxis; // Q
+            if (currentKeyboardState.IsKeyDown(KeySettings.MoveUpward)) Camera.Position += yAxis; // Space
+            if (currentKeyboardState.IsKeyDown(KeySettings.MoveDown)) Camera.Position -= yAxis; // Left SHift
             #endregion
 
             base.Update(gameTime);

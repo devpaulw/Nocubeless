@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    public static class Program
+    enum GameState
     {
-        static void Main()
-        {
-            using (var app = new GameApp()) 
-                app.Run();
-        }
+        Playing, ColorPicking
     }
 }

@@ -32,6 +32,11 @@ namespace Nocubeless
 
             var other = (CubeCoordinate)obj;
 
+            return Equals(other);
+        }
+
+        public bool Equals(CubeCoordinate other)
+        {
             return X == other.X &&
                 Y == other.Y &&
                 Z == other.Z;

@@ -18,12 +18,12 @@ namespace Nocubeless
 
         public InputKeySettings KeySettings { get; set; }
 
-        public InputGameComponent(Game game, InputKeySettings keySettings) : base(game)
+        public InputGameComponent(IGameApp gameApp) : base(gameApp.Instance)
         {
-            KeySettings = keySettings;
+            KeySettings = gameApp.Settings.InputKeys;
         }
 
-        protected void ReloadStates()
+        protected void ReloadCurrentStates()
         {
             CurrentKeyboardState = Keyboard.GetState();
             CurrentMouseState = Mouse.GetState();

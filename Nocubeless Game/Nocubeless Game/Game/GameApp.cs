@@ -10,28 +10,52 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Nocubeless
 {
-    internal class GameApp : Game
+    class GameApp : Game, IGameApp // Mediator MAIN CLASS
     {
         private readonly GraphicsDeviceManager graphicsDeviceManager;
 
+        public Game Instance { get; set; }
         public GameSettings Settings { get; set; }
+        public GameState ActualState { get; set; }
+
+        public Camera Camera { get; set; }
+        public CubicWorld CubicWorld { get; set; }
 
         public GameApp()
         {
-            Content.RootDirectory = "MGContent";
+            graphicsDeviceManager = new GraphicsDeviceManager(this);
 
+            Content.RootDirectory = "MGContent"; // DESIGN: Content better handler
+
+            Instance = this as Game;
             Settings = GameSettings.Default;
 
-            graphicsDeviceManager = new GraphicsDeviceManager(this);
             Settings.Graphics.SetToGame(this, graphicsDeviceManager);
         }
 
         protected override void Initialize()
         {
-            var scene = new Scene(this as Game, Settings);
+            Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
+            CubicWorld = new CubicWorld(this);
 
-            Components.Add(scene);
+            #region Graphics Config
+            var rasterizerState = new RasterizerState
+            {
+                CullMode = CullMode.None
+            };
 
+            GraphicsDevice.RasterizerState = rasterizerState;
+            #endregion
+
+            #region Components Linking
+            var cameraInput = new CameraInputComponent(this);
+            var cubeHandlerInput = new CubeHandlerInputComponent(this);
+
+            Components.Add(CubicWorld);
+            Components.Add(cameraInput);
+            Components.Add(cubeHandlerInput);
+            #endregion
+            
             base.Initialize();
         }
 
@@ -49,6 +73,13 @@ namespace Nocubeless
                 Exit();
 
             base.Update(gameTime);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.DarkGray);
+
+            base.Draw(gameTime);
         }
     }
 }

@@ -45,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,30 +54,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Camera.cs" />
-    <Compile Include="CubeHandlerInputComponent.cs" />
-    <Compile Include="CameraInputComponent.cs" />
-    <Compile Include="InputGameComponent.cs" />
+    <Compile Include="Game\GameState.cs" />
+    <Compile Include="Game\IGameApp.cs" />
+    <Compile Include="Three Dimensional\Camera.cs" />
+    <Compile Include="Menus 2D\ColorPickerMenu.cs" />
+    <Compile Include="Cube\CubeHandlerInputComponent.cs" />
+    <Compile Include="Three Dimensional\CameraInputComponent.cs" />
+    <Compile Include="Game\InputGameComponent.cs" />
     <Compile Include="Settings\CubeHandlerSettings.cs" />
     <Compile Include="Settings\GameSettings.cs" />
-    <Compile Include="Scene.cs" />
+    <Compile Include="Three Dimensional\Scene.cs" />
     <Compile Include="Settings\CameraSettings.cs" />
-    <Compile Include="CubeCoordinate.cs" />
-    <Compile Include="Cube.cs" />
+    <Compile Include="Cube\CubeCoordinate.cs" />
+    <Compile Include="Cube\Cube.cs" />
     <Compile Include="Effects\CubeEffect.cs" />
-    <Compile Include="GameApp.cs" />
+    <Compile Include="Game\GameApp.cs" />
     <Compile Include="Settings\InputKeySettings.cs" />
     <Compile Include="Settings\GraphicsSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\SongSettings.cs" />
-    <Compile Include="World.cs" />
+    <Compile Include="Cube\CubicWorld.cs" />
     <Compile Include="Settings\WorldSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include="App.config" />
-    <None Include="Content\Content.mgcb" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
