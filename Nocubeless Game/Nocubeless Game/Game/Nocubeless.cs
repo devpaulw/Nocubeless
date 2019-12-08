@@ -14,11 +14,12 @@ namespace Nocubeless
     {
         private readonly GraphicsDeviceManager graphicsDeviceManager;
 
+        public NocubelessInput Input { get; set; }
         public NocubelessSettings Settings { get; set; }
         public NocubelessState CurrentState { get; set; }
 
         public Camera Camera { get; set; }
-        public CubicWorld CubicWorld { get; set; }
+        public CubeWorld CubicWorld { get; set; }
 
         public Nocubeless()
         {
@@ -26,6 +27,7 @@ namespace Nocubeless
 
             Content.RootDirectory = "MGContent"; // DESIGN: Content better handler
 
+            Input = new NocubelessInput();
             Settings = NocubelessSettings.Default;
 
             Settings.Graphics.SetToGame(this, graphicsDeviceManager);
@@ -34,7 +36,7 @@ namespace Nocubeless
         protected override void Initialize()
         {
             Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
-            CubicWorld = new CubicWorld(this);
+            CubicWorld = new CubeWorld(this);
 
             #region Graphics Config
             var rasterizerState = new RasterizerState
@@ -47,11 +49,13 @@ namespace Nocubeless
 
             #region Components Linking
             var cameraInput = new CameraInputComponent(this);
-            var cubeHandlerInput = new CubeHandlerInputComponent(this);
+            var cubeHandler = new CubeWorldHandler(this);
+            var colorPickerMenu = new ColorPickerMenu(this, cubeHandler.OnColorPicking);
 
             Components.Add(CubicWorld);
             Components.Add(cameraInput);
-            Components.Add(cubeHandlerInput);
+            Components.Add(cubeHandler);
+            Components.Add(colorPickerMenu);
             #endregion
 
             base.Initialize();
@@ -67,10 +71,14 @@ namespace Nocubeless
             if (!IsActive) // Don't take in care when window is not focused
                 return;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            Input.ReloadCurrentStates();
+
+            if (Input.CurrentKeyboardState.IsKeyDown(Keys.Escape))
                 Exit();
 
             base.Update(gameTime);
+
+            Input.ReloadOldStates();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -83,7 +91,6 @@ namespace Nocubeless
 }
 
 // DOLATER: it's in the long run "to-do list"
-// Make the light!
 // menu and saves
 // online
 // extra funcs

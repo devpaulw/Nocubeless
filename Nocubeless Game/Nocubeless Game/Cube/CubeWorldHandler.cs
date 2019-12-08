@@ -12,46 +12,19 @@ namespace Nocubeless
     // On Color Picking event (with color EventArgs) -> World.NextPreviewCube
     // -> CubeHandler can use it
 
-    internal class CubeHandlerInputComponent : NocubelessInputComponent
-    {
-        private readonly ColorPickerMenu colorPickerMenu;
+    internal class CubeWorldHandler : NocubelessComponent
+    { 
         private Color nextColor;
 
         private bool @break;
 
-        public CubeHandlerInputComponent(Nocubeless nocubeless) : base(nocubeless)
-        {
-            colorPickerMenu = new ColorPickerMenu(nocubeless);
-        }
-
-        public override void Initialize()
-        {
-            Nocubeless.Components.Add(colorPickerMenu);
-
-            base.Initialize();
-        }
+        public CubeWorldHandler(Nocubeless nocubeless) : base(nocubeless) { }
 
         public override void Update(GameTime gameTime)
         {
-            ReloadCurrentStates();
-
-            { // Show Color Picker Menu
-                if (CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.ShowColorPicker)
-                    && OldKeyboardState.IsKeyUp(Nocubeless.Settings.Keys.ShowColorPicker))
-                {
-                    if (Nocubeless.CurrentState == NocubelessState.Playing)
-                        Nocubeless.CurrentState = NocubelessState.ColorPicking;
-                    else
-                    {
-                        Nocubeless.CurrentState = NocubelessState.Playing;
-                        SetMouseInTheMiddle(); // Don't disturb Camera new position
-                    }
-                }
-            }
-
             { // Break/Lay switcher
-                if (CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.SwitchLayBreak) 
-                    && OldKeyboardState.IsKeyUp(Nocubeless.Settings.Keys.SwitchLayBreak))
+                if (Nocubeless.Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.SwitchLayBreak) 
+                    && Nocubeless.Input.OldKeyboardState.IsKeyUp(Nocubeless.Settings.Keys.SwitchLayBreak))
                 {
                     @break = !@break; // invert value
                 }
@@ -59,13 +32,14 @@ namespace Nocubeless
 
             if (!@break)
             {
-                WorldCoordinates previewCubePosition = GetWorldTargetedNewCube();
+                CubeWorldCoordinates previewCubePosition = GetWorldTargetedNewCube();
                 Cube newCube = new Cube(nextColor, previewCubePosition);
                 { // Prev
                     Nocubeless.CubicWorld.PreviewCube(newCube);
                 }
                 { // Lay
-                    if (CurrentMouseState.RightButton == ButtonState.Pressed && OldMouseState.RightButton == ButtonState.Released)
+                    if (Nocubeless.Input.CurrentMouseState.RightButton == ButtonState.Pressed 
+                        && Nocubeless.Input.OldMouseState.RightButton == ButtonState.Released)
                     {
                         Random random = new Random();
                         nextColor = new Color(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256));
@@ -78,9 +52,10 @@ namespace Nocubeless
             { // Break
                 Nocubeless.CubicWorld.PreviewCube(null);
 
-                if (CurrentMouseState.LeftButton == ButtonState.Pressed && OldMouseState.LeftButton == ButtonState.Released)
+                if (Nocubeless.Input.CurrentMouseState.LeftButton == ButtonState.Pressed 
+                    && Nocubeless.Input.OldMouseState.LeftButton == ButtonState.Released)
                 {
-                    WorldCoordinates toBreakCube = GetWorldTargetedCube();
+                    CubeWorldCoordinates toBreakCube = GetWorldTargetedCube();
                     Nocubeless.CubicWorld.BreakCube(toBreakCube); // DESIGN: You know the way
                 }
             }
@@ -88,15 +63,18 @@ namespace Nocubeless
             base.Update(gameTime);
         }
 
+        public void OnColorPicking(object sender, ColorPickingEventArgs e) // c pas beau ça ?
+        {
+            nextColor = e.CubeColor;
+        }
 
-
-        private WorldCoordinates GetWorldTargetedNewCube() // Is not 100% trustworthy, and is not powerful, be careful
+        private CubeWorldCoordinates GetWorldTargetedNewCube() // Is not 100% trustworthy, and is not powerful, be careful
         {
             Vector3 checkPosition = Nocubeless.Camera.Position * Nocubeless.CubicWorld.SceneCubeRatio;
 
-            WorldCoordinates oldPosition = null;
-            WorldCoordinates actualPosition = null;
-            WorldCoordinates convertedCheckPosition;
+            CubeWorldCoordinates oldPosition = null;
+            CubeWorldCoordinates actualPosition = null;
+            CubeWorldCoordinates convertedCheckPosition;
 
             const int checkIntensity = 100;
             float checkIncrement = (float)Nocubeless.Settings.CubeHandler.MaxLayingDistance / checkIntensity;
@@ -119,12 +97,12 @@ namespace Nocubeless
 
             return actualPosition;
         }
-        private WorldCoordinates GetWorldTargetedCube() // Is not 100% trustworthy, and is not powerful, be careful
+        private CubeWorldCoordinates GetWorldTargetedCube() // Is not 100% trustworthy, and is not powerful, be careful
         {
             Vector3 checkPosition = Nocubeless.Camera.Position * Nocubeless.CubicWorld.SceneCubeRatio;
 
-            WorldCoordinates actualPosition = null;
-            WorldCoordinates convertedCheckPosition;
+            CubeWorldCoordinates actualPosition = null;
+            CubeWorldCoordinates convertedCheckPosition;
 
             const int checkIntensity = 100;
             float checkIncrement = (float)Nocubeless.Settings.CubeHandler.MaxLayingDistance / checkIntensity;

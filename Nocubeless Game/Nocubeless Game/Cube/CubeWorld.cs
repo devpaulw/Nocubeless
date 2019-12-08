@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class CubicWorld : NocubelessDrawableComponent
+    internal class CubeWorld : NocubelessDrawableComponent
     {
         private readonly ModelMeshPart cubeMeshPart; // Store rendering attributes
         private readonly Matrix cubeScale;
@@ -19,13 +19,15 @@ namespace Nocubeless
         public WorldSettings Settings { get; set; }
         public CubeEffect Effect { get; }
 
+        public Cube NextCube { get; set; }
+
         public float SceneCubeRatio { 
             get {
                 return 1.0f / Settings.HeightOfCubes / 2.0f;
             }
         }
 
-        public CubicWorld(Nocubeless nocubeless) : base(nocubeless)
+        public CubeWorld(Nocubeless nocubeless) : base(nocubeless)
         {
             Settings = Nocubeless.Settings.World; // Is not correct for the long term
             Effect = new CubeEffect(Game.Content.Load<Effect>("CubeEffect")); // DESIGN: Content better handler
@@ -34,7 +36,7 @@ namespace Nocubeless
             cubeScale = Matrix.CreateScale(Settings.HeightOfCubes);
             drawingCubes = new List<Cube>();
 
-            /*TEST*/ LayCube(new Cube(Color.DarkBlue, new WorldCoordinates(0, 0, -21))); // TestCube
+            /*TEST*/ LayCube(new Cube(Color.DarkBlue, new CubeWorldCoordinates(0, 0, -21))); // TestCube
         }
 
         public override void Draw(GameTime gameTime)
@@ -60,7 +62,7 @@ namespace Nocubeless
             LayCube(previewableCube);
         }
 
-        public void BreakCube(WorldCoordinates position)
+        public void BreakCube(CubeWorldCoordinates position)
         {
             if (position == null)
                 return;
@@ -75,7 +77,7 @@ namespace Nocubeless
             previewableCube = cube;
         }
 
-        public bool IsFreeSpace(WorldCoordinates position)
+        public bool IsFreeSpace(CubeWorldCoordinates position)
         {
             foreach (Cube cube in drawingCubes)
                 if (cube.Position.Equals(position))
@@ -84,7 +86,7 @@ namespace Nocubeless
             return true;
         }
 
-        public Vector3 GetCubeScenePosition(WorldCoordinates cubePosition) // DESIGN: To Move Place
+        public Vector3 GetCubeScenePosition(CubeWorldCoordinates cubePosition) // DESIGN: To Move Place
         {
             return cubePosition.ToVector3() * 2.0f * Settings.HeightOfCubes;
         }

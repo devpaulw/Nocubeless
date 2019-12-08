@@ -10,10 +10,10 @@ namespace Nocubeless
 {
     internal class Cube
     {
-        public WorldCoordinates Position { get; set; }
+        public CubeWorldCoordinates Position { get; set; }
         public Color Color { get; set; }
 
-        public Cube(Color color, WorldCoordinates position)
+        public Cube(Color color, CubeWorldCoordinates position)
         {
             Position = position;
             Color = color;
