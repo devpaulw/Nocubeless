@@ -9,31 +9,24 @@ using System.Threading.Tasks;
 namespace Nocubeless
 {
     // TODO: break cubes with effect (same for lay), Design Up
-    // TODO: make GameState
+    // On Color Picking event (with color EventArgs) -> World.NextPreviewCube
+    // -> CubeHandler can use it
 
-    internal class CubeHandlerInputComponent : InputGameComponent
+    internal class CubeHandlerInputComponent : NocubelessInputComponent
     {
-        private ColorPickerMenu colorPickerMenu;
+        private readonly ColorPickerMenu colorPickerMenu;
         private Color nextColor;
 
         private bool @break;
 
-        public CubicWorld CubicWorld { get; set; }
-        public Camera Camera { get; set; }
-        public CubeHandlerSettings Settings { get; set; }
-
-        public CubeHandlerInputComponent(IGameApp gameApp) : base(gameApp) // New kind of design just tested
+        public CubeHandlerInputComponent(Nocubeless nocubeless) : base(nocubeless)
         {
-            CubicWorld = gameApp.CubicWorld;
-            Camera = gameApp.Camera;
-            Settings = gameApp.Settings.CubeHandler;
-
-            colorPickerMenu = new ColorPickerMenu(gameApp);
+            colorPickerMenu = new ColorPickerMenu(nocubeless);
         }
 
         public override void Initialize()
         {
-            Game.Components.Add(colorPickerMenu);
+            Nocubeless.Components.Add(colorPickerMenu);
 
             base.Initialize();
         }
@@ -42,26 +35,34 @@ namespace Nocubeless
         {
             ReloadCurrentStates();
 
-            { // Break/Lay switcher
-                if (CurrentKeyboardState.IsKeyDown(KeySettings.SwitchLayBreak) && OldKeyboardState.IsKeyUp(KeySettings.SwitchLayBreak))
+            { // Show Color Picker Menu
+                if (CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.ShowColorPicker)
+                    && OldKeyboardState.IsKeyUp(Nocubeless.Settings.Keys.ShowColorPicker))
                 {
-                    @break ^= true; // invert value
+                    if (Nocubeless.CurrentState == NocubelessState.Playing)
+                        Nocubeless.CurrentState = NocubelessState.ColorPicking;
+                    else
+                    {
+                        Nocubeless.CurrentState = NocubelessState.Playing;
+                        SetMouseInTheMiddle(); // Don't disturb Camera new position
+                    }
                 }
             }
 
-            { // Show Color Picker Menu
-                if (CurrentKeyboardState.IsKeyDown(KeySettings.ShowColorPicker) && OldKeyboardState.IsKeyUp(KeySettings.ShowColorPicker))
+            { // Break/Lay switcher
+                if (CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.SwitchLayBreak) 
+                    && OldKeyboardState.IsKeyUp(Nocubeless.Settings.Keys.SwitchLayBreak))
                 {
-                    colorPickerMenu.Show ^= true;
+                    @break = !@break; // invert value
                 }
             }
 
             if (!@break)
             {
-                CubeCoordinate previewCubePosition = GetWorldTargetedNewCube();
+                WorldCoordinates previewCubePosition = GetWorldTargetedNewCube();
                 Cube newCube = new Cube(nextColor, previewCubePosition);
                 { // Prev
-                    CubicWorld.PreviewCube(newCube);
+                    Nocubeless.CubicWorld.PreviewCube(newCube);
                 }
                 { // Lay
                     if (CurrentMouseState.RightButton == ButtonState.Pressed && OldMouseState.RightButton == ButtonState.Released)
@@ -69,18 +70,18 @@ namespace Nocubeless
                         Random random = new Random();
                         nextColor = new Color(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256));
 
-                        CubicWorld.LayPreviewedCube();
+                        Nocubeless.CubicWorld.LayPreviewedCube();
                     }
                 }
             }
             else
             { // Break
-                CubicWorld.PreviewCube(null);
+                Nocubeless.CubicWorld.PreviewCube(null);
 
                 if (CurrentMouseState.LeftButton == ButtonState.Pressed && OldMouseState.LeftButton == ButtonState.Released)
                 {
-                    CubeCoordinate toBreakCube = GetWorldTargetedCube();
-                    CubicWorld.BreakCube(toBreakCube); // DESIGN: You know the way
+                    WorldCoordinates toBreakCube = GetWorldTargetedCube();
+                    Nocubeless.CubicWorld.BreakCube(toBreakCube); // DESIGN: You know the way
                 }
             }
 
@@ -89,25 +90,25 @@ namespace Nocubeless
 
 
 
-        private CubeCoordinate GetWorldTargetedNewCube() // Is not 100% trustworthy, and is not powerful, be careful
+        private WorldCoordinates GetWorldTargetedNewCube() // Is not 100% trustworthy, and is not powerful, be careful
         {
-            Vector3 checkPosition = Camera.Position * CubicWorld.SceneCubeRatio;
+            Vector3 checkPosition = Nocubeless.Camera.Position * Nocubeless.CubicWorld.SceneCubeRatio;
 
-            CubeCoordinate oldPosition = null;
-            CubeCoordinate actualPosition = null;
-            CubeCoordinate convertedCheckPosition;
+            WorldCoordinates oldPosition = null;
+            WorldCoordinates actualPosition = null;
+            WorldCoordinates convertedCheckPosition;
 
             const int checkIntensity = 100;
-            float checkIncrement = (float)Settings.MaxLayingDistance / checkIntensity;
+            float checkIncrement = (float)Nocubeless.Settings.CubeHandler.MaxLayingDistance / checkIntensity;
 
             for (int i = 0; i < checkIntensity; i++)
             { // In World, is free space
-                checkPosition += Camera.Front * checkIncrement; // Increment check zone
+                checkPosition += Nocubeless.Camera.Front * checkIncrement; // Increment check zone
                 convertedCheckPosition = checkPosition.ToCubeCoordinate();
 
                 if (convertedCheckPosition != actualPosition) // Perf maintainer
                 {
-                    if (oldPosition != null && !CubicWorld.IsFreeSpace(convertedCheckPosition)) // Check if it's a free space
+                    if (oldPosition != null && !Nocubeless.CubicWorld.IsFreeSpace(convertedCheckPosition)) // Check if it's a free space
                         return oldPosition;
                     else if (actualPosition != null) // Or accept the new checkable position (or exit if actualPosition wasn't initialized)
                         oldPosition = actualPosition;
@@ -118,24 +119,24 @@ namespace Nocubeless
 
             return actualPosition;
         }
-        private CubeCoordinate GetWorldTargetedCube() // Is not 100% trustworthy, and is not powerful, be careful
+        private WorldCoordinates GetWorldTargetedCube() // Is not 100% trustworthy, and is not powerful, be careful
         {
-            Vector3 checkPosition = Camera.Position * CubicWorld.SceneCubeRatio;
+            Vector3 checkPosition = Nocubeless.Camera.Position * Nocubeless.CubicWorld.SceneCubeRatio;
 
-            CubeCoordinate actualPosition = null;
-            CubeCoordinate convertedCheckPosition;
+            WorldCoordinates actualPosition = null;
+            WorldCoordinates convertedCheckPosition;
 
             const int checkIntensity = 100;
-            float checkIncrement = (float)Settings.MaxLayingDistance / checkIntensity;
+            float checkIncrement = (float)Nocubeless.Settings.CubeHandler.MaxLayingDistance / checkIntensity;
 
             for (int i = 0; i < checkIntensity; i++)
             { // In World, is free space
-                checkPosition += Camera.Front * checkIncrement; // Increment check zone
+                checkPosition += Nocubeless.Camera.Front * checkIncrement; // Increment check zone
                 convertedCheckPosition = checkPosition.ToCubeCoordinate();
 
                 if (convertedCheckPosition != actualPosition)
                 {
-                    if (!CubicWorld.IsFreeSpace(convertedCheckPosition)) // Check if it's a free space
+                    if (!Nocubeless.CubicWorld.IsFreeSpace(convertedCheckPosition)) // Check if it's a free space
                         return convertedCheckPosition;
                 }
 

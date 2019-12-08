@@ -8,8 +8,6 @@ namespace Nocubeless
 {
     internal class Camera
     {
-
-
         private float radiansFov;
         public float Fov {
             get => MathHelper.ToDegrees(radiansFov);
@@ -42,7 +40,7 @@ namespace Nocubeless
 
         public Matrix ProjectionMatrix {
             get {
-                const float zNear = 0.6f, zFar = 600.0f;
+                const float zNear = 0.1f, zFar = 100.0f;
                 return Matrix.CreatePerspectiveFieldOfView(radiansFov,
                     AspectRatio,
                     zNear, zFar);

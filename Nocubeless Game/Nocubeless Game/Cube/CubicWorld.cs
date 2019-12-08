@@ -9,16 +9,15 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class CubicWorld : DrawableGameComponent
+    internal class CubicWorld : NocubelessDrawableComponent
     {
         private readonly ModelMeshPart cubeMeshPart; // Store rendering attributes
         private readonly Matrix cubeScale;
         private readonly List<Cube> drawingCubes;
         private Cube previewableCube;
 
-        public WorldSettings Settings { get; }
+        public WorldSettings Settings { get; set; }
         public CubeEffect Effect { get; }
-        public Camera Camera { get; set; }
 
         public float SceneCubeRatio { 
             get {
@@ -26,17 +25,16 @@ namespace Nocubeless
             }
         }
 
-        public CubicWorld(IGameApp gameApp) : base(gameApp.Instance)
+        public CubicWorld(Nocubeless nocubeless) : base(nocubeless)
         {
-            Settings = gameApp.Settings.World;
+            Settings = Nocubeless.Settings.World; // Is not correct for the long term
             Effect = new CubeEffect(Game.Content.Load<Effect>("CubeEffect")); // DESIGN: Content better handler
-            Camera = gameApp.Camera;
 
             cubeMeshPart = Cube.LoadModel(Game.GraphicsDevice);
             cubeScale = Matrix.CreateScale(Settings.HeightOfCubes);
             drawingCubes = new List<Cube>();
 
-            LayCube(new Cube(Color.DarkBlue, new CubeCoordinate(0, 0, -21))); // TestCube
+            /*TEST*/ LayCube(new Cube(Color.DarkBlue, new WorldCoordinates(0, 0, -21))); // TestCube
         }
 
         public override void Draw(GameTime gameTime)
@@ -62,7 +60,7 @@ namespace Nocubeless
             LayCube(previewableCube);
         }
 
-        public void BreakCube(CubeCoordinate position)
+        public void BreakCube(WorldCoordinates position)
         {
             if (position == null)
                 return;
@@ -77,7 +75,7 @@ namespace Nocubeless
             previewableCube = cube;
         }
 
-        public bool IsFreeSpace(CubeCoordinate position)
+        public bool IsFreeSpace(WorldCoordinates position)
         {
             foreach (Cube cube in drawingCubes)
                 if (cube.Position.Equals(position))
@@ -86,7 +84,7 @@ namespace Nocubeless
             return true;
         }
 
-        public Vector3 GetCubeScenePosition(CubeCoordinate cubePosition) // DESIGN: To Move Place
+        public Vector3 GetCubeScenePosition(WorldCoordinates cubePosition) // DESIGN: To Move Place
         {
             return cubePosition.ToVector3() * 2.0f * Settings.HeightOfCubes;
         }
@@ -97,8 +95,8 @@ namespace Nocubeless
             Matrix translation = Matrix.CreateTranslation(cubeScenePosition);
             Matrix world = cubeScale * translation;
 
-            Effect.View = Camera.ViewMatrix;
-            Effect.Projection = Camera.ProjectionMatrix;
+            Effect.View = Nocubeless.Camera.ViewMatrix;
+            Effect.Projection = Nocubeless.Camera.ProjectionMatrix;
             Effect.World = world;
             Effect.Color = cube.Color;
             Effect.Alpha = transparency;

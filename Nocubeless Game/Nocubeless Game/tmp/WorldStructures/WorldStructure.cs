@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nocubeless
+namespace Nocubeless.WorldStructures
 {
-    enum GameState
-    {
-        Playing, ColorPicking
-    }
+	interface WorldStructure
+	{
+		List<Cube> Generate();
+	}
 }

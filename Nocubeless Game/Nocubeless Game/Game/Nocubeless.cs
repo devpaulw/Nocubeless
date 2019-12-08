@@ -10,25 +10,23 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Nocubeless
 {
-    class GameApp : Game, IGameApp // Mediator MAIN CLASS
+    class Nocubeless : Game // Mediator MAIN CLASS
     {
         private readonly GraphicsDeviceManager graphicsDeviceManager;
 
-        public Game Instance { get; set; }
-        public GameSettings Settings { get; set; }
-        public GameState ActualState { get; set; }
+        public NocubelessSettings Settings { get; set; }
+        public NocubelessState CurrentState { get; set; }
 
         public Camera Camera { get; set; }
         public CubicWorld CubicWorld { get; set; }
 
-        public GameApp()
+        public Nocubeless()
         {
             graphicsDeviceManager = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "MGContent"; // DESIGN: Content better handler
 
-            Instance = this as Game;
-            Settings = GameSettings.Default;
+            Settings = NocubelessSettings.Default;
 
             Settings.Graphics.SetToGame(this, graphicsDeviceManager);
         }
@@ -55,7 +53,7 @@ namespace Nocubeless
             Components.Add(cameraInput);
             Components.Add(cubeHandlerInput);
             #endregion
-            
+
             base.Initialize();
         }
 

@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    public static class Program
+    class ColorPickerInputComponent : NocubelessInputComponent
     {
-        static void Main()
+        public ColorPickerInputComponent(Nocubeless nocubeless) : base(nocubeless)
         {
-            using (var app = new Nocubeless()) 
-                app.Run();
+
         }
     }
 }

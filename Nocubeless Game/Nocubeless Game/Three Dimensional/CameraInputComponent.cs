@@ -8,13 +8,9 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class CameraInputComponent : InputGameComponent
+    internal class CameraInputComponent : NocubelessInputComponent
     {
-        private KeyboardState currentKeyboardState;
-        private MouseState currentMouseState;
-
         private int cursorSet;
-        private Point middlePoint;
 
         private float radiansPitch;
         private float radiansYaw;
@@ -32,68 +28,57 @@ namespace Nocubeless
             }
         }
 
-        public Camera Camera { get; set; }
-        public CameraSettings CameraSettings { get; set; }
-
-        public CameraInputComponent(IGameApp gameApp) : base(gameApp)
-        {
-            CameraSettings = gameApp.Settings.Camera;
-            Camera = gameApp.Camera;
-        }
-
-        public override void Initialize()
-        {
-            middlePoint = new Point(Game.GraphicsDevice.Viewport.Width / 2, Game.GraphicsDevice.Viewport.Height / 2);
-
-            base.Initialize();
-        }
+        public CameraInputComponent(Nocubeless nocubeless) : base(nocubeless) { }
 
         public override void Update(GameTime gameTime)
         {
-            #region Rotate head
-            currentMouseState = Mouse.GetState();
-            Mouse.SetPosition(middlePoint.X, middlePoint.Y);
-
-            if (cursorSet > 1)
+            if (Nocubeless.CurrentState == NocubelessState.Playing)
             {
-                Matrix rotation;
+                ReloadCurrentStates();
 
-                var deltaPoint = new Point(currentMouseState.X - middlePoint.X, currentMouseState.Y - middlePoint.Y);
-                //lastCursorPosition = new Point(currentMouseState.X, currentMouseState.Y);
+                Move(gameTime);
+                if (cursorSet > 1) /*->*/ Rotate(); /*<-*/ else cursorSet++; // Prevent bad camera arisen
 
-                Yaw -= deltaPoint.X * CameraSettings.MouseSensitivity;
-                Pitch -= deltaPoint.Y * CameraSettings.MouseSensitivity;
-
-                rotation = Matrix.CreateRotationX(radiansPitch) *
-                    Matrix.CreateRotationY(radiansYaw);
-                Camera.Front = Vector3.Transform(Camera.OriginalFront, rotation);
-                Camera.Up = Vector3.Transform(Camera.OriginalUp, rotation);
+                SetMouseInTheMiddle();
             }
-            else cursorSet++; // Prevent bad camera arisen
-            #endregion
-
-            #region Move camera
-            currentKeyboardState = Keyboard.GetState();
-
-            var moveDeltaSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * CameraSettings.MoveSpeed;
-            Vector3 xAxis, yAxis, zAxis;
-
-            if (currentKeyboardState.IsKeyDown(KeySettings.Run))
-                moveDeltaSpeed *= 2.5f;
-
-            xAxis = Vector3.Normalize(Vector3.Cross(Camera.Front, Camera.Up)) * moveDeltaSpeed;
-            yAxis = Camera.Up * moveDeltaSpeed;
-            zAxis = Camera.Front * moveDeltaSpeed;
-
-            if (currentKeyboardState.IsKeyDown(KeySettings.MoveForward)) Camera.Position += zAxis; // Z
-            if (currentKeyboardState.IsKeyDown(KeySettings.MoveBackward)) Camera.Position -= zAxis; // S
-            if (currentKeyboardState.IsKeyDown(KeySettings.MoveRight)) Camera.Position += xAxis; // D
-            if (currentKeyboardState.IsKeyDown(KeySettings.MoveLeft)) Camera.Position -= xAxis; // Q
-            if (currentKeyboardState.IsKeyDown(KeySettings.MoveUpward)) Camera.Position += yAxis; // Space
-            if (currentKeyboardState.IsKeyDown(KeySettings.MoveDown)) Camera.Position -= yAxis; // Left SHift
-            #endregion
 
             base.Update(gameTime);
+        }
+
+        private void Move(GameTime gameTime)
+        {
+            var moveDeltaSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * Nocubeless.Settings.Camera.MoveSpeed;
+            Vector3 xAxis, yAxis, zAxis;
+
+            if (CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.Run))
+                moveDeltaSpeed *= 2.5f;
+
+            xAxis = Vector3.Normalize(Vector3.Cross(Nocubeless.Camera.Front, Nocubeless.Camera.Up)) * moveDeltaSpeed;
+            yAxis = Nocubeless.Camera.Up * moveDeltaSpeed;
+            zAxis = Nocubeless.Camera.Front * moveDeltaSpeed;
+
+            if (CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveForward)) Nocubeless.Camera.Position += zAxis; // Z
+            if (CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveBackward)) Nocubeless.Camera.Position -= zAxis; // S
+            if (CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveRight)) Nocubeless.Camera.Position += xAxis; // D
+            if (CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveLeft)) Nocubeless.Camera.Position -= xAxis; // Q
+            if (CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveUpward)) Nocubeless.Camera.Position += yAxis; // Space
+            if (CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveDown)) Nocubeless.Camera.Position -= yAxis; // Left SHift
+        }
+
+        private void Rotate()
+        {
+            Matrix rotation;
+
+            var deltaPoint = new Point(CurrentMouseState.X - MiddlePoint.X, CurrentMouseState.Y - MiddlePoint.Y);
+            //lastCursorPosition = new Point(currentMouseState.X, currentMouseState.Y);
+
+            Yaw -= deltaPoint.X * Nocubeless.Settings.Camera.MouseSensitivity;
+            Pitch -= deltaPoint.Y * Nocubeless.Settings.Camera.MouseSensitivity;
+
+            rotation = Matrix.CreateRotationX(radiansPitch) *
+                Matrix.CreateRotationY(radiansYaw);
+            Nocubeless.Camera.Front = Vector3.Transform(Nocubeless.Camera.OriginalFront, rotation);
+            Nocubeless.Camera.Up = Vector3.Transform(Nocubeless.Camera.OriginalUp, rotation);
         }
     }
 }

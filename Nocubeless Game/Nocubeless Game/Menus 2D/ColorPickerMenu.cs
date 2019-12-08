@@ -8,28 +8,13 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    class ColorPickerMenu : DrawableGameComponent
+    class ColorPickerMenu : NocubelessDrawableComponent
     {
         private SpriteBatch spriteBatch;
         private Texture2D menuBaseTexture;
         private Rectangle menuBaseDestination;
-        private bool show;
 
-        public bool Show { // color picking from gamestate instead, deprecate that
-            get {
-                return show;
-            }
-            set {
-                show = value;
-            }
-        }
-
-        public GameState ActualGameState { get; set; }
-
-        public ColorPickerMenu(IGameApp gameApp) : base(gameApp.Instance)
-        {
-            ActualGameState = gameApp.ActualState;
-        }
+        public ColorPickerMenu(Nocubeless nocubeless) : base(nocubeless) { }
 
         protected override void LoadContent()
         {
@@ -45,7 +30,7 @@ namespace Nocubeless
 
         public override void Draw(GameTime gameTime)
         {
-            if (show)
+            if (Nocubeless.CurrentState == NocubelessState.ColorPicking)
             {
                 spriteBatch.Begin(SpriteSortMode.Deferred, 
                     GraphicsDevice.BlendState,

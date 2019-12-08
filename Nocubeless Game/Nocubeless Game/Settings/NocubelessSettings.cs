@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class GameSettings
+    internal class NocubelessSettings
     {
         public GraphicsSettings Graphics { get; set; }
         public SongSettings Song { get; set; }
-        public InputKeySettings InputKeys { get; set; }
+        public InputKeySettings Keys { get; set; }
         public CameraSettings Camera { get; set; }
         public WorldSettings World { get; set; }
         public CubeHandlerSettings CubeHandler { get; set; }
 
 
-        public static GameSettings Default {
+        public static NocubelessSettings Default {
             get {
-                return new GameSettings
+                return new NocubelessSettings
                 {
                     Graphics = GraphicsSettings.Default,
                     Song = SongSettings.Default,
-                    InputKeys = InputKeySettings.DefaultFrench,
+                    Keys = InputKeySettings.DefaultFrench,
                     Camera = CameraSettings.Default,
                     World = WorldSettings.Default,
                     CubeHandler = CubeHandlerSettings.Default

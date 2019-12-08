@@ -8,19 +8,27 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal abstract class InputGameComponent : GameComponent
+    abstract class NocubelessInputComponent : NocubelessComponent
     {
+        protected Point MiddlePoint { get; }
+
         protected KeyboardState CurrentKeyboardState { get; set; }
         protected MouseState CurrentMouseState { get; set; }
 
         protected KeyboardState OldKeyboardState { get; private set; }
         protected MouseState OldMouseState { get; private set; }
 
-        public InputKeySettings KeySettings { get; set; }
-
-        public InputGameComponent(IGameApp gameApp) : base(gameApp.Instance)
+        public NocubelessInputComponent(Nocubeless nocubeless) : base(nocubeless)
         {
-            KeySettings = gameApp.Settings.InputKeys;
+            MiddlePoint = new Point(Game.GraphicsDevice.Viewport.Width / 2, Game.GraphicsDevice.Viewport.Height / 2);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            OldKeyboardState = CurrentKeyboardState;
+            OldMouseState = CurrentMouseState;
+
+            base.Update(gameTime);
         }
 
         protected void ReloadCurrentStates()
@@ -29,11 +37,9 @@ namespace Nocubeless
             CurrentMouseState = Mouse.GetState();
         }
 
-        public override void Update(GameTime gameTime)
+        protected void SetMouseInTheMiddle()
         {
-            OldKeyboardState = CurrentKeyboardState;
-            OldMouseState = CurrentMouseState;
-            base.Update(gameTime);
+            Mouse.SetPosition(MiddlePoint.X, MiddlePoint.Y);
         }
     }
 }

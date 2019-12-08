@@ -54,21 +54,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game\GameState.cs" />
-    <Compile Include="Game\IGameApp.cs" />
+    <Compile Include="Game\NocubelessState.cs" />
+    <Compile Include="INocubeless.cs" />
+    <Compile Include="Game\NocubelessComponent.cs" />
+    <Compile Include="Game\NocubelessDrawableComponent.cs" />
+    <Compile Include="Menus 2D\ColorPickerInputComponent.cs" />
     <Compile Include="Three Dimensional\Camera.cs" />
     <Compile Include="Menus 2D\ColorPickerMenu.cs" />
     <Compile Include="Cube\CubeHandlerInputComponent.cs" />
     <Compile Include="Three Dimensional\CameraInputComponent.cs" />
-    <Compile Include="Game\InputGameComponent.cs" />
+    <Compile Include="Game\NocubelessInputComponent.cs" />
     <Compile Include="Settings\CubeHandlerSettings.cs" />
-    <Compile Include="Settings\GameSettings.cs" />
+    <Compile Include="Settings\NocubelessSettings.cs" />
     <Compile Include="Three Dimensional\Scene.cs" />
     <Compile Include="Settings\CameraSettings.cs" />
-    <Compile Include="Cube\CubeCoordinate.cs" />
+    <Compile Include="Cube\WorldCoordinates.cs" />
     <Compile Include="Cube\Cube.cs" />
     <Compile Include="Effects\CubeEffect.cs" />
-    <Compile Include="Game\GameApp.cs" />
+    <Compile Include="Game\Nocubeless.cs" />
     <Compile Include="Settings\InputKeySettings.cs" />
     <Compile Include="Settings\GraphicsSettings.cs" />
     <Compile Include="Program.cs" />
