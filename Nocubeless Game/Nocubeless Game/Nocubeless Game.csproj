@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorPickingEventArgs.cs" />
+    <Compile Include="Cube\CubeWorldCubePreviewer.cs" />
+    <Compile Include="Cube\CubeWorldDrawer.cs" />
     <Compile Include="Game\NocubelessState.cs" />
     <Compile Include="Game\NocubelessComponent.cs" />
     <Compile Include="Game\NocubelessDrawableComponent.cs" />

@@ -35,7 +35,7 @@ namespace Nocubeless
                 CubeWorldCoordinates previewCubePosition = GetWorldTargetedNewCube();
                 Cube newCube = new Cube(nextColor, previewCubePosition);
                 { // Prev
-                    Nocubeless.CubicWorld.PreviewCube(newCube);
+                    Nocubeless.CubeWorld.PreviewCube(newCube);
                 }
                 { // Lay
                     if (Nocubeless.Input.CurrentMouseState.RightButton == ButtonState.Pressed 
@@ -44,19 +44,19 @@ namespace Nocubeless
                         Random random = new Random();
                         nextColor = new Color(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256));
 
-                        Nocubeless.CubicWorld.LayPreviewedCube();
+                        Nocubeless.CubeWorld.LayPreviewedCube();
                     }
                 }
             }
             else
             { // Break
-                Nocubeless.CubicWorld.PreviewCube(null);
+                Nocubeless.CubeWorld.PreviewCube(null);
 
                 if (Nocubeless.Input.CurrentMouseState.LeftButton == ButtonState.Pressed 
                     && Nocubeless.Input.OldMouseState.LeftButton == ButtonState.Released)
                 {
                     CubeWorldCoordinates toBreakCube = GetWorldTargetedCube();
-                    Nocubeless.CubicWorld.BreakCube(toBreakCube); // DESIGN: You know the way
+                    Nocubeless.CubeWorld.BreakCube(toBreakCube); // DESIGN: You know the way
                 }
             }
 
@@ -70,7 +70,7 @@ namespace Nocubeless
 
         private CubeWorldCoordinates GetWorldTargetedNewCube() // Is not 100% trustworthy, and is not powerful, be careful
         {
-            Vector3 checkPosition = Nocubeless.Camera.Position * Nocubeless.CubicWorld.SceneCubeRatio;
+            Vector3 checkPosition = Nocubeless.Camera.Position * Nocubeless.CubeWorld.SceneCubeRatio;
 
             CubeWorldCoordinates oldPosition = null;
             CubeWorldCoordinates actualPosition = null;
@@ -86,7 +86,7 @@ namespace Nocubeless
 
                 if (convertedCheckPosition != actualPosition) // Perf maintainer
                 {
-                    if (oldPosition != null && !Nocubeless.CubicWorld.IsFreeSpace(convertedCheckPosition)) // Check if it's a free space
+                    if (oldPosition != null && !Nocubeless.CubeWorld.IsFreeSpace(convertedCheckPosition)) // Check if it's a free space
                         return oldPosition;
                     else if (actualPosition != null) // Or accept the new checkable position (or exit if actualPosition wasn't initialized)
                         oldPosition = actualPosition;
@@ -99,7 +99,7 @@ namespace Nocubeless
         }
         private CubeWorldCoordinates GetWorldTargetedCube() // Is not 100% trustworthy, and is not powerful, be careful
         {
-            Vector3 checkPosition = Nocubeless.Camera.Position * Nocubeless.CubicWorld.SceneCubeRatio;
+            Vector3 checkPosition = Nocubeless.Camera.Position * Nocubeless.CubeWorld.SceneCubeRatio;
 
             CubeWorldCoordinates actualPosition = null;
             CubeWorldCoordinates convertedCheckPosition;
@@ -114,7 +114,7 @@ namespace Nocubeless
 
                 if (convertedCheckPosition != actualPosition)
                 {
-                    if (!Nocubeless.CubicWorld.IsFreeSpace(convertedCheckPosition)) // Check if it's a free space
+                    if (!Nocubeless.CubeWorld.IsFreeSpace(convertedCheckPosition)) // Check if it's a free space
                         return convertedCheckPosition;
                 }
 

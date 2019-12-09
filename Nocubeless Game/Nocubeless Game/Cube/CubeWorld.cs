@@ -9,17 +9,11 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class CubeWorld : NocubelessDrawableComponent
+    internal class CubeWorld
     {
-        private readonly ModelMeshPart cubeMeshPart; // Store rendering attributes
-        private readonly Matrix cubeScale;
-        private readonly List<Cube> drawingCubes;
-        private Cube previewableCube;
-
         public WorldSettings Settings { get; set; }
-        public CubeEffect Effect { get; }
 
-        public Cube NextCube { get; set; }
+        public List<Cube> LoadedCubes { get; }
 
         public float SceneCubeRatio { 
             get {
@@ -27,34 +21,17 @@ namespace Nocubeless
             }
         }
 
-        public CubeWorld(Nocubeless nocubeless) : base(nocubeless)
+        public CubeWorld(WorldSettings settings)
         {
-            Settings = Nocubeless.Settings.World; // Is not correct for the long term
-            Effect = new CubeEffect(Game.Content.Load<Effect>("CubeEffect")); // DESIGN: Content better handler
-
-            cubeMeshPart = Cube.LoadModel(Game.GraphicsDevice);
-            cubeScale = Matrix.CreateScale(Settings.HeightOfCubes);
-            drawingCubes = new List<Cube>();
-
+            Settings = settings; // Is not correct for the long term
+            LoadedCubes = new List<Cube>();
+            
             /*TEST*/ LayCube(new Cube(Color.DarkBlue, new CubeWorldCoordinates(0, 0, -21))); // TestCube
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            foreach (Cube cube in drawingCubes)
-            {
-                DrawCube(cube);
-            }
-
-            if (previewableCube != null)
-                DrawCube(previewableCube, 0.5f);
-
-            base.Draw(gameTime);
         }
 
         public void LayCube(Cube cube)
         {
-            drawingCubes.Add(cube);
+            LoadedCubes.Add(cube);
         }
 
         public void LayPreviewedCube()
@@ -67,9 +44,9 @@ namespace Nocubeless
             if (position == null)
                 return;
 
-            for (int i = 0; i < drawingCubes.Count; i++)
-                if (drawingCubes[i].Position.Equals(position))
-                    drawingCubes.RemoveAt(i);
+            for (int i = 0; i < LoadedCubes.Count; i++)
+                if (LoadedCubes[i].Position.Equals(position))
+                    LoadedCubes.RemoveAt(i);
         }
 
         public void PreviewCube(Cube cube)
@@ -79,7 +56,7 @@ namespace Nocubeless
 
         public bool IsFreeSpace(CubeWorldCoordinates position)
         {
-            foreach (Cube cube in drawingCubes)
+            foreach (Cube cube in LoadedCubes)
                 if (cube.Position.Equals(position))
                     return false;
 
@@ -91,30 +68,6 @@ namespace Nocubeless
             return cubePosition.ToVector3() * 2.0f * Settings.HeightOfCubes;
         }
 
-        private void DrawCube(Cube cube, float transparency = 1.0f)
-        {
-            Vector3 cubeScenePosition = GetCubeScenePosition(cube.Position);
-            Matrix translation = Matrix.CreateTranslation(cubeScenePosition);
-            Matrix world = cubeScale * translation;
-
-            Effect.View = Nocubeless.Camera.ViewMatrix;
-            Effect.Projection = Nocubeless.Camera.ProjectionMatrix;
-            Effect.World = world;
-            Effect.Color = cube.Color;
-            Effect.Alpha = transparency;
-
-            GraphicsDevice.SetVertexBuffer(cubeMeshPart.VertexBuffer);
-            GraphicsDevice.Indices = cubeMeshPart.IndexBuffer;
-
-            foreach (EffectPass pass in Effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                GraphicsDevice.DrawIndexedPrimitives(
-                PrimitiveType.TriangleList,
-                0,
-                cubeMeshPart.StartIndex,
-                cubeMeshPart.PrimitiveCount);
-            }
-        }
+        
     }
 }

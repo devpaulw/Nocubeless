@@ -19,7 +19,7 @@ namespace Nocubeless
         public NocubelessState CurrentState { get; set; }
 
         public Camera Camera { get; set; }
-        public CubeWorld CubicWorld { get; set; }
+        public CubeWorld CubeWorld { get; set; }
 
         public Nocubeless()
         {
@@ -36,7 +36,7 @@ namespace Nocubeless
         protected override void Initialize()
         {
             Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
-            CubicWorld = new CubeWorld(this);
+            CubeWorld = new CubeWorld(this);
 
             #region Graphics Config
             var rasterizerState = new RasterizerState
@@ -52,7 +52,7 @@ namespace Nocubeless
             var cubeHandler = new CubeWorldHandler(this);
             var colorPickerMenu = new ColorPickerMenu(this, cubeHandler.OnColorPicking);
 
-            Components.Add(CubicWorld);
+            Components.Add(CubeWorld);
             Components.Add(cameraInput);
             Components.Add(cubeHandler);
             Components.Add(colorPickerMenu);
