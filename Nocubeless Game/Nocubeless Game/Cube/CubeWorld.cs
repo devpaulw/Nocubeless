@@ -9,34 +9,26 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class CubeWorld
+    class CubeWorld
     {
-        public WorldSettings Settings { get; set; }
+        public List<Cube> XCHEATGETCUBESDIRECTLY { get { return cubes; } } // not allowed, but before chunk
 
-        public List<Cube> LoadedCubes { get; }
+        private List<Cube> cubes;
 
-        public float SceneCubeRatio { 
-            get {
-                return 1.0f / Settings.HeightOfCubes / 2.0f;
-            }
-        }
+        public CubeWorldSettings Settings { get; set; }
 
-        public CubeWorld(WorldSettings settings)
+        public CubeWorld(CubeWorldSettings settings)
         {
             Settings = settings; // Is not correct for the long term
-            LoadedCubes = new List<Cube>();
-            
+
+            cubes = new List<Cube>();
+
             /*TEST*/ LayCube(new Cube(Color.DarkBlue, new CubeWorldCoordinates(0, 0, -21))); // TestCube
         }
 
         public void LayCube(Cube cube)
         {
-            LoadedCubes.Add(cube);
-        }
-
-        public void LayPreviewedCube()
-        {
-            LayCube(previewableCube);
+            cubes.Add(cube);
         }
 
         public void BreakCube(CubeWorldCoordinates position)
@@ -44,30 +36,29 @@ namespace Nocubeless
             if (position == null)
                 return;
 
-            for (int i = 0; i < LoadedCubes.Count; i++)
-                if (LoadedCubes[i].Position.Equals(position))
-                    LoadedCubes.RemoveAt(i);
+            for (int i = 0; i < cubes.Count; i++)
+                if (cubes[i].Position.Equals(position))
+                    cubes.RemoveAt(i);
         }
 
-        public void PreviewCube(Cube cube)
+        public Cube GetCube(CubeWorldCoordinates position)
         {
-            previewableCube = cube;
+            var requestedCube = (from cube in cubes
+                                 where cube.Position.Equals(position)
+                                 select cube)
+                                 .FirstOrDefault();
+
+            return requestedCube;
         }
 
-        public bool IsFreeSpace(CubeWorldCoordinates position)
+        public float GetSceneCubeRatio() // how much is a cube smaller/bigger in the graphics representation?
         {
-            foreach (Cube cube in LoadedCubes)
-                if (cube.Position.Equals(position))
-                    return false;
-
-            return true;
+            return 1.0f / Settings.HeightOfCubes / 2.0f;
         }
 
         public Vector3 GetCubeScenePosition(CubeWorldCoordinates cubePosition) // DESIGN: To Move Place
         {
             return cubePosition.ToVector3() * 2.0f * Settings.HeightOfCubes;
         }
-
-        
     }
 }

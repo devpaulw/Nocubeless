@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class WorldSettings
+    internal class CubeWorldSettings
     {
         public float HeightOfCubes { get; set; }
 
-        public static WorldSettings Default {
+        public static CubeWorldSettings Default {
             get {
-                return new WorldSettings
+                return new CubeWorldSettings
                 {
                     HeightOfCubes = 0.1f
                 };

@@ -37,3 +37,10 @@
 /processorParam:TextureFormat=Color
 /build:Menus/Color Picker/ColorPickerMenu.bmp;Menus/Color Picker/Base.bmp
 
+#begin Menus/Font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Menus/Font.spritefont
+

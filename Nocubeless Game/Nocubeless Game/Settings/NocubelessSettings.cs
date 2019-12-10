@@ -12,7 +12,7 @@ namespace Nocubeless
         public SongSettings Song { get; set; }
         public InputKeySettings Keys { get; set; }
         public CameraSettings Camera { get; set; }
-        public WorldSettings World { get; set; }
+        public CubeWorldSettings CubeWorld { get; set; }
         public CubeHandlerSettings CubeHandler { get; set; }
 
 
@@ -24,7 +24,7 @@ namespace Nocubeless
                     Song = SongSettings.Default,
                     Keys = InputKeySettings.DefaultFrench,
                     Camera = CameraSettings.Default,
-                    World = WorldSettings.Default,
+                    CubeWorld = CubeWorldSettings.Default,
                     CubeHandler = CubeHandlerSettings.Default
                 };
             }

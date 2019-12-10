@@ -27,7 +27,7 @@ namespace Nocubeless
             }
 
             game.IsFixedTimeStep = !UnlimitedFramerate;
-            game.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / Framerate); // Set framerate
+            game.TargetElapsedTime = TimeSpan.FromSeconds(1 / Framerate); // Set framerate
             game.IsMouseVisible = true;
         }
 
@@ -39,7 +39,7 @@ namespace Nocubeless
                     Framerate = 120,
                     UnlimitedFramerate = false,
                     VSync =  true,
-                    FullScreen = false,
+                    FullScreen = true,
                 };
             }
         }

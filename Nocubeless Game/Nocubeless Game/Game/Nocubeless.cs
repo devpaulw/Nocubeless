@@ -10,11 +10,12 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Nocubeless
 {
-    class Nocubeless : Game // Mediator MAIN CLASS
+    class Nocubeless : Game // mediator MAIN CLASS
     {
         private readonly GraphicsDeviceManager graphicsDeviceManager;
 
         public NocubelessInput Input { get; set; }
+        public SpriteBatch SpriteBatch { get; set; }
         public NocubelessSettings Settings { get; set; }
         public NocubelessState CurrentState { get; set; }
 
@@ -27,18 +28,21 @@ namespace Nocubeless
 
             Content.RootDirectory = "MGContent"; // DESIGN: Content better handler
 
-            Input = new NocubelessInput();
             Settings = NocubelessSettings.Default;
-
             Settings.Graphics.SetToGame(this, graphicsDeviceManager);
         }
 
         protected override void Initialize()
         {
+            Input = new NocubelessInput();
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
+
             Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
-            CubeWorld = new CubeWorld(this);
+            CubeWorld = new CubeWorld(Settings.CubeWorld /*TODO: To rename CubeWorld*/);
 
             #region Graphics Config
+            
+
             var rasterizerState = new RasterizerState
             {
                 CullMode = CullMode.None
@@ -49,12 +53,13 @@ namespace Nocubeless
 
             #region Components Linking
             var cameraInput = new CameraInputComponent(this);
-            var cubeHandler = new CubeWorldHandler(this);
-            var colorPickerMenu = new ColorPickerMenu(this, cubeHandler.OnColorPicking);
+            var cubeWorldScene = new CubeWorldScene(this);
+            var cubeWorldSceneHandler = new CubeWorldSceneHandler(this, cubeWorldScene);
+            var colorPickerMenu = new ColorPickerMenu(this, cubeWorldSceneHandler.OnColorPicking);
 
-            Components.Add(CubeWorld);
             Components.Add(cameraInput);
-            Components.Add(cubeHandler);
+            Components.Add(cubeWorldScene);
+            Components.Add(cubeWorldSceneHandler);
             Components.Add(colorPickerMenu);
             #endregion
 
@@ -85,7 +90,15 @@ namespace Nocubeless
         {
             GraphicsDevice.Clear(Color.DarkGray);
 
+            SpriteBatch.Begin(SpriteSortMode.Deferred,
+                    GraphicsDevice.BlendState,
+                    null,
+                    GraphicsDevice.DepthStencilState,
+                    GraphicsDevice.RasterizerState);
+
             base.Draw(gameTime);
+
+            SpriteBatch.End();
         }
     }
 }

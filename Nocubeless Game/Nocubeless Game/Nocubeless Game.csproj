@@ -54,16 +54,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorPickingEventArgs.cs" />
-    <Compile Include="Cube\CubeWorldCubePreviewer.cs" />
-    <Compile Include="Cube\CubeWorldDrawer.cs" />
+    <Compile Include="Menus 2D\ColorPickingEventArgs.cs" />
+    <Compile Include="Cube\CubeWorldScene.cs" />
     <Compile Include="Game\NocubelessState.cs" />
     <Compile Include="Game\NocubelessComponent.cs" />
     <Compile Include="Game\NocubelessDrawableComponent.cs" />
     <Compile Include="Game\NocubelessInput.cs" />
     <Compile Include="Three Dimensional\Camera.cs" />
     <Compile Include="Menus 2D\ColorPickerMenu.cs" />
-    <Compile Include="Cube\CubeWorldHandler.cs" />
+    <Compile Include="Cube\CubeWorldSceneHandler.cs" />
     <Compile Include="Three Dimensional\CameraInputComponent.cs" />
     <Compile Include="Settings\CubeHandlerSettings.cs" />
     <Compile Include="Settings\NocubelessSettings.cs" />
@@ -79,7 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\SongSettings.cs" />
     <Compile Include="Cube\CubeWorld.cs" />
-    <Compile Include="Settings\WorldSettings.cs" />
+    <Compile Include="Settings\CubeWorldSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
