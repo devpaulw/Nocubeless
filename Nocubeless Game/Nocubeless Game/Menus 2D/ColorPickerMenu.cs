@@ -11,41 +11,24 @@ namespace Nocubeless
 {
     class ColorPickerMenu : NocubelessDrawableComponent
     {
+        #region Events
+        public event ColorPickingEventHandler OnColorPicking;
+        #endregion
+
         private Texture2D menuBaseTexture;
         private SpriteFont menuFont;
         private Rectangle menuBaseDestination;
 
-        private readonly CubeDrawer cubeDrawer;
-
-        public event ColorPickingEventHandler OnColorPicking;
+        private readonly PickerCubeDrawer pickerCube;
 
         public ColorPickerMenu(Nocubeless nocubeless, ColorPickingEventHandler onColorPicking) : base(nocubeless)
         {
             OnColorPicking += onColorPicking;
 
-            cubeDrawer = new CubeDrawer(Nocubeless, 0.1f);
-
-            test3dpicker();
+            pickerCube = new PickerCubeDrawer(Nocubeless, 0.1f);
         }
 
-#pragma warning disable IDE1006 // Naming Styles
-        void test3dpicker()
-#pragma warning restore IDE1006 // Naming Styles
-        {
-            for (int x = 0; x < 8; x++)
-            {
-                for (int y = 0; y < 8; y++)
-                {
-                    for (int z = 0; z < 8; z++)
-                    {
-                        CubeWorldCoordinates newPosition = new CubeWorldCoordinates(x, y, z);
-                        CubeColor newColor = new CubeColor(x, y, z);
-                        Cube newCube = new Cube(newColor.ToVector3(), newPosition);
-                        Nocubeless.CubeWorld.LayCube(newCube);
-                    }
-                }
-            }
-        }
+
 
         protected override void LoadContent()
         {
@@ -94,12 +77,13 @@ namespace Nocubeless
         {
             if (Nocubeless.CurrentState == NocubelessState.ColorPicking)
             {
-                EffectMatrices effectMatrices = new EffectMatrices(Nocubeless.Camera.ProjectionMatrix, Matrix.Identity, Matrix.Identity);
+                //EffectMatrices effectMatrices = new EffectMatrices(Nocubeless.Camera.ProjectionMatrix, Matrix.Identity, Matrix.Identity);
 
-                Nocubeless.SpriteBatch.Draw(menuBaseTexture, menuBaseDestination, Color.Black);
+                pickerCube.Draw(Vector2.Zero);
+                pickerCube.Rotate(0.2f, 0.2f, 0.2f);
+                pickerCube.Unsqueeze(0.001f);
 
-                cubeDrawer.Draw(Vector3.Zero, Color.Gold.ToVector3(), effectMatrices);
-
+                //Nocubeless.SpriteBatch.Draw(menuBaseTexture, menuBaseDestination, Color.Black);
 
                 // coming soon message temp
                 //                Nocubeless.SpriteBatch.DrawString(menuFont,

@@ -51,14 +51,16 @@ namespace Nocubeless
             return requestedCube;
         }
 
-        public float GetSceneCubeRatio() // how much is a cube smaller/bigger in the graphics representation?
+        #region Static
+        public static Vector3 GetGraphicsCubePosition(CubeWorldCoordinates cubePosition, float heightOfCubes) // cube position in graphics representation.
         {
-            return 1.0f / Settings.HeightOfCubes / 2.0f;
+            return cubePosition.ToVector3() / GetGraphicsCubeRatio(heightOfCubes);
         }
 
-        public Vector3 GetCubeScenePosition(CubeWorldCoordinates cubePosition) // DESIGN: To Move Place
+        public static float GetGraphicsCubeRatio(float heightOfCubes) // how much is a cube smaller/bigger in the graphics representation?
         {
-            return cubePosition.ToVector3() * 2.0f * Settings.HeightOfCubes;
+            return 1.0f / heightOfCubes / 2.0f;
         }
+        #endregion
     }
 }

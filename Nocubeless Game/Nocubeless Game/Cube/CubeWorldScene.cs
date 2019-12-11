@@ -17,7 +17,6 @@ namespace Nocubeless
 
         public CubeWorldScene(Nocubeless nocubeless) : base(nocubeless)
         {
-            //LoadedCubes = new List<Cube>();
             LoadedCubes = Nocubeless.CubeWorld.XCHEATGETCUBESDIRECTLY; // temp
 
             cubeDrawer = new CubeDrawer(Nocubeless, Nocubeless.CubeWorld.Settings.HeightOfCubes);
@@ -64,7 +63,7 @@ namespace Nocubeless
 
         public CubeWorldCoordinates GetTargetedCube() // Is not 100% trustworthy, and is not powerful, be careful
         {
-            Vector3 checkPosition = Nocubeless.Camera.Position * Nocubeless.CubeWorld.GetSceneCubeRatio();
+            Vector3 checkPosition = Nocubeless.Camera.Position * CubeWorld.GetGraphicsCubeRatio(Nocubeless.CubeWorld.Settings.HeightOfCubes);
 
             CubeWorldCoordinates actualPosition = null;
             CubeWorldCoordinates convertedCheckPosition;
@@ -90,7 +89,7 @@ namespace Nocubeless
         }
         public CubeWorldCoordinates GetTargetedNewCube() // Is not 100% trustworthy, and is not powerful, be careful
         {
-            Vector3 checkPosition = Nocubeless.Camera.Position * Nocubeless.CubeWorld.GetSceneCubeRatio();
+            Vector3 checkPosition = Nocubeless.Camera.Position * CubeWorld.GetGraphicsCubeRatio(Nocubeless.CubeWorld.Settings.HeightOfCubes);
 
             CubeWorldCoordinates oldPosition = null;
             CubeWorldCoordinates actualPosition = null;
@@ -120,7 +119,7 @@ namespace Nocubeless
 
         private void DrawCube(Cube cube, float transparency = 1.0f)
         {
-            Vector3 cubeScenePosition = Nocubeless.CubeWorld.GetCubeScenePosition(cube.Position);
+            Vector3 cubeScenePosition = CubeWorld.GetGraphicsCubePosition(cube.Position, Nocubeless.CubeWorld.Settings.HeightOfCubes);
 
             EffectMatrices effectMatrices =
                 new EffectMatrices(Nocubeless.Camera.ProjectionMatrix,

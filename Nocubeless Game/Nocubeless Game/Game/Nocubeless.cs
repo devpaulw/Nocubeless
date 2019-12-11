@@ -96,6 +96,12 @@ namespace Nocubeless
                     GraphicsDevice.DepthStencilState,
                     GraphicsDevice.RasterizerState);
 
+            //SpriteBatch.Begin(SpriteSortMode.Deferred,
+            //        BlendState.Opaque,
+            //        SamplerState.LinearWrap,
+            //        DepthStencilState.Default,
+            //        GraphicsDevice.RasterizerState);
+
             base.Draw(gameTime);
 
             SpriteBatch.End();
@@ -104,6 +110,7 @@ namespace Nocubeless
 }
 
 // DOLATER: it's in the long run "to-do list"
+// color picker
 // menu and saves
 // online
 // extra funcs

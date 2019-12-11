@@ -16,8 +16,8 @@ namespace Nocubeless
             get {
                 return new CameraSettings
                 {
-                    Fov = 70,
-                    MoveSpeed = 0.75f,
+                    Fov = 100,
+                    MoveSpeed = 1.0f,
                     MouseSensitivity = 0.175f,
                 };
             }
