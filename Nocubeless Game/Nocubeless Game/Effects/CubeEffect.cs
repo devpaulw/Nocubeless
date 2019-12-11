@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace Nocubeless
         private Matrix world;
         private Matrix view;
         private Matrix projection;
-        private Color color;
+        private Vector3 color;
         private float alpha;
         #endregion
 
@@ -48,11 +49,10 @@ namespace Nocubeless
                 projection = value;
             }
         }
-        public Color Color {
+        public Vector3 Color {
             get => color;
             set {
-                colorParam.SetValue(value.ToVector3()); // Is converted to a Vector3, because the effect don't know Color struct
-                Alpha = (float)value.A / 256; // Normalization
+                colorParam.SetValue(value); // Is converted to a Vector3, because the effect don't know Color struct
                 color = value;
             }
         }
@@ -66,7 +66,9 @@ namespace Nocubeless
         #endregion
 
         #region Methods
-        public CubeEffect(Effect source) : base(source)
+        public CubeEffect(GraphicsDevice graphicsDevice) 
+            : base(graphicsDevice, 
+            File.ReadAllBytes(@"MGContent/CubeEffect.mgfx") /*URGENT is not correct*/ /*Is not design correct x)*/)
         {
             CacheEffectParameters();
         }

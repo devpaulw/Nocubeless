@@ -41,13 +41,13 @@ namespace Nocubeless
             CubeWorld = new CubeWorld(Settings.CubeWorld /*TODO: To rename CubeWorld*/);
 
             #region Graphics Config
-            
-
+            var blendState = BlendState.AlphaBlend;
             var rasterizerState = new RasterizerState
             {
                 CullMode = CullMode.None
             };
 
+            GraphicsDevice.BlendState = blendState;
             GraphicsDevice.RasterizerState = rasterizerState;
             #endregion
 

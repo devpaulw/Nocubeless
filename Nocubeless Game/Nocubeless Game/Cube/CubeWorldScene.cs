@@ -10,9 +10,7 @@ namespace Nocubeless
 {
     class CubeWorldScene : NocubelessDrawableComponent
     {
-        private readonly ModelMeshPart cubeMeshPart; // Store rendering attributes
-        private CubeEffect effect;
-        private readonly Matrix cubeScale;
+        private readonly CubeDrawer cubeDrawer;
 
         public List<Cube> LoadedCubes { get; private set; }
         public Cube PreviewableCube { get; private set; }
@@ -22,9 +20,7 @@ namespace Nocubeless
             //LoadedCubes = new List<Cube>();
             LoadedCubes = Nocubeless.CubeWorld.XCHEATGETCUBESDIRECTLY; // temp
 
-            cubeMeshPart = Cube.LoadModel(Game.GraphicsDevice);
-            effect = new CubeEffect(Game.Content.Load<Effect>("CubeEffect")); // DESIGN: Content better handler
-            cubeScale = Matrix.CreateScale(Nocubeless.CubeWorld.Settings.HeightOfCubes);
+            cubeDrawer = new CubeDrawer(Nocubeless, Nocubeless.CubeWorld.Settings.HeightOfCubes);
         }
 
         public override void Update(GameTime gameTime)
@@ -125,27 +121,13 @@ namespace Nocubeless
         private void DrawCube(Cube cube, float transparency = 1.0f)
         {
             Vector3 cubeScenePosition = Nocubeless.CubeWorld.GetCubeScenePosition(cube.Position);
-            Matrix translation = Matrix.CreateTranslation(cubeScenePosition);
-            Matrix world = cubeScale * translation;
 
-            effect.View = Nocubeless.Camera.ViewMatrix;
-            effect.Projection = Nocubeless.Camera.ProjectionMatrix;
-            effect.World = world;
-            effect.Color = cube.Color;
-            effect.Alpha = transparency;
+            EffectMatrices effectMatrices =
+                new EffectMatrices(Nocubeless.Camera.ProjectionMatrix,
+                Nocubeless.Camera.ViewMatrix,
+                Matrix.Identity);
 
-            GraphicsDevice.SetVertexBuffer(cubeMeshPart.VertexBuffer);
-            GraphicsDevice.Indices = cubeMeshPart.IndexBuffer;
-
-            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                GraphicsDevice.DrawIndexedPrimitives(
-                PrimitiveType.TriangleList,
-                0,
-                cubeMeshPart.StartIndex,
-                cubeMeshPart.PrimitiveCount);
-            }
+            cubeDrawer.Draw(cubeScenePosition, cube.Color, effectMatrices, transparency);
         }
     }
 }

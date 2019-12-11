@@ -1,0 +1,34 @@
+3-bits Nocubeless colors principle:
+
+- R (0 - 7)
+- G (0 - 7)
+- B (0 - 7)
+RGB potential: 
+8^3= 512
+
+- H (Hue): [y] (0 - 359°)
+- S (Saturation): [x] (0 - 100%)
+- L (Lightness): parallel (0 - 100%)
+
+- Hue evolution order: (R.G.B) (6 stages)
+	- 1.0.0 -> 1.0.1
+	- 1.0.1 -> 0.0.1
+	- 0.0.1 -> 0.1.1
+	- 0.1.1 -> 0.1.0
+	- 0.1.0 -> 1.1.0
+	- 1.1.0 -> 1.0.0
+	- replay...
+
+- Comparison with 8-bits 0-255 value:
+	- 32 times smaller
+	- The 8 values compared:
+		- 0(3) = 0(8)
+		- 1(3) = 36(8)
+		- 2(3) = 73(8)
+		- 3(3) = 109(8)
+		- 4(3) = 146(8)
+		- 5(3) = 182(8)
+		- 6(3) = 219(8)
+		- 7(3) = 255(8)
+
+- Other solution: 23*22 + 6 colors in a big table -> The 3D Color Picker!

@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.29418.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nocubeless Game", "Nocubeless Game\Nocubeless Game.csproj", "{95E47F7B-A5CB-4C42-BE89-FC2AE644E8C8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3488EB75-99E9-4EAC-BFDB-930DE39C9ADC}"
+	ProjectSection(SolutionItems) = preProject
+		Color Picker mise au point.txt = Color Picker mise au point.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

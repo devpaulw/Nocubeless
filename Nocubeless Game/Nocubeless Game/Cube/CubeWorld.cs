@@ -23,7 +23,7 @@ namespace Nocubeless
 
             cubes = new List<Cube>();
 
-            /*TEST*/ LayCube(new Cube(Color.DarkBlue, new CubeWorldCoordinates(0, 0, -21))); // TestCube
+            /*TEST*/ LayCube(new Cube(Color.DarkBlue.ToVector3(), new CubeWorldCoordinates(0, 0, -21))); // TestCube
         }
 
         public void LayCube(Cube cube)

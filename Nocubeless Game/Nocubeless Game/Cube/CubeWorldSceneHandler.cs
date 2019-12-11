@@ -16,7 +16,7 @@ namespace Nocubeless
 
     internal class CubeWorldSceneHandler : NocubelessComponent // DESIGN: Does handler is really a good meaning?
     { 
-        private Color nextColor;
+        private Vector3 nextColor;
 
         private bool @break;
 
@@ -69,8 +69,7 @@ namespace Nocubeless
 
         public void OnColorPicking(object sender, ColorPickingEventArgs e) // c pas beau ça ?
         {
-            nextColor = e.CubeColor;
+            nextColor = e.Color;
         }
-
     }
 }

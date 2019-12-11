@@ -15,11 +15,36 @@ namespace Nocubeless
         private SpriteFont menuFont;
         private Rectangle menuBaseDestination;
 
+        private readonly CubeDrawer cubeDrawer;
+
         public event ColorPickingEventHandler OnColorPicking;
 
         public ColorPickerMenu(Nocubeless nocubeless, ColorPickingEventHandler onColorPicking) : base(nocubeless)
         {
             OnColorPicking += onColorPicking;
+
+            cubeDrawer = new CubeDrawer(Nocubeless, 0.1f);
+
+            test3dpicker();
+        }
+
+#pragma warning disable IDE1006 // Naming Styles
+        void test3dpicker()
+#pragma warning restore IDE1006 // Naming Styles
+        {
+            for (int x = 0; x < 8; x++)
+            {
+                for (int y = 0; y < 8; y++)
+                {
+                    for (int z = 0; z < 8; z++)
+                    {
+                        CubeWorldCoordinates newPosition = new CubeWorldCoordinates(x, y, z);
+                        CubeColor newColor = new CubeColor(x, y, z);
+                        Cube newCube = new Cube(newColor.ToVector3(), newPosition);
+                        Nocubeless.CubeWorld.LayCube(newCube);
+                    }
+                }
+            }
         }
 
         protected override void LoadContent()
@@ -47,21 +72,21 @@ namespace Nocubeless
                 }
             }
 
-            // temp test zone
+            #region temp test zone
             if (Nocubeless.Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.ShowColorPicker)
                 && Nocubeless.Input.OldKeyboardState.IsKeyUp(Nocubeless.Settings.Keys.ShowColorPicker))
             {
                 Random random = new Random();
-                int r = (int)Math.Round(random.Next(0, 256) / 17.0f) * 17, 
-                    g = (int)Math.Round(random.Next(0, 256) / 17.0f) * 17, 
-                    b = (int)Math.Round(random.Next(0, 256) / 17.0f) * 17;
+                float r = random.Next(0, 8) / 7.0f,
+                    g = random.Next(0, 8) / 7.0f,
+                    b = random.Next(0, 8) / 7.0f;
 
-                Color newColor = new Color(r, g, b);
+                Vector3 newColor = new Vector3(r, g, b);
 
-                OnColorPicking(this, new ColorPickingEventArgs() { CubeColor = newColor });
+                OnColorPicking(this, new ColorPickingEventArgs() { Color = newColor });
             }
-            // end test zone
-            
+            #endregion
+
             base.Update(gameTime);
         }
 
@@ -69,15 +94,20 @@ namespace Nocubeless
         {
             if (Nocubeless.CurrentState == NocubelessState.ColorPicking)
             {
-                Nocubeless.SpriteBatch.Draw(menuBaseTexture, menuBaseDestination, Color.Black);
-                // comming soon message temp
+                EffectMatrices effectMatrices = new EffectMatrices(Nocubeless.Camera.ProjectionMatrix, Matrix.Identity, Matrix.Identity);
 
-                Nocubeless.SpriteBatch.DrawString(menuFont,
-#pragma warning disable CA1303 // Do not pass literals as localized parameters
-                    "Color Picker Menu\nComming soon... \n\nIn the meantime, \na random color have been\ngenerated.\n\n...Press C again.",
-#pragma warning restore CA1303 // Do not pass literals as localized parameters
-                    new Vector2(menuBaseDestination.Left, menuBaseDestination.Top), 
-                    Color.LightBlue);
+                Nocubeless.SpriteBatch.Draw(menuBaseTexture, menuBaseDestination, Color.Black);
+
+                cubeDrawer.Draw(Vector3.Zero, Color.Gold.ToVector3(), effectMatrices);
+
+
+                // coming soon message temp
+                //                Nocubeless.SpriteBatch.DrawString(menuFont,
+                //#pragma warning disable CA1303 // Do not pass literals as localized parameters
+                //                    "Color Picker Menu\nComing soon... \n\nIn the meantime, \na random color have been\ngenerated.\n\n...Press C again.",
+                //#pragma warning restore CA1303 // Do not pass literals as localized parameters
+                //                    new Vector2(menuBaseDestination.Left, menuBaseDestination.Top), 
+                //                    Color.LightBlue);
             }
 
             base.Draw(gameTime);

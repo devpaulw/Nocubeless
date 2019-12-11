@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    class CubeWorldCoordinates
+    public class CubeWorldCoordinates : IEquatable<CubeWorldCoordinates>
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -27,12 +27,7 @@ namespace Nocubeless
 
         public override bool Equals(object obj)
         {
-            if (!(obj is CubeWorldCoordinates))
-                return false;
-
-            var other = (CubeWorldCoordinates)obj;
-
-            return Equals(other);
+            return Equals(obj as CubeWorldCoordinates);
         }
 
         public bool Equals(CubeWorldCoordinates other)
