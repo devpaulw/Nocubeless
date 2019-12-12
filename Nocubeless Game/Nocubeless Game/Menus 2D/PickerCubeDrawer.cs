@@ -9,9 +9,9 @@ namespace Nocubeless
 {
     class PickerCubeDrawer : GameComponent
     {
-        private CubeColor[] cubeColors;
-        private CubeDrawer cubeDrawer;
-        private EffectMatrices effectMatrices;
+        private readonly CubeColor[] cubeColors;
+        private readonly CubeDrawer cubeDrawer;
+        private readonly EffectMatrices effectMatrices;
 
         public float Height { get; set; }
 
