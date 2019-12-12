@@ -1,4 +1,4 @@
-﻿/* Parallel Binary Bluff branch */
+﻿/* Parallel SpydotNet branch */
 /* Last updated 12/12/2019 */
 /* Collision purpose, good luck. */
 
