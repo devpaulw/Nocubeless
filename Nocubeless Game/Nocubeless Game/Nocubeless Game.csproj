@@ -62,7 +62,7 @@
     <Compile Include="Game\NocubelessComponent.cs" />
     <Compile Include="Game\NocubelessDrawableComponent.cs" />
     <Compile Include="Game\NocubelessInput.cs" />
-    <Compile Include="Menus 2D\PickerCubeDrawer.cs" />
+    <Compile Include="Menus 2D\PickerCube.cs" />
     <Compile Include="Three Dimensional\Camera.cs" />
     <Compile Include="Menus 2D\ColorPickerMenu.cs" />
     <Compile Include="Cube\CubeWorldSceneHandler.cs" />

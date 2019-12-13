@@ -1,6 +1,4 @@
 ﻿/* Parallel SpydotNet branch */
-/* Last updated 12/12/2019 */
-/* Collision purpose, good luck. */
 
 using System;
 using System.Collections.Generic;
@@ -43,7 +41,7 @@ namespace Nocubeless
 
             Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
             CubeWorld = new CubeWorld(Settings.CubeWorld /*TODO: To rename CubeWorld*/);
-
+            
             #region Graphics Config
             var blendState = BlendState.AlphaBlend;
             var rasterizerState = new RasterizerState

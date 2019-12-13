@@ -19,13 +19,13 @@ namespace Nocubeless
         private SpriteFont menuFont;
         private Rectangle menuBaseDestination;
 
-        private readonly PickerCubeDrawer pickerCube;
+        private readonly PickerCube pickerCube;
 
         public ColorPickerMenu(Nocubeless nocubeless, ColorPickingEventHandler onColorPicking) : base(nocubeless)
         {
             OnColorPicking += onColorPicking;
 
-            pickerCube = new PickerCubeDrawer(Nocubeless, 0.1f);
+            pickerCube = new PickerCube(Nocubeless, 0.1f);
             pickerCube.Rotate(45.0f, 45.0f, 0.0f);
         }
 

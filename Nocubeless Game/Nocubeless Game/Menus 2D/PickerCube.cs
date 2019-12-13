@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    class PickerCubeDrawer : GameComponent
+    class PickerCube : GameComponent
     {
         private readonly CubeColor[] cubeColors;
         private readonly CubeDrawer cubeDrawer;
@@ -15,7 +15,7 @@ namespace Nocubeless
 
         public float Height { get; set; }
 
-        public PickerCubeDrawer(Game game, float height) : base(game)
+        public PickerCube(Game game, float height) : base(game)
         {
             Height = height;
 
@@ -37,8 +37,6 @@ namespace Nocubeless
 
         public void Draw(Vector2 position)
         {
-            /*tmp*/ ;
-
             float cubeRatio = CubeWorld.GetGraphicsCubeRatio(Height);
 
             for (int x = 0; x < 0b1000; x++)
@@ -52,7 +50,7 @@ namespace Nocubeless
                             position.Y + (y / cubeRatio), 
                             z / cubeRatio),
 
-                            cubeColors[x + (y * 0b1000) + (z * 0b1000 * 0b1000)].ToVector3(),
+                            cubeColors[x + (y * 0b1000) + (z * 0b1000000)].ToVector3(),
                             effectMatrices); // not right order
                     }
                 }
@@ -89,10 +87,11 @@ namespace Nocubeless
                     for (int z = 0; z < 0b1000; z++)
                     {
                         CubeColor newColor = new CubeColor(x, y, z);
-                        createdCubeColors[x + (y * 0b1000) + (z * 0b1000 * 0b1000)] = newColor;
+                        createdCubeColors[x + (y * 0b1000) + (z * 0b1000000)] = newColor;
                     }
                 }
             }
+
         }
     }
 }
