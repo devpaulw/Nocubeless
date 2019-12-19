@@ -20,7 +20,7 @@ namespace Nocubeless
             Height = height;
 
             CreateColors(out cubeColors);
-            cubeDrawer = new CubeDrawer(Game, 0.1f); // BUG: lol bug
+            cubeDrawer = new CubeDrawer(Game, Height); // BUG: lol bug
 
             #region Effect Matrices Set-up
             var fov = MathHelper.PiOver2;
@@ -35,7 +35,7 @@ namespace Nocubeless
             #endregion
         }
 
-        public void Draw(Vector2 position)
+        public void Draw(Vector2 position) // DOLATER: Put position as a constructior member instead! // And Moreover, the position is not coherent to the 2d representation
         {
             float cubeRatio = CubeWorld.GetGraphicsCubeRatio(Height);
 
@@ -45,11 +45,10 @@ namespace Nocubeless
                 {
                     for (int z = 0; z < 0b1000; z++)
                     {
-                        cubeDrawer.Draw(
-                            new Vector3(position.X + (x / cubeRatio), 
-                            position.Y + (y / cubeRatio), 
-                            z / cubeRatio),
-
+                        cubeDrawer.Draw( // DESIGN:! Why should I remake cubeRatio concept?
+                            new Vector3(position.X + ((x - 3.5f) / cubeRatio), 
+                            position.Y + ((y - 3.5f) / cubeRatio),
+                            (z - 3.5f) / cubeRatio),
                             cubeColors[x + (y * 0b1000) + (z * 0b1000000)].ToVector3(),
                             effectMatrices); // not right order
                     }
@@ -58,22 +57,24 @@ namespace Nocubeless
 
         }
 
-        public void Rotate(float xAxis, float yAxis, float zAxis)
+        public void RotateX(float axis) // rotation with origin should be respected
         {
-            effectMatrices.World *=
-                Matrix.CreateRotationX(MathHelper.ToRadians(xAxis)) *
-                Matrix.CreateRotationY(MathHelper.ToRadians(yAxis)) *
-                Matrix.CreateRotationZ(MathHelper.ToRadians(zAxis));
+            effectMatrices.World *= Matrix.CreateRotationX(MathHelper.ToRadians(axis));
+        }
+
+        public void RotateY(float axis)
+        {
+            effectMatrices.World *= Matrix.CreateRotationY(MathHelper.ToRadians(axis));
+        }
+
+        public void RotateZ(float axis)
+        {
+            effectMatrices.World *= Matrix.CreateRotationZ(MathHelper.ToRadians(axis));
         }
 
         public void Unsqueeze(float strength)
         {
             Height += strength; // Have to be proportional
-            /*tmp*/ if (Height > 0.35f)
-            {
-                Height = 0.1f;
-            }
-                
         } 
 
         private void CreateColors(out CubeColor[] createdCubeColors)

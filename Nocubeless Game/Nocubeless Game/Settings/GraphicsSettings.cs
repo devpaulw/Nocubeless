@@ -37,7 +37,7 @@ namespace Nocubeless
                 return new GraphicsSettings
                 {
                     Framerate = 120,
-                    UnlimitedFramerate = false,
+                    UnlimitedFramerate = true,
                     VSync =  true,
                     FullScreen = false,
                 };

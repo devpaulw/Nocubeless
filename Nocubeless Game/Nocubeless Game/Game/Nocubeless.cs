@@ -16,7 +16,6 @@ namespace Nocubeless
     {
         private readonly GraphicsDeviceManager graphicsDeviceManager;
 
-        public NocubelessInput Input { get; set; }
         public SpriteBatch SpriteBatch { get; set; }
         public NocubelessSettings Settings { get; set; }
         public NocubelessState CurrentState { get; set; }
@@ -36,7 +35,6 @@ namespace Nocubeless
 
         protected override void Initialize()
         {
-            Input = new NocubelessInput();
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
@@ -78,19 +76,19 @@ namespace Nocubeless
             if (!IsActive) // Don't take in care when window is not focused
                 return;
 
-            Input.ReloadCurrentStates();
+            GameInput.ReloadCurrentStates();
 
-            if (Input.CurrentKeyboardState.IsKeyDown(Keys.Escape))
+            if (GameInput.CurrentKeyboardState.IsKeyDown(Keys.Escape))
                 Exit();
 
             base.Update(gameTime);
 
-            Input.ReloadOldStates();
+            GameInput.ReloadOldStates();
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.DarkGray);
+            GraphicsDevice.Clear(new Color(149, 165, 166));
 
             SpriteBatch.Begin(SpriteSortMode.Deferred,
                     GraphicsDevice.BlendState,

@@ -8,6 +8,6 @@ namespace Nocubeless
 {
     enum NocubelessState
     {
-        Playing, ColorPicking
+        Playing, ColorPicking, TextBoxEditing
     }
 }
