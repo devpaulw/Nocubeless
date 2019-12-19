@@ -51,6 +51,8 @@ namespace Nocubeless
             return requestedCube;
         }
 
+        
+
         #region Static
         public static Vector3 GetGraphicsCubePosition(CubeWorldCoordinates cubePosition, float heightOfCubes) // cube position in graphics representation.
         {

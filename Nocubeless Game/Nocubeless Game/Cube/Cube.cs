@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    class Cube
+    internal class Cube
     {
         public CubeWorldCoordinates Position { get; set; }
         public Vector3 Color { get; set; }

@@ -1,8 +1,4 @@
-﻿/* Parallel Binary Bluff branch */
-/* Last updated 12/12/2019 */
-/* Collision purpose, good luck. */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -99,6 +95,12 @@ namespace Nocubeless
                     null,
                     GraphicsDevice.DepthStencilState,
                     GraphicsDevice.RasterizerState);
+
+            //SpriteBatch.Begin(SpriteSortMode.Deferred,
+            //        BlendState.Opaque,
+            //        SamplerState.LinearWrap,
+            //        DepthStencilState.Default,
+            //        GraphicsDevice.RasterizerState);
 
             base.Draw(gameTime);
 
