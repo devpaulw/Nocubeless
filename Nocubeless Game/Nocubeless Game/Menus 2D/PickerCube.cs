@@ -37,7 +37,7 @@ namespace Nocubeless
 
         public void Draw(Vector2 position) // DOLATER: Put position as a constructior member instead! // And Moreover, the position is not coherent to the 2d representation
         {
-            float cubeRatio = CubeWorld.GetGraphicsCubeRatio(Height);
+            float cubeRatio = 1.0f / Height / 2.0f; ;
 
             for (int x = 0; x < 0b1000; x++)
             {

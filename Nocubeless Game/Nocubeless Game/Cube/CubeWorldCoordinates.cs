@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    public class CubeWorldCoordinates : IEquatable<CubeWorldCoordinates>
+    public class Coordinates : IEquatable<Coordinates>
     {
         public int X { get; set; }
         public int Y { get; set; }
         public int Z { get; set; }
 
-        public CubeWorldCoordinates(int x, int y, int z)
+        public Coordinates(int x, int y, int z)
         {
             X = x;
             Y = y;
@@ -27,10 +27,10 @@ namespace Nocubeless
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as CubeWorldCoordinates);
+            return Equals(obj as Coordinates);
         }
 
-        public bool Equals(CubeWorldCoordinates other)
+        public bool Equals(Coordinates other)
         {
             return X == other.X &&
                 Y == other.Y &&
@@ -48,11 +48,11 @@ namespace Nocubeless
         }
     }
 
-    internal static class CubeCoordinateExtension
+    internal static class CoordinateExtension
     {
-        public static CubeWorldCoordinates ToCubeCoordinate(this Vector3 position)
+        public static Coordinates ToCubeCoordinate(this Vector3 position)
         {
-            return new CubeWorldCoordinates((int)Math.Round(position.X), (int)Math.Round(position.Y), (int)Math.Round(position.Z));
+            return new Coordinates((int)Math.Round(position.X), (int)Math.Round(position.Y), (int)Math.Round(position.Z));
         }
     }
 }

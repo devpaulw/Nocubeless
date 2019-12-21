@@ -50,7 +50,7 @@ namespace Nocubeless
 
             SetupRGBTextBoxes(out textBoxR, out textBoxG, out textBoxB);
 
-            pickerCube = new PickerCube(Nocubeless, 0.1f);
+            pickerCube = new PickerCube(Nocubeless, 0.175f);
             pickerCube.RotateY(45.0f);
 
             base.LoadContent();
@@ -87,7 +87,7 @@ namespace Nocubeless
 
                     CubeColor newColor = new CubeColor(r, g, b);
 
-                    OnColorPicking(this, new ColorPickingEventArgs() { Color = newColor.ToVector3() });
+                    OnColorPicking(this, new ColorPickingEventArgs() { Color = newColor });
                 }
                 catch (FormatException) { } // conversion error
                 #endregion

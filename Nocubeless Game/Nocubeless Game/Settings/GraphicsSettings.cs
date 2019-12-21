@@ -14,6 +14,7 @@ namespace Nocubeless
         public bool UnlimitedFramerate { get; set; }
         public bool VSync { get; set; }
         public bool FullScreen { get; set; }
+        public int ChunkViewDistance { get; set; }
 
         public void SetToGame(Game game, GraphicsDeviceManager graphicsDeviceManager)
         {
@@ -39,7 +40,8 @@ namespace Nocubeless
                     Framerate = 120,
                     UnlimitedFramerate = true,
                     VSync =  true,
-                    FullScreen = false,
+                    FullScreen = true,
+                    ChunkViewDistance = 4
                 };
             }
         }

@@ -52,12 +52,12 @@ namespace Nocubeless
             #endregion
 
             #region Components Linking
-            var cameraInput = new CameraInputComponent(this);
+            var cameraHandler = new CameraHandler(this);
             var cubeWorldScene = new CubeWorldScene(this);
             var cubeWorldSceneHandler = new CubeWorldSceneHandler(this, cubeWorldScene);
             var colorPickerMenu = new ColorPickerMenu(this, cubeWorldSceneHandler.OnColorPicking);
 
-            Components.Add(cameraInput);
+            Components.Add(cameraHandler);
             Components.Add(cubeWorldScene);
             Components.Add(cubeWorldSceneHandler);
             Components.Add(colorPickerMenu);
@@ -104,7 +104,6 @@ namespace Nocubeless
 }
 
 // DOLATER: it's in the long run "to-do list"
-// color picker
 // menu and saves
 // online
 // extra funcs

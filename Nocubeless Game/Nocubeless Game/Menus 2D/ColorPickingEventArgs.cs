@@ -11,6 +11,6 @@ namespace Nocubeless
 
     class ColorPickingEventArgs : EventArgs
     {
-        public Vector3 Color { get; set; }
+        public CubeColor Color { get; set; }
     }
 }

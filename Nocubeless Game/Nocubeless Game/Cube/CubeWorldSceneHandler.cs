@@ -8,15 +8,9 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    // TODO: break cubes with effect (same for lay), Design Up
-    // On Color Picking event (with color EventArgs) -> World.NextPreviewCube
-    // -> CubeHandler can use it
-
-    // OnLayCube Event? OnBreakCube?
-
-    internal class CubeWorldSceneHandler : NocubelessComponent // DESIGN: Does handler is really a good meaning?
+    internal class CubeWorldSceneHandler : NocubelessComponent
     { 
-        private Vector3 nextColor;
+        private CubeColor nextColor;
 
         private bool @break;
 
@@ -39,7 +33,7 @@ namespace Nocubeless
 
             if (!@break)
             {
-                CubeWorldCoordinates previewCubePosition = Scene.GetTargetedNewCube();
+                Coordinates previewCubePosition = CubeWorldSceneHelper.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.CubeWorld, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
                 Cube newCube = new Cube(nextColor, previewCubePosition);
                 { // Prev
                     Scene.PreviewCube(newCube);
@@ -59,7 +53,7 @@ namespace Nocubeless
                 if (GameInput.CurrentMouseState.LeftButton == ButtonState.Pressed 
                     && GameInput.OldMouseState.LeftButton == ButtonState.Released)
                 {
-                    CubeWorldCoordinates toBreakCube = Scene.GetTargetedCube();
+                    Coordinates toBreakCube = CubeWorldSceneHelper.GetTargetedCube(Nocubeless.Camera, Nocubeless.CubeWorld, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
                     Nocubeless.CubeWorld.BreakCube(toBreakCube); // DESIGN: You know the way
                 }
             }
