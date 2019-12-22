@@ -26,6 +26,7 @@ namespace Nocubeless
             OnColorPicking += onColorPicking;
 
             pickerCube = new PickerCubeDrawer(Nocubeless, 0.1f);
+            pickerCube.Rotate(45.0f, 45.0f, 0.0f);
         }
 
 
@@ -80,8 +81,8 @@ namespace Nocubeless
                 //EffectMatrices effectMatrices = new EffectMatrices(Nocubeless.Camera.ProjectionMatrix, Matrix.Identity, Matrix.Identity);
 
                 pickerCube.Draw(Vector2.Zero);
-                pickerCube.Rotate(0.2f, 0.2f, 0.2f);
                 pickerCube.Unsqueeze(0.001f);
+                pickerCube.Rotate(0.0f, 0.5f, 0.0f);
 
                 //Nocubeless.SpriteBatch.Draw(menuBaseTexture, menuBaseDestination, Color.Black);
 

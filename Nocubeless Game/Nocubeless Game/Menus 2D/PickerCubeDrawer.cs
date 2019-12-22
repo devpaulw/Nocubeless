@@ -9,9 +9,9 @@ namespace Nocubeless
 {
     class PickerCubeDrawer : GameComponent
     {
-        private CubeColor[] cubeColors;
-        private CubeDrawer cubeDrawer;
-        private EffectMatrices effectMatrices;
+        private readonly CubeColor[] cubeColors;
+        private readonly CubeDrawer cubeDrawer;
+        private readonly EffectMatrices effectMatrices;
 
         public float Height { get; set; }
 
@@ -39,7 +39,7 @@ namespace Nocubeless
         {
             /*tmp*/ ;
 
-           float cubeRatio = CubeWorld.GetGraphicsCubeRatio(Height);
+            float cubeRatio = CubeWorld.GetGraphicsCubeRatio(Height);
 
             for (int x = 0; x < 0b1000; x++)
             {

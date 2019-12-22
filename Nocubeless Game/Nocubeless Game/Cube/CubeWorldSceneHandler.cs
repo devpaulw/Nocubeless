@@ -59,7 +59,6 @@ namespace Nocubeless
                 if (Nocubeless.Input.CurrentMouseState.LeftButton == ButtonState.Pressed 
                     && Nocubeless.Input.OldMouseState.LeftButton == ButtonState.Released)
                 {
-
                     CubeWorldCoordinates toBreakCube = Scene.GetTargetedCube();
                     Nocubeless.CubeWorld.BreakCube(toBreakCube); // DESIGN: You know the way
                 }
