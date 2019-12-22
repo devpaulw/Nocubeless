@@ -38,7 +38,6 @@ namespace Nocubeless
 
             return value;
         }
-
         public static int GetRemainder(int value) // x < 0 please // DESIGN: Do I update this method using?
         {
             int remainder = value % CubeChunk.Size;

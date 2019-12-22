@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3488EB75-99E9-4EAC-BFDB-930DE39C9ADC}"
 	ProjectSection(SolutionItems) = preProject
 		Color Picker mise au point.txt = Color Picker mise au point.txt
+		Nocubeless Game\bin\Debug\save.nws = Nocubeless Game\bin\Debug\save.nws
 	EndProjectSection
 EndProject
 Global

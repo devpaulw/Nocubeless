@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class CubeWorldSceneHandler : NocubelessComponent
+    internal class CubeWorldSceneInput : NocubelessComponent
     { 
         private CubeColor nextColor;
 
@@ -16,7 +16,7 @@ namespace Nocubeless
 
         public CubeWorldScene Scene { get; set; }
 
-        public CubeWorldSceneHandler(Nocubeless nocubeless, CubeWorldScene scene) : base(nocubeless)
+        public CubeWorldSceneInput(Nocubeless nocubeless, CubeWorldScene scene) : base(nocubeless)
         {
             Scene = scene;
         }

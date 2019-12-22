@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class CameraHandler : NocubelessComponent
+    internal class CameraInput : NocubelessComponent
     {
         private int cursorSet;
 
@@ -28,7 +28,7 @@ namespace Nocubeless
             }
         }
 
-        public CameraHandler(Nocubeless nocubeless) : base(nocubeless) { }
+        public CameraInput(Nocubeless nocubeless) : base(nocubeless) { }
 
         public override void Update(GameTime gameTime)
         {

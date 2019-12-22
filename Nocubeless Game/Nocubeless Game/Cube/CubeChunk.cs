@@ -11,6 +11,7 @@ namespace Nocubeless
     class CubeChunk
     {
         public const int Size = 8; /*tmp 4!*/
+        public const int TotalSize = Size * Size * Size;
 
         private CubeColor[] cubeColors;
 
@@ -30,8 +31,6 @@ namespace Nocubeless
             Coordinates = coordinates;
 
             cubeColors = new CubeColor[Size * Size * Size];
-            ///*tmp*/ for (int i = 0; i < Size * Size * Size; i++)
-            //    cubeColors[i] = new CubeColor(0, 0, 7);
         }
     }
 }
