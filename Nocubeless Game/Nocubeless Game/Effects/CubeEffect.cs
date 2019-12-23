@@ -67,8 +67,7 @@ namespace Nocubeless
 
         #region Methods
         public CubeEffect(GraphicsDevice graphicsDevice) 
-            : base(graphicsDevice, 
-            File.ReadAllBytes(@"MGContent/CubeEffect.mgfx") /*URGENT is not correct*/ /*Is not design correct x)*/)
+            : base(graphicsDevice, File.ReadAllBytes(@"MGContent/CubeEffect.mgfx")/*Is not design correct x)*/)
         {
             CacheEffectParameters();
         }

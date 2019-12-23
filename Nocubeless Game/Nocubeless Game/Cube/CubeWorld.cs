@@ -11,56 +11,86 @@ namespace Nocubeless
 {
     class CubeWorld
     {
-        public List<Cube> XCHEATGETCUBESDIRECTLY { get { return cubes; } } // not allowed, but before chunk
+        public CubeWorldSettings Settings { get; }
+        public ICubeWorldHandler Handler { get; }
 
-        private List<Cube> cubes;
-
-        public CubeWorldSettings Settings { get; set; }
-
-        public CubeWorld(CubeWorldSettings settings)
+        public CubeWorld(CubeWorldSettings settings, ICubeWorldHandler handler)
         {
-            Settings = settings; // Is not correct for the long term
-
-            cubes = new List<Cube>();
-
-            /*TEST*/ LayCube(new Cube(Color.DarkBlue.ToVector3(), new CubeWorldCoordinates(0, 0, -21))); // TestCube
+            Settings = settings;
+            Handler = handler;
         }
 
         public void LayCube(Cube cube)
         {
-            cubes.Add(cube);
+            var chunkCoordinates = CubeChunkHelper.FindBaseCoordinates(cube.Coordinates);
+
+            var updatedChunk = Handler.GetChunkAt(chunkCoordinates);
+
+            int cubePositionInChunk = CubeChunkHelper.GetPositionFromCoordinates(cube.Coordinates);
+
+            updatedChunk[cubePositionInChunk] = cube.Color;
+
+            Handler.SetChunk(updatedChunk);
         }
 
-        public void BreakCube(CubeWorldCoordinates position)
+        public void BreakCube(Coordinates coordinates)
         {
-            if (position == null)
-                return;
+            var chunkCoordinates = CubeChunkHelper.FindBaseCoordinates(coordinates);
 
-            for (int i = 0; i < cubes.Count; i++)
-                if (cubes[i].Position.Equals(position))
-                    cubes.RemoveAt(i);
+            var updatedChunk = Handler.GetChunkAt(chunkCoordinates);
+
+            int cubePositionInChunk = CubeChunkHelper.GetPositionFromCoordinates(coordinates);
+
+            updatedChunk[cubePositionInChunk] = new CubeColor(0, 0, 0);
+
+            Handler.SetChunk(updatedChunk);
         }
 
-        public Cube GetCube(CubeWorldCoordinates position)
+        public CubeChunk GetChunkAt(Coordinates coordinates)
         {
-            var requestedCube = (from cube in cubes
-                                 where cube.Position.Equals(position)
-                                 select cube)
-                                 .FirstOrDefault();
+            var gotChunk = Handler.GetChunkAt(coordinates);
 
-            return requestedCube;
+            if (gotChunk == null) //create one if it does not exist
+            {
+                var newCreatedChunk = new CubeChunk(coordinates);
+                Handler.SetChunk(newCreatedChunk);
+
+                return Handler.GetChunkAt(coordinates);
+            }
+
+            return gotChunk;
         }
 
-        #region Static
-        public static Vector3 GetGraphicsCubePosition(CubeWorldCoordinates cubePosition, float heightOfCubes) // cube position in graphics representation.
+        public void LayChunk(CubeChunk chunk)
+        { // TODO: Is that useless?
+            Handler.SetChunk(chunk);
+        }
+
+        public bool IsFreeSpace(Coordinates coordinates)
         {
-            return cubePosition.ToVector3() / GetGraphicsCubeRatio(heightOfCubes);
+            var chunkCoordinates = CubeChunkHelper.FindBaseCoordinates(coordinates);
+
+            var gotChunk = Handler.GetChunkAt(chunkCoordinates);
+
+            int cubePositionInChunk = CubeChunkHelper.GetPositionFromCoordinates(coordinates);
+
+            if (!gotChunk[cubePositionInChunk].Equals(new CubeColor(0, 0, 0)))
+                return false;
+
+            return true;
         }
 
-        public static float GetGraphicsCubeRatio(float heightOfCubes) // how much is a cube smaller/bigger in the graphics representation?
+        public Vector3 GetGraphicsCubePosition(Coordinates cubePosition) // cube position in graphics representation.
         {
-            return 1.0f / heightOfCubes / 2.0f;
+            return cubePosition.ToVector3() / GetGraphicsCubeRatio();
         }
-        #endregion
+        public Coordinates GetCoordinatesFromGraphics(Vector3 position)
+        {
+            return (position * GetGraphicsCubeRatio()).ToCubeCoordinate();
+        }
+        public float GetGraphicsCubeRatio() // how much is a cube smaller/bigger in the graphics representation?
+        {
+            return 1.0f / Settings.HeightOfCubes / 2.0f;
+        }
     }
 }

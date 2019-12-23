@@ -1,6 +1,4 @@
-﻿/* Parallel Binary Bluff branch */
-/* Last updated 12/12/2019 */
-/* Collision purpose, good luck. */
+﻿/* Parallel SpydotNet branch */
 
 using System;
 using System.Collections.Generic;
@@ -18,7 +16,6 @@ namespace Nocubeless
     {
         private readonly GraphicsDeviceManager graphicsDeviceManager;
 
-        public NocubelessInput Input { get; set; }
         public SpriteBatch SpriteBatch { get; set; }
         public NocubelessSettings Settings { get; set; }
         public NocubelessState CurrentState { get; set; }
@@ -34,16 +31,31 @@ namespace Nocubeless
 
             Settings = NocubelessSettings.Default;
             Settings.Graphics.SetToGame(this, graphicsDeviceManager);
+
+            #region Test Zone
+            //var testSave = new CubeWorldSaveHandler(@"save.nws");
+
+            //var rnd = new Random();
+
+            //var testChunk = new CubeChunk(new Coordinates(-8, -8, -8));
+            ///*tmp*/
+            //for (int i = 0; i < CubeChunk.TotalSize; i++)
+            //    testChunk[i] = new CubeColor(rnd.Next(0, 8), rnd.Next(0, 8), rnd.Next(0, 8));
+
+            //testSave.SetChunk(testChunk);
+
+            //testSave.GetChunkAt(new Coordinates(0, 0, 0));
+
+            #endregion
         }
 
         protected override void Initialize()
         {
-            Input = new NocubelessInput();
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
-            CubeWorld = new CubeWorld(Settings.CubeWorld /*TODO: To rename CubeWorld*/);
-
+            CubeWorld = new CubeWorld(Settings.CubeWorld, new CubeWorldSaveHandler(@"save.nws"));
+            
             #region Graphics Config
             var blendState = BlendState.AlphaBlend;
             var rasterizerState = new RasterizerState
@@ -56,12 +68,12 @@ namespace Nocubeless
             #endregion
 
             #region Components Linking
-            var cameraInput = new CameraInputComponent(this);
+            var cameraHandler = new CameraInput(this);
             var cubeWorldScene = new CubeWorldScene(this);
-            var cubeWorldSceneHandler = new CubeWorldSceneHandler(this, cubeWorldScene);
+            var cubeWorldSceneHandler = new CubeWorldSceneInput(this, cubeWorldScene);
             var colorPickerMenu = new ColorPickerMenu(this, cubeWorldSceneHandler.OnColorPicking);
 
-            Components.Add(cameraInput);
+            Components.Add(cameraHandler);
             Components.Add(cubeWorldScene);
             Components.Add(cubeWorldSceneHandler);
             Components.Add(colorPickerMenu);
@@ -80,19 +92,19 @@ namespace Nocubeless
             if (!IsActive) // Don't take in care when window is not focused
                 return;
 
-            Input.ReloadCurrentStates();
+            GameInput.ReloadCurrentStates();
 
-            if (Input.CurrentKeyboardState.IsKeyDown(Keys.Escape))
+            if (GameInput.CurrentKeyboardState.IsKeyDown(Keys.Escape))
                 Exit();
 
             base.Update(gameTime);
 
-            Input.ReloadOldStates();
+            GameInput.ReloadOldStates();
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.DarkGray);
+            GraphicsDevice.Clear(new Color(149, 165, 166));
 
             SpriteBatch.Begin(SpriteSortMode.Deferred,
                     GraphicsDevice.BlendState,
@@ -108,7 +120,6 @@ namespace Nocubeless
 }
 
 // DOLATER: it's in the long run "to-do list"
-// color picker
 // menu and saves
 // online
 // extra funcs
