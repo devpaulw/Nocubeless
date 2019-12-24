@@ -31,30 +31,33 @@ namespace Nocubeless
                 }
             }
 
-            if (!@break)
+            if (Nocubeless.CurrentState == NocubelessState.Playing)
             {
-                Coordinates previewCubePosition = CubeWorldSceneHelper.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.CubeWorld, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
-                Cube newCube = new Cube(nextColor, previewCubePosition);
-                { // Prev
-                    Scene.PreviewCube(newCube);
-                }
-                { // Lay
-                    if (GameInput.CurrentMouseState.RightButton == ButtonState.Pressed 
-                        && GameInput.OldMouseState.RightButton == ButtonState.Released)
-                    {
-                        Scene.LayPreviewedCube();
+                if (!@break)
+                {
+                    Coordinates previewCubePosition = CubeWorldScene.Helper.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.CubeWorld, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+                    Cube newCube = new Cube(nextColor, previewCubePosition);
+                    { // Prev
+                        Scene.PreviewCube(newCube);
+                    }
+                    { // Lay
+                        if (GameInput.CurrentMouseState.RightButton == ButtonState.Pressed
+                            && GameInput.OldMouseState.RightButton == ButtonState.Released)
+                        {
+                            Scene.LayPreviewedCube();
+                        }
                     }
                 }
-            }
-            else
-            { // Break
-                Scene.PreviewCube(null);
+                else
+                { // Break
+                    Scene.PreviewCube(null);
 
-                if (GameInput.CurrentMouseState.LeftButton == ButtonState.Pressed 
-                    && GameInput.OldMouseState.LeftButton == ButtonState.Released)
-                {
-                    Coordinates toBreakCube = CubeWorldSceneHelper.GetTargetedCube(Nocubeless.Camera, Nocubeless.CubeWorld, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
-                    Nocubeless.CubeWorld.BreakCube(toBreakCube); // DESIGN: You know the way
+                    if (GameInput.CurrentMouseState.LeftButton == ButtonState.Pressed
+                        && GameInput.OldMouseState.LeftButton == ButtonState.Released)
+                    {
+                        Coordinates toBreakCube = CubeWorldScene.Helper.GetTargetedCube(Nocubeless.Camera, Nocubeless.CubeWorld, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+                        Nocubeless.CubeWorld.BreakCube(toBreakCube); // DESIGN: You know the way
+                    }
                 }
             }
 

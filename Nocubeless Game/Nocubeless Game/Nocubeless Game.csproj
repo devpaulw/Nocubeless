@@ -71,10 +71,8 @@
   <ItemGroup>
     <Compile Include="Cube\CubeChunk.cs" />
     <Compile Include="Cube\CubeChunkDrawer.cs" />
-    <Compile Include="Cube\CubeChunkHelper.cs" />
     <Compile Include="Cube\CubeColor.cs" />
     <Compile Include="Cube\CubeDrawer.cs" />
-    <Compile Include="Cube\CubeWorldSceneHelper.cs" />
     <Compile Include="Menus 2D\ColorPickingEventArgs.cs" />
     <Compile Include="Cube\CubeWorldScene.cs" />
     <Compile Include="Game\NocubelessState.cs" />
@@ -86,7 +84,7 @@
     <Compile Include="Menus 2D\TextInput.cs" />
     <Compile Include="Save System\ICubeWorldHandler.cs" />
     <Compile Include="Save System\CubeWorldSaveHandler.cs" />
-    <Compile Include="ShallowCubeWorldHandler.cs" />
+    <Compile Include="Cube\ShallowCubeWorldHandler.cs" />
     <Compile Include="Three Dimensional\Camera.cs" />
     <Compile Include="Menus 2D\ColorPickerMenu.cs" />
     <Compile Include="Cube\CubeWorldSceneInput.cs" />

@@ -54,7 +54,7 @@ namespace Nocubeless
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
-            CubeWorld = new CubeWorld(Settings.CubeWorld, new CubeWorldSaveHandler(@"save.nws"));
+            CubeWorld = new CubeWorld(Settings.CubeWorld, new ShallowCubeWorldHandler());
             
             #region Graphics Config
             var blendState = BlendState.AlphaBlend;

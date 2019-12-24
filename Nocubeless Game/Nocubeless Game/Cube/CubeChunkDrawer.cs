@@ -25,7 +25,7 @@ namespace Nocubeless
             cubeScale = Matrix.CreateScale(HeightOfCubes);
         }
 
-        public void Draw(CubeChunk chunk, Vector3 position, float gap, EffectMatrices effectMatrices)
+        public void Draw(CubeChunk chunk, Vector3 position, float gap, EffectMatrices effectMatrices) // TO-OPTIMIZE
         {
             cubeEffect.View = effectMatrices.View;
             cubeEffect.Projection = effectMatrices.Projection;
@@ -39,7 +39,7 @@ namespace Nocubeless
                 {
                     for (int z = 0; z < CubeChunk.Size; z++)
                     {
-                        if (chunk[x + (y * CubeChunk.Size) + (z * CubeChunk.Size * CubeChunk.Size)].Equals(new CubeColor(0, 0, 0))) // TEMP: it's because a struct cannot be null
+                        if (chunk[x + (y * CubeChunk.Size) + (z * CubeChunk.Size * CubeChunk.Size)].Equals(CubeColor.Empty)) // TEMP: it's because a struct cannot be null
                             continue;
 
                         Vector3 cubePosition = new Vector3(position.X + (x * gap), position.Y + (y * gap), position.Z + (z * gap));

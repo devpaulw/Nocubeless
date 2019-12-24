@@ -67,7 +67,7 @@ namespace Nocubeless
                 {
                     for (int z = min; z < max; z += CubeChunk.Size)
                     { // explore chunks to load
-                        var chunkCoordinates = CubeChunkHelper.FindBaseCoordinates(new Coordinates(playerCoordinates.X + x, playerCoordinates.Y + y, playerCoordinates.Z + z));
+                        var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(new Coordinates(playerCoordinates.X + x, playerCoordinates.Y + y, playerCoordinates.Z + z));
                         mentionedChunks.Add(chunkCoordinates);
 
                         var requestedChunks = from chunk in LoadedChunks
@@ -112,6 +112,65 @@ namespace Nocubeless
                 Matrix.Identity);
 
             cubeDrawer.Draw(cubeScenePosition, cube.Color.ToVector3(), effectMatrices, transparency);
+        }
+
+        public static class Helper
+        {
+            public static Coordinates GetTargetedCube(Camera camera, CubeWorld cubeWorld, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
+            {
+                Vector3 checkPosition = camera.Position * cubeWorld.GetGraphicsCubeRatio();
+
+                Coordinates actualPosition = null;
+                Coordinates convertedCheckPosition;
+
+                const int checkIntensity = 100;
+                float checkIncrement = (float)maxLayingDistance / checkIntensity;
+
+                for (int i = 0; i < checkIntensity; i++)
+                { // in World, is free space
+                    checkPosition += camera.Front * checkIncrement; // increment check zone
+                    convertedCheckPosition = checkPosition.ToCubeCoordinate();
+
+                    if (convertedCheckPosition != actualPosition)
+                    {
+                        if (!cubeWorld.IsFreeSpace(convertedCheckPosition)) // check if it's a free space
+                            return convertedCheckPosition;
+                    }
+
+                    actualPosition = convertedCheckPosition;
+                }
+
+                return null;
+            }
+            public static Coordinates GetTargetedNewCube(Camera camera, CubeWorld cubeWorld, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
+            {
+                Vector3 checkPosition = camera.Position * cubeWorld.GetGraphicsCubeRatio();
+
+                Coordinates oldPosition = null;
+                Coordinates actualPosition = null;
+                Coordinates convertedCheckPosition;
+
+                const int checkIntensity = 100;
+                float checkIncrement = (float)maxLayingDistance / checkIntensity;
+
+                for (int i = 0; i < checkIntensity; i++)
+                { // in World, is free space
+                    checkPosition += camera.Front * checkIncrement; // increment check zone
+                    convertedCheckPosition = checkPosition.ToCubeCoordinate();
+
+                    if (convertedCheckPosition != actualPosition) // perf maintainer
+                    {
+                        if (oldPosition != null && !cubeWorld.IsFreeSpace(convertedCheckPosition)) // check if it's a free space
+                            return oldPosition;
+                        else if (actualPosition != null) // or accept the new checkable position (or exit if actualPosition wasn't initialized)
+                            oldPosition = actualPosition;
+                    }
+
+                    actualPosition = convertedCheckPosition;
+                }
+
+                return actualPosition;
+            }
         }
     }
 }

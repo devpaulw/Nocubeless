@@ -9,12 +9,42 @@ namespace Nocubeless
 {
     public struct CubeColor : IEquatable<CubeColor>
     {
-        public int Red { get; set; }
-        public int Green { get; set; }
-        public int Blue { get; set; }
+        const int UnitMax = 7;
+
+        private int _red, _green, _blue;
+
+        public int Red {
+            get {
+                return _red;
+            }
+            set {
+                _red = Normalize(value);
+            }
+        }
+        public int Green {
+            get {
+                return _green;
+            }
+            set {
+                _green = Normalize(value);
+            }
+        }
+        public int Blue {
+            get {
+                return _blue;
+            }
+            set {
+                _blue = Normalize(value);
+            }
+        }
+
+        public static CubeColor Empty
+            => default;
 
         public CubeColor(int red, int green, int blue)
         {
+            _red = 0; _green = 0; _blue = 0;
+
             Red = red;
             Green = green;
             Blue = blue;
@@ -22,11 +52,17 @@ namespace Nocubeless
 
         public Vector3 ToVector3()
         {
-            float r = Red / 7.0f,
-                g = Green / 7.0f,
-                b = Blue / 7.0f;
+            float r = Red / (float)UnitMax,
+                g = Green / (float)UnitMax,
+                b = Blue / (float)UnitMax;
 
             return new Vector3(r, g, b);
+        }
+
+        public static int Normalize(int value)
+        {
+            if (value > UnitMax) return UnitMax;
+            else return value;
         }
 
         #region Object

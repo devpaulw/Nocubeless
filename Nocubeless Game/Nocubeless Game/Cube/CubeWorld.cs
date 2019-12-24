@@ -22,11 +22,11 @@ namespace Nocubeless
 
         public void LayCube(Cube cube)
         {
-            var chunkCoordinates = CubeChunkHelper.FindBaseCoordinates(cube.Coordinates);
+            var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(cube.Coordinates);
 
             var updatedChunk = Handler.GetChunkAt(chunkCoordinates);
 
-            int cubePositionInChunk = CubeChunkHelper.GetPositionFromCoordinates(cube.Coordinates);
+            int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(cube.Coordinates);
 
             updatedChunk[cubePositionInChunk] = cube.Color;
 
@@ -35,13 +35,13 @@ namespace Nocubeless
 
         public void BreakCube(Coordinates coordinates)
         {
-            var chunkCoordinates = CubeChunkHelper.FindBaseCoordinates(coordinates);
+            var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(coordinates);
 
             var updatedChunk = Handler.GetChunkAt(chunkCoordinates);
 
-            int cubePositionInChunk = CubeChunkHelper.GetPositionFromCoordinates(coordinates);
+            int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(coordinates);
 
-            updatedChunk[cubePositionInChunk] = new CubeColor(0, 0, 0);
+            updatedChunk[cubePositionInChunk] = CubeColor.Empty;
 
             Handler.SetChunk(updatedChunk);
         }
@@ -66,15 +66,15 @@ namespace Nocubeless
             Handler.SetChunk(chunk);
         }
 
-        public bool IsFreeSpace(Coordinates coordinates)
+        public bool IsFreeSpace(Coordinates coordinates) // TO-OPTIMIZE
         {
-            var chunkCoordinates = CubeChunkHelper.FindBaseCoordinates(coordinates);
+            var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(coordinates);
 
             var gotChunk = Handler.GetChunkAt(chunkCoordinates);
 
-            int cubePositionInChunk = CubeChunkHelper.GetPositionFromCoordinates(coordinates);
+            int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(coordinates);
 
-            if (!gotChunk[cubePositionInChunk].Equals(new CubeColor(0, 0, 0)))
+            if (!gotChunk[cubePositionInChunk].Equals(CubeColor.Empty))
                 return false;
 
             return true;

@@ -65,7 +65,7 @@ namespace Nocubeless
 
                                             for (int k = 0; k < splittedData.Length; k++)
                                             {
-                                                gotChunk[k] = new CubeColor(
+                                                gotChunk[k] = new CubeColor( // TODO: add null value!
                                                     Convert.ToInt32(splittedData[k][0].ToString()),
                                                     Convert.ToInt32(splittedData[k][1].ToString()),
                                                     Convert.ToInt32(splittedData[k][2].ToString()));
