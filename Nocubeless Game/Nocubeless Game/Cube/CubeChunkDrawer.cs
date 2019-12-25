@@ -10,7 +10,7 @@ namespace Nocubeless
 {
     class CubeChunkDrawer : GameComponent
     {
-        private readonly ModelMeshPart cubeMeshPart; // Store rendering attributes
+        private readonly ModelMeshPart cubeMeshPart; // store rendering attributes
         private readonly CubeEffect cubeEffect;
         private readonly Matrix cubeScale;
 
@@ -39,7 +39,7 @@ namespace Nocubeless
                 {
                     for (int z = 0; z < CubeChunk.Size; z++)
                     {
-                        if (chunk[x + (y * CubeChunk.Size) + (z * CubeChunk.Size * CubeChunk.Size)].Equals(CubeColor.Empty)) // TEMP: it's because a struct cannot be null
+                        if (chunk.IsEmptyAt(x + (y * CubeChunk.Size) + (z * CubeChunk.Size * CubeChunk.Size))) // TEMP: it's because a struct cannot be null
                             continue;
 
                         Vector3 cubePosition = new Vector3(position.X + (x * gap), position.Y + (y * gap), position.Z + (z * gap));
@@ -48,7 +48,7 @@ namespace Nocubeless
                         Matrix world = cubeScale * translation * effectMatrices.World;
 
                         cubeEffect.World = world;
-                        cubeEffect.Alpha = 1; // TODO: Is that really always 1.0
+                        cubeEffect.Alpha = 1; // actually, it's always full alpha.
 
                         cubeEffect.Color = chunk[x + (y * CubeChunk.Size) + (z * CubeChunk.Size * CubeChunk.Size)].ToVector3();
 

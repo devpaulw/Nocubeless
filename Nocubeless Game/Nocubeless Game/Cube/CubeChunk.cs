@@ -10,7 +10,7 @@ namespace Nocubeless
 {
     class CubeChunk
     {
-        public const int Size = 8; /*tmp 4!*/
+        public const int Size = 26; /*tmp 4!*/
         public const int TotalSize = Size * Size * Size;
 
         private CubeColor[] cubeColors;
@@ -31,6 +31,13 @@ namespace Nocubeless
             Coordinates = coordinates;
 
             cubeColors = new CubeColor[Size * Size * Size];
+        }
+
+        public bool IsEmptyAt(int location)
+        {
+            if (cubeColors[location] == CubeColor.Empty)
+                return true;
+            else return false;
         }
 
         public static class Helper

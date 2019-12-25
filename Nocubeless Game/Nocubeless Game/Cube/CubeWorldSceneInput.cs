@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Nocubeless
 {
     internal class CubeWorldSceneInput : NocubelessComponent
-    { 
+    {
         private CubeColor nextColor;
 
         private bool @break;
@@ -23,24 +23,25 @@ namespace Nocubeless
 
         public override void Update(GameTime gameTime)
         {
-            { // Break/Lay switcher
-                if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.SwitchLayBreak) 
-                    && GameInput.OldKeyboardState.IsKeyUp(Nocubeless.Settings.Keys.SwitchLayBreak))
-                {
-                    @break = !@break; // invert value
-                }
-            }
-
             if (Nocubeless.CurrentState == NocubelessState.Playing)
             {
+                { // break/Lay switcher
+                    if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.SwitchLayBreak)
+                        && GameInput.OldKeyboardState.IsKeyUp(Nocubeless.Settings.Keys.SwitchLayBreak))
+                    {
+                        @break = !@break; // invert value
+                    }
+                }
+
+
                 if (!@break)
                 {
                     Coordinates previewCubePosition = CubeWorldScene.Helper.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.CubeWorld, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
                     Cube newCube = new Cube(nextColor, previewCubePosition);
-                    { // Prev
+                    { // prev
                         Scene.PreviewCube(newCube);
                     }
-                    { // Lay
+                    { // lay
                         if (GameInput.CurrentMouseState.RightButton == ButtonState.Pressed
                             && GameInput.OldMouseState.RightButton == ButtonState.Released)
                         {
@@ -49,7 +50,7 @@ namespace Nocubeless
                     }
                 }
                 else
-                { // Break
+                { // break
                     Scene.PreviewCube(null);
 
                     if (GameInput.CurrentMouseState.LeftButton == ButtonState.Pressed
