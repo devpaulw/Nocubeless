@@ -1,0 +1,22 @@
+The Ultimate Nocubeless To-Do List File:
+
+
+- Lag of the game because of bad chunk handling
+- Save system
+- Camera not smooth
+- Change Cube distance with wheel
+- Change mouse sensitivity by Mouse
+- Screenshot Button
+- Cube previewer: update this and make it better (V2)
+- Make the Online Mode
+- Collisions
+- Menu with settings, worlds, online...
+- Cube Handling Helper V2
+- Song replaying and other songs by the way
+- Sounds effect
+- Optimize the game
+	- Instancing
+	- Many color to plane surface
+	- Culling, clipping...
+- Color Picker V2
+- Online mode

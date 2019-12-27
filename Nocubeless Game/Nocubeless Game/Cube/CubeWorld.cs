@@ -74,7 +74,7 @@ namespace Nocubeless
 
             int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(coordinates);
 
-            if (!gotChunk[cubePositionInChunk].Equals(CubeColor.Empty))
+            if (!(gotChunk[cubePositionInChunk] == CubeColor.Empty))
                 return false;
 
             return true;

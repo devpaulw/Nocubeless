@@ -83,6 +83,13 @@ namespace Nocubeless
 
         public static bool operator ==(CubeColor left, CubeColor right)
         {
+            if (ReferenceEquals(left, null))
+                return false;
+            if (ReferenceEquals(right, null))
+                return false;
+            if (ReferenceEquals(left, right))
+                return true;
+
             return left.Equals(right);
         }
 

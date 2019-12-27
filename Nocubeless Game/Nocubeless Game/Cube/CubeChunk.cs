@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Nocubeless
 {
-    class CubeChunk
+    class CubeChunk// : IEnumerable<Cube>
     {
         public const int Size = 26; /*tmp 4!*/
         public const int TotalSize = Size * Size * Size;
@@ -39,6 +40,22 @@ namespace Nocubeless
                 return true;
             else return false;
         }
+
+        //public IEnumerator<Cube> GetEnumerator()
+        //{
+        //    for (int i = 0; i < cubeColors.Length; i++)
+        //    {
+        //        if (!IsEmptyAt(i)) // is not a void case
+        //        {
+        //            yield return new Cube();
+        //        }
+        //    }
+        //}
+
+        //IEnumerator IEnumerable.GetEnumerator()
+        //{
+        //    return GetEnumerator();
+        //}
 
         public static class Helper
         {
