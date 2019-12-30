@@ -15,7 +15,7 @@ namespace Nocubeless
             get {
                 return new CubeHandlerSettings
                 {
-                    MaxLayingDistance = 8,
+                    MaxLayingDistance = 24,
                     PreviewCubeTransparency = 0.2f
                 };
             }

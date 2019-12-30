@@ -54,7 +54,7 @@ namespace Nocubeless
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
-            CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nws"));
+            CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nclws"));
             
             #region Graphics Config
             var blendState = BlendState.AlphaBlend;
@@ -106,11 +106,9 @@ namespace Nocubeless
         {
             GraphicsDevice.Clear(new Color(149, 165, 166));
 
-            SpriteBatch.Begin(SpriteSortMode.Deferred,
-                    GraphicsDevice.BlendState,
-                    null,
-                    GraphicsDevice.DepthStencilState,
-                    GraphicsDevice.RasterizerState);
+            SpriteBatch.Begin(blendState: GraphicsDevice.BlendState, 
+                depthStencilState: GraphicsDevice.DepthStencilState, 
+                rasterizerState: GraphicsDevice.RasterizerState);
 
             base.Draw(gameTime);
 

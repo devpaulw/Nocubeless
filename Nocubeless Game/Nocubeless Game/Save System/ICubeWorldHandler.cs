@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    interface ICubeWorldHandler
+    public interface ICubeWorldHandler
     {
         CubeChunk GetChunkAt(Coordinates coordinates);
         void SetChunk(CubeChunk chunk);

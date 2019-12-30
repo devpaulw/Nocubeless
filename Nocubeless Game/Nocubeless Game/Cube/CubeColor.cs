@@ -40,7 +40,7 @@ namespace Nocubeless
 
         public CubeColor(int red, int green, int blue)
         {
-            _red = 0; _green = 0; _blue = 0;
+            _red = 0; _green = 0; _blue = 0; // TODO: remove these
 
             Red = red;
             Green = green;
@@ -61,28 +61,6 @@ namespace Nocubeless
             if (value > UnitMax) return UnitMax;
             else return value;
         }
-
-        //public override bool Equals(object obj)
-        //{
-        //    if (!(obj is CubeColor))
-        //        return false;
-
-        //    var other = (CubeColor)obj;
-
-        //    return Equals(other);
-        //}
-
-        //public override int GetHashCode()
-        //{
-        //    return Red.GetHashCode() + Green.GetHashCode() + Blue.GetHashCode();
-        //}
-
-        //public bool Equals(CubeColor other)
-        //{
-        //    return Red == other.Red &&
-        //        Green == other.Green &&
-        //        Blue == other.Blue;
-        //}
 
         public override bool Equals(object obj)
         {

@@ -9,12 +9,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Nocubeless
 {
-    class CubeChunk
+    public class CubeChunk
     {
-        public const int Size = 8;
+        public const int Size = 16;
         public const int TotalSize = Size * Size * Size;
 
-        private CubeColor[] cubeColors;
+        private readonly CubeColor[] cubeColors;
 
         public Coordinates Coordinates { get; set; }
 

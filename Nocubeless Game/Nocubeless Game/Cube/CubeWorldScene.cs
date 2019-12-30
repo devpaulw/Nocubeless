@@ -56,6 +56,17 @@ namespace Nocubeless
             tookChunk[cubePositionInChunk] = cube.Color;
         }
 
+        public void BreakCube(Coordinates coordinates)
+        {
+            var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(coordinates);
+
+            var tookChunk = TakeChunkAt(chunkCoordinates);
+
+            int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(coordinates);
+
+            tookChunk[cubePositionInChunk] = null;
+        }
+
         public void PreviewCube(Cube cube)
         {
             PreviewableCube = cube;
@@ -110,6 +121,7 @@ namespace Nocubeless
 
         void UnloadChunk(Coordinates chunkCoordinates)
         {
+            // TODO: Separate TakeChunk and setchunk/remove like above
             var gotChunk = TakeChunkAt(chunkCoordinates);
 
             World.SetChunk(gotChunk);
@@ -130,6 +142,14 @@ namespace Nocubeless
                 return false;
 
             return true;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            for (int i = 0; i < LoadedChunks.Count; i++) // save each chunk before closing
+                World.SetChunk(LoadedChunks[i]);
+
+            base.Dispose(disposing);
         }
 
         private void DrawChunk(CubeChunk chunk)

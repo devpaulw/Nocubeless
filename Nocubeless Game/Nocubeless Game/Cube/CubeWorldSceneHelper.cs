@@ -33,7 +33,7 @@ namespace Nocubeless
                 actualPosition = convertedCheckPosition;
             }
 
-            return null;
+            return actualPosition;
         }
         public static Coordinates GetTargetedNewCube(this CubeWorldScene scene, Camera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
         {

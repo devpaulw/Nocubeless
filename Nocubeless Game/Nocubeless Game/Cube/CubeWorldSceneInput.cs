@@ -59,7 +59,7 @@ namespace Nocubeless
                         && GameInput.OldMouseState.LeftButton == ButtonState.Released)
                     {
                         Coordinates toBreakCube = Scene.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
-                        Nocubeless.CubeWorld.BreakCube(toBreakCube); // DESIGN: You know the way
+                        Scene.BreakCube(toBreakCube); // DESIGN: You know the way
                     }
                 }
             }

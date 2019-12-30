@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    class CubeWorldSaveHandler : ICubeWorldHandler
+    public class CubeWorldSaveHandler : ICubeWorldHandler
     {
         public string FilePath { get; }
 
@@ -21,148 +21,121 @@ namespace Nocubeless
             #endregion
         }
 
-        public CubeChunk GetChunkAt(Coordinates coordinates) // ATTENTION: cette fonction est horrible, merci de ne pas regarder ce qu'elle contient et de vous contenter du résultat, merci.
+        public CubeChunk GetChunkAt(Coordinates coordinates)
         {
-            using (var reader = new StreamReader(FilePath))
+            var dataOffset = GetChunkDataOffset(coordinates);
+
+            if (dataOffset == null)
+                return null;
+            else
             {
-                while (true)
-                {
-                    string readLine = reader.ReadLine();
-
-                    if (readLine == null)
-                        break;
-
-                    if (readLine == "::CHK:")
-                    {
-                        readLine = reader.ReadLine();
-                        for (int i = 0; i < readLine.Length; i++)
-                        {
-                            if (readLine[i] == ':')
-                            {
-                                string strCoordinates = readLine.Substring(i + 1, readLine.Length - (i + 1));
-                                string[] splittedCoordinates = strCoordinates.Split(',');
-
-                                var foundCoordinates = new Coordinates(
-                                    Convert.ToInt32(splittedCoordinates[0]),
-                                    Convert.ToInt32(splittedCoordinates[1]),
-                                    Convert.ToInt32(splittedCoordinates[2]));
-
-                                if (foundCoordinates.Equals(coordinates))
-                                {
-                                    var gotChunk = new CubeChunk(foundCoordinates);
-
-                                    readLine = reader.ReadLine();
-
-                                    for (int j = 0; j < readLine.Length; j++)
-                                    {
-                                        if (readLine[i] == ':')
-                                        {
-                                            string strData = readLine.Substring(i + 1, readLine.Length - (i + 1));
-                                            string[] splittedData = strData.Split(',');
-
-                                            if (splittedData.Length != CubeChunk.TotalSize)
-                                                throw new Exception("The chunk in the save file was not the right size in " + foundCoordinates);
-
-                                            for (int k = 0; k < splittedData.Length; k++)
-                                            {
-                                                if (splittedData[k][0] != 'N') // is not a null value
-                                                {
-                                                    gotChunk[k] = null;
-                                                    gotChunk[k] = new CubeColor(
-                                                    Convert.ToInt32(splittedData[k][0].ToString()),
-                                                    Convert.ToInt32(splittedData[k][1].ToString()),
-                                                    Convert.ToInt32(splittedData[k][2].ToString()));
-                                                }
-                                            }
-
-                                            return gotChunk;
-                                        }
-                                    }
-
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                var readChunk = new CubeChunk(coordinates);
+                ReadChunkData(ref readChunk, (int)dataOffset);
+                return readChunk;
             }
-
-            return null;
         }
 
         public void SetChunk(CubeChunk chunk)
         {
-            if (GetChunkAt(chunk.Coordinates) == null)
+            var dataOffset = GetChunkDataOffset(chunk.Coordinates);
+
+            if (dataOffset == null) // if the file doesn't contain a chunk at these coordinates, add it
+                AddChunk(chunk);
+            else // else, replace at the offset in the file
+                ReplaceChunk(chunk, (int)dataOffset);
+        }
+
+        #region Private Statements
+        private void AddChunk(CubeChunk chunk)
+        {
+            var stream = File.Open(FilePath, FileMode.Append);
+
+            using (var writer = new BinaryWriter(stream))
             {
-                using (var writer = new StreamWriter(FilePath, true))
-                {
-                    writer.WriteLine("::CHK:");
-                    writer.WriteLine($"CRD:{chunk.Coordinates.X},{chunk.Coordinates.Y},{chunk.Coordinates.Z}");
-                    writer.Write("DAT:");
-
-                    for (int i = 0; i < CubeChunk.TotalSize; i++)
-                    {
-                        if (chunk[i] != null)
-                            writer.Write(chunk[i].Red.ToString() + chunk[i].Green.ToString() + chunk[i].Blue.ToString());
-                        else
-                            writer.Write("N");
-
-                        if (i != CubeChunk.TotalSize - 1)
-                            writer.Write(",");
-                    }
-
-                    writer.WriteLine();
-                }
+                WriteChunkCoordinates(chunk.Coordinates, writer);
+                WriteChunkData(chunk, writer);
             }
-            else
+
+        }
+
+        private void ReplaceChunk(CubeChunk chunk, int offset)
+        {
+            var stream = File.Open(FilePath, FileMode.Open);
+            stream.Seek(offset, SeekOrigin.Begin);
+
+            using (var writer = new BinaryWriter(stream))
             {
-                string[] lines = File.ReadAllLines(FilePath);
+                WriteChunkData(chunk, writer);
+            }
+        }
 
-                for (int i = 0; i < lines.Length; i++)
+        private void ReadChunkData(ref CubeChunk chunk, int dataOffset)
+        {
+            var stream = File.OpenRead(FilePath);
+            stream.Seek((int)dataOffset, SeekOrigin.Begin);
+
+            using (var reader = new BinaryReader(stream))
+            {
+                for (int i = 0; i < CubeChunk.TotalSize; i++)
                 {
-                    if (lines[i] == "::CHK:")
-                    {
-                        string strCoordinates = lines[i + 1].Substring(4, lines[i + 1].Length - 4);
-                        string[] splittedCoordinates = strCoordinates.Split(',');
+                    int r = reader.Read(),
+                        g = reader.Read(),
+                        b = reader.Read();
 
-                        var foundCoordinates = new Coordinates(
-                            Convert.ToInt32(splittedCoordinates[0]),
-                            Convert.ToInt32(splittedCoordinates[1]),
-                            Convert.ToInt32(splittedCoordinates[2]));
-
-                        if (foundCoordinates.Equals(chunk.Coordinates))
-                        {
-                            lines[i] = "";
-                            lines[i + 1] = "";
-                            lines[i + 2] = "";
-
-                            File.WriteAllLines(FilePath, lines);
-
-                            using (var writer = new StreamWriter(FilePath, true))
-                            {
-                                writer.WriteLine("::CHK:");
-                                writer.WriteLine($"CRD:{chunk.Coordinates.X},{chunk.Coordinates.Y},{chunk.Coordinates.Z}");
-                                writer.Write("DAT:");
-
-                                for (int m = 0; m < CubeChunk.TotalSize; m++)
-                                {
-                                    if (chunk[m] != null)
-                                        writer.Write(chunk[m].Red.ToString() + chunk[m].Green.ToString() + chunk[m].Blue.ToString());
-                                    else
-                                        writer.Write("N");
-
-                                    if (m != CubeChunk.TotalSize - 1)
-                                        writer.Write(",");
-                                }
-
-                                writer.WriteLine();
-                            }
-                        }
-                    }
+                    if (Convert.ToChar(r) == 'N')
+                        chunk[i] = null;
+                    else
+                        chunk[i] = new CubeColor(r, g, b);
                 }
             }
         }
 
-        // TODO: Do a private function to find if the chunk is already saved
+        private void WriteChunkCoordinates(Coordinates chunkCoordinates, BinaryWriter writer)
+        {
+            writer.Write(chunkCoordinates.X);
+            writer.Write(chunkCoordinates.Y);
+            writer.Write(chunkCoordinates.Z);
+        }
+
+        private void WriteChunkData(CubeChunk chunk, BinaryWriter writer)
+        {
+            for (int i = 0; i < CubeChunk.TotalSize; i++)
+            {
+                if (chunk[i] != null)
+                {
+                    writer.Write((byte)chunk[i].Red);
+                    writer.Write((byte)chunk[i].Green);
+                    writer.Write((byte)chunk[i].Blue);
+                }
+                else
+                    writer.Write("NNN".ToCharArray());
+            }
+        }
+
+        private int? GetChunkDataOffset(Coordinates chunkCoordinates)
+        {
+            int dataSize = CubeChunk.TotalSize * 3;
+
+            var stream = File.OpenRead(FilePath);
+
+            using (var reader = new BinaryReader(stream))
+            {
+                while (stream.Position < stream.Length)
+                {
+                    var foundCoordinates = new Coordinates(reader.ReadInt32(),
+                        reader.ReadInt32(),
+                        reader.ReadInt32());
+
+                    if (foundCoordinates.Equals(chunkCoordinates))
+                        return (int?)stream.Position;
+
+                    stream.Seek(dataSize, SeekOrigin.Current); // jump to the next coordinates
+                }
+
+            }
+
+            return null; // no offset found
+        }
+        #endregion
     }
 }

@@ -20,24 +20,11 @@ namespace Nocubeless
             Handler = handler;
         }
 
-        public void BreakCube(Coordinates coordinates)
-        {
-            var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(coordinates);
-
-            var updatedChunk = Handler.GetChunkAt(chunkCoordinates);
-
-            int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(coordinates);
-
-            updatedChunk[cubePositionInChunk] = null;
-
-            Handler.SetChunk(updatedChunk);
-        }
-
         public CubeChunk GetChunkAt(Coordinates coordinates)
         {
             var gotChunk = Handler.GetChunkAt(coordinates);
 
-            if (gotChunk == null) //create one if it does not exist
+            if (gotChunk == null) // create one if it does not exist
             {
                 var newCreatedChunk = new CubeChunk(coordinates);
                 Handler.SetChunk(newCreatedChunk);

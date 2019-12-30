@@ -1,0 +1,4 @@
+The Ultimate Nocubeless Bug List File:
+
+- Cannot use odd Chunk Size 
+- There is an exception when the preview cube is outside Chunk View Distance.
