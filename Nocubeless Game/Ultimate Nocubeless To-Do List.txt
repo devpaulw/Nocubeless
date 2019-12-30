@@ -1,12 +1,14 @@
 The Ultimate Nocubeless To-Do List File:
 
+- Organize de project 
 - Fix Equals in Coordinates
-- Save system
+- Pipette
 - Camera not smooth
+- Zoom functionality
 - Change Cube distance with wheel
 - Change mouse sensitivity by Mouse
 - Screenshot Button
-- Cube previewer: update this and make it better (V2)
+- Cube previewer: update this and make it better: V2
 - Make the Online Mode
 - Collisions
 - Menu with settings, worlds, online...
@@ -18,5 +20,4 @@ The Ultimate Nocubeless To-Do List File:
 	- Many color to plane surface
 	- Culling, clipping...
 - Color Picker V2
-- Online mode
-- Fix Game zNear zFar: for the charm
+- Save System V3
