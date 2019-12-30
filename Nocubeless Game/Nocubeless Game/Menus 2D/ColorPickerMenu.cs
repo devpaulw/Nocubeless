@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MonoGame.Extended.Gui.Controls;
 
 namespace Nocubeless
 {
@@ -89,7 +90,7 @@ namespace Nocubeless
 
                     OnColorPicking(this, new ColorPickingEventArgs() { Color = newColor });
                 }
-                catch (FormatException) { } // conversion error
+                catch (FormatException) { } // conversion error (e.g. is not a number)
                 #endregion
             }
 

@@ -19,6 +19,8 @@ namespace Nocubeless
         public CubeWorldSceneInput(Nocubeless nocubeless, CubeWorldScene scene) : base(nocubeless)
         {
             Scene = scene;
+
+            nextColor = new CubeColor(7, 7, 7);
         }
 
         public override void Update(GameTime gameTime)
@@ -36,7 +38,7 @@ namespace Nocubeless
 
                 if (!@break)
                 {
-                    Coordinates previewCubePosition = CubeWorldScene.Helper.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.CubeWorld, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+                    Coordinates previewCubePosition = Scene.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
                     Cube newCube = new Cube(nextColor, previewCubePosition);
                     { // prev
                         Scene.PreviewCube(newCube);
@@ -45,7 +47,7 @@ namespace Nocubeless
                         if (GameInput.CurrentMouseState.RightButton == ButtonState.Pressed
                             && GameInput.OldMouseState.RightButton == ButtonState.Released)
                         {
-                            Scene.LayPreviewedCube();
+                            Scene.LayCube(newCube);
                         }
                     }
                 }
@@ -56,7 +58,7 @@ namespace Nocubeless
                     if (GameInput.CurrentMouseState.LeftButton == ButtonState.Pressed
                         && GameInput.OldMouseState.LeftButton == ButtonState.Released)
                     {
-                        Coordinates toBreakCube = CubeWorldScene.Helper.GetTargetedCube(Nocubeless.Camera, Nocubeless.CubeWorld, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+                        Coordinates toBreakCube = Scene.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
                         Nocubeless.CubeWorld.BreakCube(toBreakCube); // DESIGN: You know the way
                     }
                 }

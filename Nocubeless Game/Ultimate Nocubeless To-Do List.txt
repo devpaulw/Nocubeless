@@ -1,7 +1,5 @@
 The Ultimate Nocubeless To-Do List File:
 
-
-- Lag of the game because of bad chunk handling
 - Save system
 - Camera not smooth
 - Change Cube distance with wheel
@@ -20,3 +18,4 @@ The Ultimate Nocubeless To-Do List File:
 	- Culling, clipping...
 - Color Picker V2
 - Online mode
+- Fix Game zNear zFar: for the charm

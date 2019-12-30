@@ -25,7 +25,7 @@ namespace Nocubeless
             cubeScale = Matrix.CreateScale(HeightOfCubes);
         }
 
-        public void Draw(CubeChunk chunk, Vector3 position, float gap, EffectMatrices effectMatrices) // TO-OPTIMIZE
+        public void Draw(ref CubeChunk chunk, Vector3 position, float gap, EffectMatrices effectMatrices) // TO-OPTIMIZE
         {
             cubeEffect.View = effectMatrices.View;
             cubeEffect.Projection = effectMatrices.Projection;

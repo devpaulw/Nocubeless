@@ -46,6 +46,19 @@ namespace Nocubeless
         {
             return "{X:" + X + " Y:" + Y + " Z:" + Z + "}";
         }
+
+        public static bool operator>(Coordinates left, Coordinates right)
+        {
+            return left.X > right.X
+                || left.Y > right.Y
+                || left.Z > right.Z;
+        }
+        public static bool operator<(Coordinates left, Coordinates right)
+        {
+            return left.X < right.X
+                || left.Y < right.Y
+                || left.Z < right.Z;
+        }
     }
 
     internal static class CoordinateExtension

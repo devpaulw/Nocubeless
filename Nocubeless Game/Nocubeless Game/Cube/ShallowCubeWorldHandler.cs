@@ -17,18 +17,19 @@ namespace Nocubeless
 
         public CubeChunk GetChunkAt(Coordinates coordinates)
         {
-            var requestedChunks = from chunk in chunks
-                                  where chunk.Coordinates.Equals(coordinates)
-                                  select chunk;
+            var gotChunk = (from chunk in chunks
+                            where chunk.Coordinates.Equals(coordinates)
+                            select chunk).FirstOrDefault();
 
-            if (requestedChunks.Count() != 0)
+            if (gotChunk != null) // shallow copy
             {
-                return requestedChunks.FirstOrDefault();
+                var newChunk = new CubeChunk(gotChunk.Coordinates);
+                for (int i = 0; i < CubeChunk.TotalSize; i++)
+                    newChunk[i] = gotChunk[i];
+                return newChunk;
             }
             else
-            {
                 return null;
-            }
         }
 
         public void SetChunk(CubeChunk chunk)

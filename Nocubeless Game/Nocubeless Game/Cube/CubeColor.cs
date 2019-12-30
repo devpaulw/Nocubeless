@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    public struct CubeColor : IEquatable<CubeColor>
+    public class CubeColor : IEquatable<CubeColor>
     {
         const int UnitMax = 7;
 
@@ -38,9 +38,6 @@ namespace Nocubeless
             }
         }
 
-        public static CubeColor Empty
-            => default;
-
         public CubeColor(int red, int green, int blue)
         {
             _red = 0; _green = 0; _blue = 0;
@@ -65,50 +62,70 @@ namespace Nocubeless
             else return value;
         }
 
-        #region Object
+        //public override bool Equals(object obj)
+        //{
+        //    if (!(obj is CubeColor))
+        //        return false;
+
+        //    var other = (CubeColor)obj;
+
+        //    return Equals(other);
+        //}
+
+        //public override int GetHashCode()
+        //{
+        //    return Red.GetHashCode() + Green.GetHashCode() + Blue.GetHashCode();
+        //}
+
+        //public bool Equals(CubeColor other)
+        //{
+        //    return Red == other.Red &&
+        //        Green == other.Green &&
+        //        Blue == other.Blue;
+        //}
+
         public override bool Equals(object obj)
         {
-            if (!(obj is CubeColor))
-                return false;
-
-            var other = (CubeColor)obj;
-
-            return Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            return Red.GetHashCode() + Green.GetHashCode() + Blue.GetHashCode();
-        }
-
-        public static bool operator ==(CubeColor left, CubeColor right)
-        {
-            if (ReferenceEquals(left, null))
-                return false;
-            if (ReferenceEquals(right, null))
-                return false;
-            if (ReferenceEquals(left, right))
-                return true;
-
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(CubeColor left, CubeColor right)
-        {
-            return !(left == right);
+            return Equals(obj as CubeColor);
         }
 
         public bool Equals(CubeColor other)
         {
-            return Red == other.Red &&
-                Green == other.Green &&
-                Blue == other.Blue;
+            return other != null &&
+                   _red == other._red &&
+                   _green == other._green &&
+                   _blue == other._blue;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1558296783;
+            hashCode = hashCode * -1521134295 + _red.GetHashCode();
+            hashCode = hashCode * -1521134295 + _green.GetHashCode();
+            hashCode = hashCode * -1521134295 + _blue.GetHashCode();
+            return hashCode;
         }
 
         public override string ToString()
         {
             return "{R:" + Red + " G:" + Green + " B:" + Blue + "}";
         }
-        #endregion
+
+        //public static bool operator ==(CubeColor left, CubeColor right)
+        //{
+        //    if (ReferenceEquals(left, null))
+        //        return false;
+        //    if (ReferenceEquals(right, null))
+        //        return false;
+        //    if (ReferenceEquals(left, right))
+        //        return true;
+
+        //    return left.Equals(right);
+        //}
+
+        //public static bool operator !=(CubeColor left, CubeColor right)
+        //{
+        //    return !(left == right);
+        //}
     }
 }

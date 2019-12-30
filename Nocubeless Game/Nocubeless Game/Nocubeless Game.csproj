@@ -55,6 +55,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MonoGame.Extended">
+      <HintPath>C:\Users\Paul\source\repos\SpydotNet\MonoGame.Extended\Source\MonoGame.Extended.Gui\bin\Release\netstandard2.0\MonoGame.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Extended.Gui">
+      <HintPath>C:\Users\Paul\source\repos\SpydotNet\MonoGame.Extended\Source\MonoGame.Extended.Gui\bin\Release\netstandard2.0\MonoGame.Extended.Gui.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Extended.Input">
+      <HintPath>C:\Users\Paul\source\repos\SpydotNet\MonoGame.Extended\Source\MonoGame.Extended.Gui\bin\Release\netstandard2.0\MonoGame.Extended.Input.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework, Version=3.7.1.189, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Framework.DesktopGL.3.7.1.189\lib\net45\MonoGame.Framework.dll</HintPath>
     </Reference>
@@ -73,6 +82,7 @@
     <Compile Include="Cube\CubeChunkDrawer.cs" />
     <Compile Include="Cube\CubeColor.cs" />
     <Compile Include="Cube\CubeDrawer.cs" />
+    <Compile Include="Cube\CubeWorldSceneHelper.cs" />
     <Compile Include="Menus 2D\ColorPickingEventArgs.cs" />
     <Compile Include="Cube\CubeWorldScene.cs" />
     <Compile Include="Game\NocubelessState.cs" />

@@ -20,19 +20,6 @@ namespace Nocubeless
             Handler = handler;
         }
 
-        public void LayCube(Cube cube)
-        {
-            var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(cube.Coordinates);
-
-            var updatedChunk = Handler.GetChunkAt(chunkCoordinates);
-
-            int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(cube.Coordinates);
-
-            updatedChunk[cubePositionInChunk] = cube.Color;
-
-            Handler.SetChunk(updatedChunk);
-        }
-
         public void BreakCube(Coordinates coordinates)
         {
             var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(coordinates);
@@ -41,7 +28,7 @@ namespace Nocubeless
 
             int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(coordinates);
 
-            updatedChunk[cubePositionInChunk] = CubeColor.Empty;
+            updatedChunk[cubePositionInChunk] = null;
 
             Handler.SetChunk(updatedChunk);
         }
@@ -61,23 +48,9 @@ namespace Nocubeless
             return gotChunk;
         }
 
-        public void LayChunk(CubeChunk chunk)
-        { // TODO: Is that useless?
-            Handler.SetChunk(chunk);
-        }
-
-        public bool IsFreeSpace(Coordinates coordinates) // TO-OPTIMIZE
+        public void SetChunk(CubeChunk chunk)
         {
-            var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(coordinates);
-
-            var gotChunk = Handler.GetChunkAt(chunkCoordinates);
-
-            int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(coordinates);
-
-            if (!(gotChunk[cubePositionInChunk] == CubeColor.Empty))
-                return false;
-
-            return true;
+            Handler.SetChunk(chunk);
         }
 
         public Vector3 GetGraphicsCubePosition(Coordinates cubePosition) // cube position in graphics representation.

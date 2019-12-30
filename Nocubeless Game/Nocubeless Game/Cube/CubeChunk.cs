@@ -9,9 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Nocubeless
 {
-    class CubeChunk// : IEnumerable<Cube>
+    class CubeChunk
     {
-        public const int Size = 26; /*tmp 4!*/
+        public const int Size = 8;
         public const int TotalSize = Size * Size * Size;
 
         private CubeColor[] cubeColors;
@@ -36,7 +36,7 @@ namespace Nocubeless
 
         public bool IsEmptyAt(int location)
         {
-            if (cubeColors[location] == CubeColor.Empty)
+            if (cubeColors[location] == null)
                 return true;
             else return false;
         }

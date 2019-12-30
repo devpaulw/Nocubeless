@@ -65,14 +65,14 @@ namespace Nocubeless
 
                                             for (int k = 0; k < splittedData.Length; k++)
                                             {
-                                                gotChunk[k] = new CubeColor( // TODO: add null value!
+                                                if (splittedData[k][0] != 'N') // is not a null value
+                                                {
+                                                    gotChunk[k] = null;
+                                                    gotChunk[k] = new CubeColor(
                                                     Convert.ToInt32(splittedData[k][0].ToString()),
                                                     Convert.ToInt32(splittedData[k][1].ToString()),
                                                     Convert.ToInt32(splittedData[k][2].ToString()));
-
-                                                if (1 + 1 == 2) // troll
-                                                    ((Func<int>)(
-                                                        () => 0))();
+                                                }
                                             }
 
                                             return gotChunk;
@@ -102,7 +102,10 @@ namespace Nocubeless
 
                     for (int i = 0; i < CubeChunk.TotalSize; i++)
                     {
-                        writer.Write(chunk[i].Red.ToString() + chunk[i].Green.ToString() + chunk[i].Blue.ToString());
+                        if (chunk[i] != null)
+                            writer.Write(chunk[i].Red.ToString() + chunk[i].Green.ToString() + chunk[i].Blue.ToString());
+                        else
+                            writer.Write("N");
 
                         if (i != CubeChunk.TotalSize - 1)
                             writer.Write(",");
@@ -135,7 +138,25 @@ namespace Nocubeless
 
                             File.WriteAllLines(FilePath, lines);
 
-                            SetChunk(chunk);
+                            using (var writer = new StreamWriter(FilePath, true))
+                            {
+                                writer.WriteLine("::CHK:");
+                                writer.WriteLine($"CRD:{chunk.Coordinates.X},{chunk.Coordinates.Y},{chunk.Coordinates.Z}");
+                                writer.Write("DAT:");
+
+                                for (int m = 0; m < CubeChunk.TotalSize; m++)
+                                {
+                                    if (chunk[m] != null)
+                                        writer.Write(chunk[m].Red.ToString() + chunk[m].Green.ToString() + chunk[m].Blue.ToString());
+                                    else
+                                        writer.Write("N");
+
+                                    if (m != CubeChunk.TotalSize - 1)
+                                        writer.Write(",");
+                                }
+
+                                writer.WriteLine();
+                            }
                         }
                     }
                 }
