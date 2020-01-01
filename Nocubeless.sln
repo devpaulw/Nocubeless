@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nocubeless", "Nocubeless\Nocubeless.csproj", "{20BE4E2B-E7F4-44E9-924D-30BF1C80E916}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E3FB88F-2C61-4845-A5DA-46839053D02B}"
+	ProjectSection(SolutionItems) = preProject
+		Color Picker mise au point.txt = Color Picker mise au point.txt
+		Ultimate Nocubeless Bug List.txt = Ultimate Nocubeless Bug List.txt
+		Ultimate Nocubeless To-Do List.txt = Ultimate Nocubeless To-Do List.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20BE4E2B-E7F4-44E9-924D-30BF1C80E916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20BE4E2B-E7F4-44E9-924D-30BF1C80E916}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20BE4E2B-E7F4-44E9-924D-30BF1C80E916}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20BE4E2B-E7F4-44E9-924D-30BF1C80E916}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {79A06E66-0446-41A0-9F7E-146BE78C7370}
+	EndGlobalSection
+EndGlobal
