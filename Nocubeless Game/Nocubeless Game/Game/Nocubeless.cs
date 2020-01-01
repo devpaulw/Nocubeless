@@ -72,7 +72,7 @@ namespace Nocubeless
             var cubeWorldScene = new CubeWorldScene(this);
             var cubeWorldSceneInput = new CubeWorldSceneInput(this, cubeWorldScene);
             var colorPickerMenu = new ColorPickerMenu(this, cubeWorldSceneInput.OnColorPicking);
-            var coordDisplayer = new CoordinatesDisplayer(this);
+            var coordDisplayer = new InfoDisplayer(this);
 
             Components.Add(cameraHandler);
             Components.Add(cubeWorldScene);

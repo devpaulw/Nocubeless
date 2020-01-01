@@ -11,15 +11,16 @@ using MonoGame.Extended.ViewportAdapters;
 
 namespace Nocubeless
 {
-    class CoordinatesDisplayer : NocubelessDrawableComponent
+    class InfoDisplayer : NocubelessDrawableComponent
     {
         //private GuiSystem guiSystem;
         private SpriteFont font;
         private Vector2 drawPosition;
 
         public Coordinates PlayerCoordinates { get; private set; } // DOLATER: This fonction, should be in a specific Player kind class
+        public Coordinates ChunkCoordinates { get; private set; }
 
-        public CoordinatesDisplayer(Nocubeless nocubeless) : base(nocubeless) { }
+        public InfoDisplayer(Nocubeless nocubeless) : base(nocubeless) { }
 
         protected override void LoadContent()
         {
@@ -44,6 +45,7 @@ namespace Nocubeless
         public override void Update(GameTime gameTime)
         {
             PlayerCoordinates = Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Camera.Position);
+            ChunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(PlayerCoordinates);
 
             int margin = 2;
             drawPosition = new Vector2(margin, margin);
@@ -54,7 +56,8 @@ namespace Nocubeless
         public override void Draw(GameTime gameTime)
         {
             Nocubeless.SpriteBatch.DrawString(font, 
-                "Coordinates:\n" + PlayerCoordinates.ToString(), 
+                "Player coordinates:\n" + PlayerCoordinates.ToString() + 
+                "\nPlayer chunk coordinates:\n" + ChunkCoordinates.ToString(), 
                 drawPosition, Color.Black);
 
             base.Draw(gameTime);

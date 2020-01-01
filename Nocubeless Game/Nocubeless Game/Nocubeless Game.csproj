@@ -83,7 +83,7 @@
     <Compile Include="Cube\CubeColor.cs" />
     <Compile Include="Cube\CubeDrawer.cs" />
     <Compile Include="Cube\CubeWorldSceneHelper.cs" />
-    <Compile Include="Game\CoordinatesDisplayer.cs" />
+    <Compile Include="Game\InfoDisplayer.cs" />
     <Compile Include="Menus 2D\ColorPickingEventArgs.cs" />
     <Compile Include="Cube\CubeWorldScene.cs" />
     <Compile Include="Game\NocubelessState.cs" />
