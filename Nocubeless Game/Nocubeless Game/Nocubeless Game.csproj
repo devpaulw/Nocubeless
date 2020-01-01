@@ -83,6 +83,7 @@
     <Compile Include="Cube\CubeColor.cs" />
     <Compile Include="Cube\CubeDrawer.cs" />
     <Compile Include="Cube\CubeWorldSceneHelper.cs" />
+    <Compile Include="Game\CoordinatesDisplayer.cs" />
     <Compile Include="Menus 2D\ColorPickingEventArgs.cs" />
     <Compile Include="Cube\CubeWorldScene.cs" />
     <Compile Include="Game\NocubelessState.cs" />
@@ -103,7 +104,7 @@
     <Compile Include="Settings\NocubelessSettings.cs" />
     <Compile Include="Three Dimensional\Scene.cs" />
     <Compile Include="Settings\CameraSettings.cs" />
-    <Compile Include="Cube\CubeWorldCoordinates.cs" />
+    <Compile Include="Cube\Coordinates.cs" />
     <Compile Include="Cube\Cube.cs" />
     <Compile Include="Effects\CubeEffect.cs" />
     <Compile Include="Game\Nocubeless.cs" />

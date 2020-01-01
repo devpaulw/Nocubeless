@@ -15,7 +15,7 @@ namespace Nocubeless
             get {
                 return new CubeHandlerSettings
                 {
-                    MaxLayingDistance = 24,
+                    MaxLayingDistance = 32, // TODO: Is that should be mixed with chunk size * chunk v dist
                     PreviewCubeTransparency = 0.2f
                 };
             }

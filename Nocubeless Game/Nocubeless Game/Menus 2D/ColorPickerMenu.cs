@@ -82,9 +82,10 @@ namespace Nocubeless
 
                 try // textBox Picker Event
                 {
-                    int r = Convert.ToInt32(textBoxR.Text.ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture),
-                    g = Convert.ToInt32(textBoxG.Text.ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture),
-                    b = Convert.ToInt32(textBoxB.Text.ToString(CultureInfo.CurrentCulture), CultureInfo.CurrentCulture);
+                    var provider = CultureInfo.CurrentCulture;
+                    int r = Convert.ToInt32(textBoxR.Text.ToString(provider), provider),
+                    g = Convert.ToInt32(textBoxG.Text.ToString(provider), provider),
+                    b = Convert.ToInt32(textBoxB.Text.ToString(provider), provider);
 
                     CubeColor newColor = new CubeColor(r, g, b);
 

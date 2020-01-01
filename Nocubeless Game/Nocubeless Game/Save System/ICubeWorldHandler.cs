@@ -10,5 +10,6 @@ namespace Nocubeless
     {
         CubeChunk GetChunkAt(Coordinates coordinates);
         void SetChunk(CubeChunk chunk);
+        bool ChunkExistsAt(Coordinates coordinates);
     }
 }

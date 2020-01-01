@@ -42,5 +42,16 @@ namespace Nocubeless
 
             chunks.Add(chunk);
         }
+
+        public bool ChunkExistsAt(Coordinates coordinates)
+        {
+            var gotChunk = (from chunk in chunks
+                            where chunk.Coordinates.Equals(coordinates)
+                            select chunk).FirstOrDefault();
+
+            if (gotChunk == null)
+                return false;
+            else return true;
+        }
     }
 }

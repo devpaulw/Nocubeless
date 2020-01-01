@@ -11,7 +11,7 @@ namespace Nocubeless
     {
         public static Coordinates GetTargetedCube(this CubeWorldScene scene, Camera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
         {
-            Vector3 checkPosition = camera.Position * scene.World.GetGraphicsCubeRatio();
+            Vector3 checkPosition = camera.Position * scene.World.GetGraphicsCubeRatio(); // Not a beautiful way!
 
             Coordinates actualPosition = null;
             Coordinates convertedCheckPosition;

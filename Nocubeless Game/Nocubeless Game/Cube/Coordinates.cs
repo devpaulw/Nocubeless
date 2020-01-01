@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    public class Coordinates : IEquatable<Coordinates>
+    public class Coordinates : IEquatable<Coordinates> // TODO: Fix equal and use the true operator.
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -44,7 +44,7 @@ namespace Nocubeless
 
         public override string ToString()
         {
-            return "{X:" + X + " Y:" + Y + " Z:" + Z + "}";
+            return "{X:" + X + "; Y:" + Y + "; Z:" + Z + "}";
         }
 
         public static bool operator>(Coordinates left, Coordinates right)
@@ -63,7 +63,7 @@ namespace Nocubeless
 
     internal static class CoordinateExtension
     {
-        public static Coordinates ToCubeCoordinate(this Vector3 position)
+        public static Coordinates ToCubeCoordinate(this Vector3 position) // TODO: This is not clean, put it in the real class.
         {
             return new Coordinates((int)Math.Round(position.X), (int)Math.Round(position.Y), (int)Math.Round(position.Z));
         }

@@ -1,9 +1,10 @@
 The Ultimate Nocubeless To-Do List File:
 
+- Coordinates Display
 - Organize de project 
 - Fix Equals in Coordinates
 - Pipette
-- Camera not smooth
+- Camera not smooth fix
 - Zoom functionality
 - Change Cube distance with wheel
 - Change mouse sensitivity by Mouse
@@ -21,3 +22,4 @@ The Ultimate Nocubeless To-Do List File:
 	- Culling, clipping...
 - Color Picker V2
 - Save System V3
+- Fast Edit Tools

@@ -70,13 +70,15 @@ namespace Nocubeless
             #region Components Linking
             var cameraHandler = new CameraInput(this);
             var cubeWorldScene = new CubeWorldScene(this);
-            var cubeWorldSceneHandler = new CubeWorldSceneInput(this, cubeWorldScene);
-            var colorPickerMenu = new ColorPickerMenu(this, cubeWorldSceneHandler.OnColorPicking);
+            var cubeWorldSceneInput = new CubeWorldSceneInput(this, cubeWorldScene);
+            var colorPickerMenu = new ColorPickerMenu(this, cubeWorldSceneInput.OnColorPicking);
+            var coordDisplayer = new CoordinatesDisplayer(this);
 
             Components.Add(cameraHandler);
             Components.Add(cubeWorldScene);
-            Components.Add(cubeWorldSceneHandler);
+            Components.Add(cubeWorldSceneInput);
             Components.Add(colorPickerMenu);
+            Components.Add(coordDisplayer);
             #endregion
 
             base.Initialize();
@@ -104,7 +106,8 @@ namespace Nocubeless
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(new Color(149, 165, 166));
+            float intensity = 1.0f;
+            GraphicsDevice.Clear(new Color((int)(149 * intensity), (int)(165 * intensity), (int)(166 * intensity)));
 
             SpriteBatch.Begin(blendState: GraphicsDevice.BlendState, 
                 depthStencilState: GraphicsDevice.DepthStencilState, 

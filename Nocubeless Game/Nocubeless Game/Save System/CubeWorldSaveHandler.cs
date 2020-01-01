@@ -14,10 +14,10 @@ namespace Nocubeless
         public CubeWorldSaveHandler(string filePath)
         {
             #region File Path assignment and trying it exists
-            if (File.Exists(filePath))
-                FilePath = filePath;
-            else
-                throw new FileNotFoundException("The CubeWorldSaveHandler didn't found the file.", filePath);
+            if (!File.Exists(filePath))
+                File.Create(filePath);
+
+            FilePath = filePath;
             #endregion
         }
 
@@ -43,6 +43,14 @@ namespace Nocubeless
                 AddChunk(chunk);
             else // else, replace at the offset in the file
                 ReplaceChunk(chunk, (int)dataOffset);
+        }
+
+        public bool ChunkExistsAt(Coordinates coordinates)
+        {
+            var dataOffset = GetChunkDataOffset(coordinates);
+            if (dataOffset == null)
+                return false;
+            else return true;
         }
 
         #region Private Statements

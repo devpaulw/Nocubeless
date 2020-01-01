@@ -22,22 +22,16 @@ namespace Nocubeless
 
         public CubeChunk GetChunkAt(Coordinates coordinates)
         {
-            var gotChunk = Handler.GetChunkAt(coordinates);
-
-            if (gotChunk == null) // create one if it does not exist
-            {
-                var newCreatedChunk = new CubeChunk(coordinates);
-                Handler.SetChunk(newCreatedChunk);
-
-                return Handler.GetChunkAt(coordinates);
-            }
-
-            return gotChunk;
+            return Handler.GetChunkAt(coordinates);
         }
 
-        public void SetChunk(CubeChunk chunk)
+        public void TrySetChunk(CubeChunk chunk)
         {
-            Handler.SetChunk(chunk);
+            if (!chunk.IsEmpty() // optimized, if we try to set an empty chunk it will not really write it
+                || Handler.ChunkExistsAt(chunk.Coordinates)) // if the chunk already exists, set it anyway because it would not be overwrote
+            {
+                Handler.SetChunk(chunk);
+            }
         }
 
         public Vector3 GetGraphicsCubePosition(Coordinates cubePosition) // cube position in graphics representation.

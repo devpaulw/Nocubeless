@@ -34,11 +34,13 @@ namespace Nocubeless
             cubeColors = new CubeColor[Size * Size * Size];
         }
 
-        public bool IsEmptyAt(int location)
+        public bool IsEmpty()
         {
-            if (cubeColors[location] == null)
-                return true;
-            else return false;
+            for (int i = 0; i < cubeColors.Length; i++)
+                if (cubeColors[i] != null)
+                    return false;
+
+            return true;
         }
 
         //public IEnumerator<Cube> GetEnumerator()

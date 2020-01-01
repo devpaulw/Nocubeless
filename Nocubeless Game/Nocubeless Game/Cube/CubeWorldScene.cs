@@ -28,7 +28,7 @@ namespace Nocubeless
 
         public override void Update(GameTime gameTime)
         {
-            LoadChunks(World.GetCoordinatesFromGraphics(Nocubeless.Camera.Position)); // DESIGN
+            LoadChunks(World.GetCoordinatesFromGraphics(Nocubeless.Camera.Position)); // DESIGN, A Player class?
             UnloadFarChunks(World.GetCoordinatesFromGraphics(Nocubeless.Camera.Position));
 
             base.Update(gameTime);
@@ -108,7 +108,8 @@ namespace Nocubeless
 
                 if (LoadedChunks[i].Coordinates < playerMinCoordinates || LoadedChunks[i].Coordinates > playerMaxCoordinates)
                 {
-                    UnloadChunk(LoadedChunks[i].Coordinates);
+                    var gotChunk = TakeChunkAt(LoadedChunks[i].Coordinates);
+                    UnloadChunk(gotChunk);
                 }
             }
         }
@@ -116,16 +117,16 @@ namespace Nocubeless
         void LoadChunk(Coordinates chunkCoordinates)
         {
             var gotChunk = World.GetChunkAt(chunkCoordinates);
-            LoadedChunks.Add(gotChunk);
+            if (gotChunk != null)
+                LoadedChunks.Add(gotChunk);
+            else
+                LoadedChunks.Add(new CubeChunk(chunkCoordinates)); // TODO: ForceGetChunkAt
         }
 
-        void UnloadChunk(Coordinates chunkCoordinates)
+        void UnloadChunk(CubeChunk chunk)
         {
-            // TODO: Separate TakeChunk and setchunk/remove like above
-            var gotChunk = TakeChunkAt(chunkCoordinates);
-
-            World.SetChunk(gotChunk);
-            LoadedChunks.Remove(gotChunk);
+            World.TrySetChunk(chunk);
+            LoadedChunks.Remove(chunk);
         }
 
         public bool IsFreeSpace(Coordinates coordinates) // TO-OPTIMIZE
@@ -135,6 +136,9 @@ namespace Nocubeless
             var gotChunk = (from chunk in LoadedChunks
                             where chunk.Coordinates.Equals(chunkCoordinates)
                             select chunk).FirstOrDefault();
+
+            if (gotChunk == null) // don't try to check in a not loaded chunk, or it will crash
+                return false;
 
             int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(coordinates);
 
@@ -147,7 +151,7 @@ namespace Nocubeless
         protected override void Dispose(bool disposing)
         {
             for (int i = 0; i < LoadedChunks.Count; i++) // save each chunk before closing
-                World.SetChunk(LoadedChunks[i]);
+                UnloadChunk(LoadedChunks[i]);
 
             base.Dispose(disposing);
         }

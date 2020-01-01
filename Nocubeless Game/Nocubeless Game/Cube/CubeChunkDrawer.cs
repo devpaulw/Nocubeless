@@ -39,7 +39,7 @@ namespace Nocubeless
                 {
                     for (int z = 0; z < CubeChunk.Size; z++)
                     {
-                        if (chunk.IsEmptyAt(x + (y * CubeChunk.Size) + (z * CubeChunk.Size * CubeChunk.Size))) // TEMP: it's because a struct cannot be null
+                        if (chunk[x + (y * CubeChunk.Size) + (z * CubeChunk.Size * CubeChunk.Size)] == null)
                             continue;
 
                         Vector3 cubePosition = new Vector3(position.X + (x * gap), position.Y + (y * gap), position.Z + (z * gap));
