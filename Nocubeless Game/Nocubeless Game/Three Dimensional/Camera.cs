@@ -40,7 +40,7 @@ namespace Nocubeless
 
         public Matrix ProjectionMatrix {
             get {
-                const float zNear = 0.1f, zFar = 100.0f;
+                const float zNear = 1.0f, zFar = 1000.0f;
                 return Matrix.CreatePerspectiveFieldOfView(radiansFov,
                     AspectRatio,
                     zNear, zFar);

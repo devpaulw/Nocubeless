@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    internal class Cube
+    class Cube
     {
-        public CubeWorldCoordinates Position { get; set; }
-        public Vector3 Color { get; set; }
+        public Coordinates Coordinates { get; set; }
+        public CubeColor Color { get; set; }
 
-        public Cube(Vector3 color, CubeWorldCoordinates position)
+        public Cube(CubeColor color, Coordinates position)
         {
-            Position = position;
+            Coordinates = position;
             Color = color;
         }
 

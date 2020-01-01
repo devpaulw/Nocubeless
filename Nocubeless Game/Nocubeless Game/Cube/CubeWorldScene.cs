@@ -10,31 +10,34 @@ namespace Nocubeless
 {
     class CubeWorldScene : NocubelessDrawableComponent
     {
-        private readonly CubeDrawer cubeDrawer;
+        private readonly CubeChunkDrawer chunkDrawer;
+        private readonly CubeDrawer cubeDrawer; // for the previewable cube
 
-        public List<Cube> LoadedCubes { get; private set; }
+        public CubeWorld World { get; }
+        public List<CubeChunk> LoadedChunks { get; private set; } // Do a chunk collection 
         public Cube PreviewableCube { get; private set; }
 
         public CubeWorldScene(Nocubeless nocubeless) : base(nocubeless)
         {
-            LoadedCubes = Nocubeless.CubeWorld.XCHEATGETCUBESDIRECTLY; // temp
+            World = Nocubeless.CubeWorld;
+            LoadedChunks = new List<CubeChunk>();
 
-            cubeDrawer = new CubeDrawer(Nocubeless, Nocubeless.CubeWorld.Settings.HeightOfCubes);
+            chunkDrawer = new CubeChunkDrawer(Nocubeless, World.Settings.HeightOfCubes);
+            cubeDrawer = new CubeDrawer(Nocubeless, World.Settings.HeightOfCubes);
         }
 
         public override void Update(GameTime gameTime)
         {
-            // DOLATER: Chunk loading system
+            LoadChunks(World.GetCoordinatesFromGraphics(Nocubeless.Camera.Position)); // DESIGN, A Player class?
+            UnloadFarChunks(World.GetCoordinatesFromGraphics(Nocubeless.Camera.Position));
 
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            foreach (Cube cube in LoadedCubes)
-            {
-                DrawCube(cube);
-            }
+            foreach (CubeChunk chunk in LoadedChunks)
+                DrawChunk(chunk);
 
             if (PreviewableCube != null) // if break mode is off
                 DrawCube(PreviewableCube, 0.5f);
@@ -42,91 +45,146 @@ namespace Nocubeless
             base.Draw(gameTime);
         }
 
+        public void LayCube(Cube cube)
+        {
+            var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(cube.Coordinates);
+
+            var tookChunk = TakeChunkAt(chunkCoordinates);
+
+            int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(cube.Coordinates);
+
+            tookChunk[cubePositionInChunk] = cube.Color;
+        }
+
+        public void BreakCube(Coordinates coordinates)
+        {
+            var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(coordinates);
+
+            var tookChunk = TakeChunkAt(chunkCoordinates);
+
+            int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(coordinates);
+
+            tookChunk[cubePositionInChunk] = null;
+        }
+
         public void PreviewCube(Cube cube)
         {
             PreviewableCube = cube;
         }
-        public void LayPreviewedCube() // optional func
+
+        private void LoadChunks(Coordinates playerCoordinates) // it's the big cube algorithm
         {
-            Nocubeless.CubeWorld.LayCube(PreviewableCube);
+            int viewingCubes = CubeChunk.Size * Nocubeless.Settings.Graphics.ChunkViewDistance;
+            int min = -(viewingCubes / 2);
+            int max = viewingCubes / 2;
+
+            for (int x = min; x < max; x += CubeChunk.Size)
+            {
+                for (int y = min; y < max; y += CubeChunk.Size)
+                {
+                    for (int z = min; z < max; z += CubeChunk.Size)
+                    { // explore chunks to load
+                        var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(new Coordinates(playerCoordinates.X + x, playerCoordinates.Y + y, playerCoordinates.Z + z));
+
+                        var tookChunk = TakeChunkAt(chunkCoordinates);
+
+                        if (tookChunk == null)
+                            LoadChunk(chunkCoordinates);
+                    }
+                }
+            }
         }
 
-        public bool IsFreeSpace(CubeWorldCoordinates position)
+        void UnloadFarChunks(Coordinates playerCoordinates)
         {
-            // DOLATER: to link with get cube
-            foreach (Cube cube in LoadedCubes)
-                if (cube.Position.Equals(position))
-                    return false;
+            int viewingCubes = CubeChunk.Size * Nocubeless.Settings.Graphics.ChunkViewDistance;
+            int min = -(viewingCubes / 2);
+            int max = viewingCubes / 2;
+
+            for (int i = 0; i < LoadedChunks.Count; i++)
+            {
+                var playerMinCoordinates = CubeChunk.Helper.FindBaseCoordinates(new Coordinates(playerCoordinates.X + min, playerCoordinates.Y + min, playerCoordinates.Z + min));
+                var playerMaxCoordinates = CubeChunk.Helper.FindBaseCoordinates(new Coordinates(playerCoordinates.X + max, playerCoordinates.Y + max, playerCoordinates.Z + max));
+
+                if (LoadedChunks[i].Coordinates < playerMinCoordinates || LoadedChunks[i].Coordinates > playerMaxCoordinates)
+                {
+                    var gotChunk = TakeChunkAt(LoadedChunks[i].Coordinates);
+                    UnloadChunk(gotChunk);
+                }
+            }
+        }
+
+        void LoadChunk(Coordinates chunkCoordinates)
+        {
+            var gotChunk = World.GetChunkAt(chunkCoordinates);
+            if (gotChunk != null)
+                LoadedChunks.Add(gotChunk);
+            else
+                LoadedChunks.Add(new CubeChunk(chunkCoordinates)); // TODO: ForceGetChunkAt
+        }
+
+        void UnloadChunk(CubeChunk chunk)
+        {
+            World.TrySetChunk(chunk);
+            LoadedChunks.Remove(chunk);
+        }
+
+        public bool IsFreeSpace(Coordinates coordinates) // TO-OPTIMIZE
+        {
+            var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(coordinates);
+
+            var gotChunk = (from chunk in LoadedChunks
+                            where chunk.Coordinates.Equals(chunkCoordinates)
+                            select chunk).FirstOrDefault();
+
+            if (gotChunk == null) // don't try to check in a not loaded chunk, or it will crash
+                return false;
+
+            int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(coordinates);
+
+            if (!(gotChunk[cubePositionInChunk] == null))
+                return false;
 
             return true;
         }
 
-        public CubeWorldCoordinates GetTargetedCube() // Is not 100% trustworthy, and is not powerful, be careful
+        protected override void Dispose(bool disposing)
         {
-            Vector3 checkPosition = Nocubeless.Camera.Position * CubeWorld.GetGraphicsCubeRatio(Nocubeless.CubeWorld.Settings.HeightOfCubes);
+            for (int i = 0; i < LoadedChunks.Count; i++) // save each chunk before closing
+                UnloadChunk(LoadedChunks[i]);
 
-            CubeWorldCoordinates actualPosition = null;
-            CubeWorldCoordinates convertedCheckPosition;
-
-            const int checkIntensity = 100;
-            float checkIncrement = (float)Nocubeless.Settings.CubeHandler.MaxLayingDistance / checkIntensity;
-
-            for (int i = 0; i < checkIntensity; i++)
-            { // In World, is free space
-                checkPosition += Nocubeless.Camera.Front * checkIncrement; // Increment check zone
-                convertedCheckPosition = checkPosition.ToCubeCoordinate();
-
-                if (convertedCheckPosition != actualPosition)
-                {
-                    if (!IsFreeSpace(convertedCheckPosition)) // Check if it's a free space
-                        return convertedCheckPosition;
-                }
-
-                actualPosition = convertedCheckPosition;
-            }
-
-            return null;
-        }
-        public CubeWorldCoordinates GetTargetedNewCube() // Is not 100% trustworthy, and is not powerful, be careful
-        {
-            Vector3 checkPosition = Nocubeless.Camera.Position * CubeWorld.GetGraphicsCubeRatio(Nocubeless.CubeWorld.Settings.HeightOfCubes);
-
-            CubeWorldCoordinates oldPosition = null;
-            CubeWorldCoordinates actualPosition = null;
-            CubeWorldCoordinates convertedCheckPosition;
-
-            const int checkIntensity = 100;
-            float checkIncrement = (float)Nocubeless.Settings.CubeHandler.MaxLayingDistance / checkIntensity;
-
-            for (int i = 0; i < checkIntensity; i++)
-            { // In World, is free space
-                checkPosition += Nocubeless.Camera.Front * checkIncrement; // Increment check zone
-                convertedCheckPosition = checkPosition.ToCubeCoordinate();
-
-                if (convertedCheckPosition != actualPosition) // Perf maintainer
-                {
-                    if (oldPosition != null && !IsFreeSpace(convertedCheckPosition)) // Check if it's a free space
-                        return oldPosition;
-                    else if (actualPosition != null) // Or accept the new checkable position (or exit if actualPosition wasn't initialized)
-                        oldPosition = actualPosition;
-                }
-
-                actualPosition = convertedCheckPosition;
-            }
-
-            return actualPosition;
+            base.Dispose(disposing);
         }
 
-        private void DrawCube(Cube cube, float transparency = 1.0f)
+        private void DrawChunk(CubeChunk chunk)
         {
-            Vector3 cubeScenePosition = CubeWorld.GetGraphicsCubePosition(cube.Position, Nocubeless.CubeWorld.Settings.HeightOfCubes);
+            Vector3 position = Nocubeless.CubeWorld.GetGraphicsCubePosition(chunk.Coordinates);
+            float gaps = 1 / Nocubeless.CubeWorld.GetGraphicsCubeRatio(); // DESIGN: don't do 1 / x
 
             EffectMatrices effectMatrices =
                 new EffectMatrices(Nocubeless.Camera.ProjectionMatrix,
                 Nocubeless.Camera.ViewMatrix,
                 Matrix.Identity);
 
-            cubeDrawer.Draw(cubeScenePosition, cube.Color, effectMatrices, transparency);
+            chunkDrawer.Draw(ref chunk, position, gaps, effectMatrices);
+        }
+        private void DrawCube(Cube cube, float transparency = 1.0f)
+        {
+            Vector3 cubeScenePosition = Nocubeless.CubeWorld.GetGraphicsCubePosition(cube.Coordinates);
+
+            EffectMatrices effectMatrices =
+                new EffectMatrices(Nocubeless.Camera.ProjectionMatrix,
+                Nocubeless.Camera.ViewMatrix,
+                Matrix.Identity);
+
+            cubeDrawer.Draw(cubeScenePosition, cube.Color.ToVector3(), effectMatrices, transparency);
+        }
+
+        private CubeChunk TakeChunkAt(Coordinates chunkCoordinates)
+        {
+            return (from chunk in LoadedChunks
+                    where chunk.Coordinates.Equals(chunkCoordinates)
+                    select chunk).FirstOrDefault();
         }
     }
 }
