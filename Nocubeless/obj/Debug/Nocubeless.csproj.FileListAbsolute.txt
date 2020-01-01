@@ -1,0 +1,9 @@
+D:\Fichiers personnels\Documents\[]Projects\Nocubeless\Nocubeless\Nocubeless\obj\Debug\Nocubeless.csprojAssemblyReference.cache
+D:\Fichiers personnels\Documents\[]Projects\Nocubeless\Nocubeless\Nocubeless\bin\Debug\Nocubeless.exe.config
+D:\Fichiers personnels\Documents\[]Projects\Nocubeless\Nocubeless\Nocubeless\bin\Debug\Nocubeless.exe
+D:\Fichiers personnels\Documents\[]Projects\Nocubeless\Nocubeless\Nocubeless\bin\Debug\Nocubeless.pdb
+D:\Fichiers personnels\Documents\[]Projects\Nocubeless\Nocubeless\Nocubeless\bin\Debug\MonoGame.Framework.dll
+D:\Fichiers personnels\Documents\[]Projects\Nocubeless\Nocubeless\Nocubeless\bin\Debug\MonoGame.Framework.xml
+D:\Fichiers personnels\Documents\[]Projects\Nocubeless\Nocubeless\Nocubeless\obj\Debug\Nocubeless.csproj.CopyComplete
+D:\Fichiers personnels\Documents\[]Projects\Nocubeless\Nocubeless\Nocubeless\obj\Debug\Nocubeless.exe
+D:\Fichiers personnels\Documents\[]Projects\Nocubeless\Nocubeless\Nocubeless\obj\Debug\Nocubeless.pdb
