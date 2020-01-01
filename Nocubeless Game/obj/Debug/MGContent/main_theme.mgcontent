@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>D:/Fichiers personnels/Documents/[]Projects/Nocubeless DevOps/Nocubeless Game/Nocubeless Game/Content/main_theme.mp3</SourceFile>
+  <SourceTime>2019-11-27T20:45:52.3527148+01:00</SourceTime>
+  <DestFile>D:/Fichiers personnels/Documents/[]Projects/Nocubeless DevOps/Nocubeless Game/Nocubeless Game/bin/Debug/MGContent/main_theme.xnb</DestFile>
+  <DestTime>2019-12-21T22:05:19.2900394+01:00</DestTime>
+  <Importer>Mp3Importer</Importer>
+  <ImporterTime>2018-12-08T17:35:54+01:00</ImporterTime>
+  <Processor>SongProcessor</Processor>
+  <ProcessorTime>2018-12-08T17:35:54+01:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput>
+    <string>D:/Fichiers personnels/Documents/[]Projects/Nocubeless DevOps/Nocubeless Game/Nocubeless Game/bin/Debug/MGContent/main_theme.ogg</string>
+  </BuildOutput>
+</PipelineBuildEvent>
