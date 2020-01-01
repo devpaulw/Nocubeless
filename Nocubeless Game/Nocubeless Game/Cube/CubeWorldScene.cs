@@ -69,7 +69,7 @@ namespace Nocubeless
 
         public void PreviewCube(Cube cube)
         {
-            PreviewableCube = cube;
+            PreviewableCube = cube; //
         }
 
         private void LoadChunks(Coordinates playerCoordinates) // it's the big cube algorithm
