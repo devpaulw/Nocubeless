@@ -15,7 +15,7 @@ namespace Nocubeless
     class Nocubeless : Game // mediator MAIN CLASS
     {
         private readonly GraphicsDeviceManager graphicsDeviceManager;
-
+        // test
         public SpriteBatch SpriteBatch { get; set; }
         public NocubelessSettings Settings { get; set; }
         public NocubelessState CurrentState { get; set; }
@@ -26,7 +26,7 @@ namespace Nocubeless
         public Nocubeless()
         {
             graphicsDeviceManager = new GraphicsDeviceManager(this);
-
+            Console.WriteLine("salut ");
             Content.RootDirectory = "MGContent"; // DESIGN: Content better handler
 
             Settings = NocubelessSettings.Default;
