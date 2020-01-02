@@ -12,110 +12,111 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Nocubeless
 {
-    class Nocubeless : Game // mediator MAIN CLASS
-    {
-        private readonly GraphicsDeviceManager graphicsDeviceManager;
-        // test
-        public SpriteBatch SpriteBatch { get; set; }
-        public NocubelessSettings Settings { get; set; }
-        public NocubelessState CurrentState { get; set; }
+	class Nocubeless : Game // mediator MAIN CLASS
+	{
+		private readonly GraphicsDeviceManager graphicsDeviceManager;
 
-        public Camera Camera { get; set; }
-        public CubeWorld CubeWorld { get; set; }
+		public SpriteBatch SpriteBatch { get; set; }
+		public NocubelessSettings Settings { get; set; }
+		public NocubelessState CurrentState { get; set; }
 
-        public Nocubeless()
-        {
-            graphicsDeviceManager = new GraphicsDeviceManager(this);
-            Console.WriteLine("salut ");
-            Content.RootDirectory = "MGContent"; // DESIGN: Content better handler
+		public Camera Camera { get; set; }
+		public CubeWorld CubeWorld { get; set; }
+		public CubeWorldScene Scene { get; set; }
 
-            Settings = NocubelessSettings.Default;
-            Settings.Graphics.SetToGame(this, graphicsDeviceManager);
+		public Nocubeless()
+		{
+			graphicsDeviceManager = new GraphicsDeviceManager(this);
 
-            #region Test Zone
-            //var testSave = new CubeWorldSaveHandler(@"save.nws");
+			Content.RootDirectory = "MGContent"; // DESIGN: Content better handler
 
-            //var rnd = new Random();
+			Settings = NocubelessSettings.Default;
+			Settings.Graphics.SetToGame(this, graphicsDeviceManager);
 
-            //var testChunk = new CubeChunk(new Coordinates(-8, -8, -8));
-            ///*tmp*/
-            //for (int i = 0; i < CubeChunk.TotalSize; i++)
-            //    testChunk[i] = new CubeColor(rnd.Next(0, 8), rnd.Next(0, 8), rnd.Next(0, 8));
+			#region Test Zone
+			//var testSave = new CubeWorldSaveHandler(@"save.nws");
 
-            //testSave.SetChunk(testChunk);
+			//var rnd = new Random();
 
-            //testSave.GetChunkAt(new Coordinates(0, 0, 0));
+			//var testChunk = new CubeChunk(new Coordinates(-8, -8, -8));
+			///*tmp*/
+			//for (int i = 0; i < CubeChunk.TotalSize; i++)
+			//    testChunk[i] = new CubeColor(rnd.Next(0, 8), rnd.Next(0, 8), rnd.Next(0, 8));
 
-            #endregion
-        }
+			//testSave.SetChunk(testChunk);
 
-        protected override void Initialize()
-        {
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
+			//testSave.GetChunkAt(new Coordinates(0, 0, 0));
 
-            Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
-            CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nclws"));
-            
-            #region Graphics Config
-            var blendState = BlendState.AlphaBlend;
-            var rasterizerState = new RasterizerState
-            {
-                CullMode = CullMode.None
-            };
+			#endregion
+		}
 
-            GraphicsDevice.BlendState = blendState;
-            GraphicsDevice.RasterizerState = rasterizerState;
-            #endregion
+		protected override void Initialize()
+		{
+			SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            #region Components Linking
-            var cameraHandler = new CameraInput(this);
-            var cubeWorldScene = new CubeWorldScene(this);
-            var cubeWorldSceneInput = new CubeWorldSceneInput(this, cubeWorldScene);
-            var colorPickerMenu = new ColorPickerMenu(this, cubeWorldSceneInput.OnColorPicking);
-            var coordDisplayer = new InfoDisplayer(this);
+			Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
+			CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nclws"));
+			Scene = new CubeWorldScene(this);
 
-            Components.Add(cameraHandler);
-            Components.Add(cubeWorldScene);
-            Components.Add(cubeWorldSceneInput);
-            Components.Add(colorPickerMenu);
-            Components.Add(coordDisplayer);
-            #endregion
+			#region Graphics Config
+			var blendState = BlendState.AlphaBlend;
+			var rasterizerState = new RasterizerState
+			{
+				CullMode = CullMode.None
+			};
 
-            base.Initialize();
-        }
+			GraphicsDevice.BlendState = blendState;
+			GraphicsDevice.RasterizerState = rasterizerState;
+			#endregion
 
-        protected override void LoadContent()
-        {
-            if (Settings.Song.MusicEnabled) MediaPlayer.Play(Content.Load<Song>("Music/main_theme")); // I'm nice, I am making only one line for fun by waiting Content Design Update
-        }
+			#region Components Linking
+			var playerInput = new PlayerInputComponent(this);
+			var cubeWorldSceneInput = new CubeWorldSceneInput(this, Scene);
+			var colorPickerMenu = new ColorPickerMenu(this, cubeWorldSceneInput.OnColorPicking);
+			var coordDisplayer = new InfoDisplayer(this);
 
-        protected override void Update(GameTime gameTime)
-        {
-            if (!IsActive) // Don't take in care when window is not focused
-                return;
+			Components.Add(playerInput);
+			Components.Add(Scene);
+			Components.Add(cubeWorldSceneInput);
+			Components.Add(colorPickerMenu);
+			Components.Add(coordDisplayer);
+			#endregion
 
-            GameInput.ReloadCurrentStates();
+			base.Initialize();
+		}
 
-            if (GameInput.CurrentKeyboardState.IsKeyDown(Keys.Escape))
-                Exit();
+		protected override void LoadContent()
+		{
+			if (Settings.Song.MusicEnabled) MediaPlayer.Play(Content.Load<Song>("Music/main_theme")); // I'm nice, I am making only one line for fun by waiting Content Design Update
+		}
 
-            base.Update(gameTime);
+		protected override void Update(GameTime gameTime)
+		{
+			if (!IsActive) // Don't take in care when window is not focused
+				return;
 
-            GameInput.ReloadOldStates();
-        }
+			GameInput.ReloadCurrentStates();
 
-        protected override void Draw(GameTime gameTime)
-        {
-            float intensity = 1.0f;
-            GraphicsDevice.Clear(new Color((int)(149 * intensity), (int)(165 * intensity), (int)(166 * intensity)));
+			if (GameInput.CurrentKeyboardState.IsKeyDown(Keys.Escape))
+				Exit();
 
-            SpriteBatch.Begin(blendState: GraphicsDevice.BlendState, 
-                depthStencilState: GraphicsDevice.DepthStencilState, 
-                rasterizerState: GraphicsDevice.RasterizerState);
+			base.Update(gameTime);
 
-            base.Draw(gameTime);
+			GameInput.ReloadOldStates();
+		}
 
-            SpriteBatch.End();
-        }
-    }
+		protected override void Draw(GameTime gameTime)
+		{
+			float intensity = 1.0f;
+			GraphicsDevice.Clear(new Color((int)(149 * intensity), (int)(165 * intensity), (int)(166 * intensity)));
+
+			SpriteBatch.Begin(blendState: GraphicsDevice.BlendState,
+				depthStencilState: GraphicsDevice.DepthStencilState,
+				rasterizerState: GraphicsDevice.RasterizerState);
+
+			base.Draw(gameTime);
+
+			SpriteBatch.End();
+		}
+	}
 }

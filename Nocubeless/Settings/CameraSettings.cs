@@ -18,7 +18,7 @@ namespace Nocubeless
                 {
                     Fov = 100,
                     MoveSpeed = 1.0f,
-                    MouseSensitivity = 0.175f,
+                    MouseSensitivity = 0.01f,
                 };
             }
         }
