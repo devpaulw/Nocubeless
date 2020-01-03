@@ -59,8 +59,8 @@ namespace Nocubeless
         public override void Update(GameTime gameTime)
         {
             #region Show Color Picker Switch
-            if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.ShowColorPicker)
-                && GameInput.OldKeyboardState.IsKeyUp(Nocubeless.Settings.Keys.ShowColorPicker))
+            if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.ShowColorPicker)
+                && Input.OldKeyboardState.IsKeyUp(Nocubeless.Settings.Keys.ShowColorPicker))
             {
                 if (Nocubeless.CurrentState == NocubelessState.Playing)
                     Nocubeless.CurrentState = NocubelessState.ColorPicking;

@@ -66,10 +66,10 @@ namespace Nocubeless
         public override void Update(GameTime gameTime)
         {
             // test if the TextBox is pointed
-            if (GameInput.CurrentMouseState.LeftButton == ButtonState.Pressed
-                    && GameInput.OldMouseState.LeftButton == ButtonState.Released)
+            if (Input.CurrentMouseState.LeftButton == ButtonState.Pressed
+                    && Input.OldMouseState.LeftButton == ButtonState.Released)
             {
-                if (IsPointed(GameInput.CurrentMouseState.Position.ToVector2()))
+                if (IsPointed(Input.CurrentMouseState.Position.ToVector2()))
                 {
                     IsFocused = true;
                     texture.SetData(ConstructColorData()); // reconstruct colors

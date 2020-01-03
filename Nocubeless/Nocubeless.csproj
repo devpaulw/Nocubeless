@@ -65,7 +65,8 @@
     <Compile Include="Cube\CubeWorldSceneInput.cs" />
     <Compile Include="Cube\ShallowCubeWorldHandler.cs" />
     <Compile Include="Effects\CubeEffect.cs" />
-    <Compile Include="Game\GameInput.cs" />
+    <Compile Include="Game\Window.cs" />
+    <Compile Include="Game\Input.cs" />
     <Compile Include="Game\Nocubeless.cs" />
     <Compile Include="Game\NocubelessComponent.cs" />
     <Compile Include="Game\NocubelessDrawableComponent.cs" />
@@ -78,7 +79,7 @@
     <Compile Include="Menus 2D\TextInput.cs" />
     <Compile Include="Player\Camera.cs" />
     <Compile Include="Player\Player.cs" />
-    <Compile Include="Player\PlayerInputComponent.cs" />
+    <Compile Include="Player\PlayerInputProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Save System\CubeWorldSaveHandler.cs" />

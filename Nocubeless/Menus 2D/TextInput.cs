@@ -13,9 +13,9 @@ namespace Nocubeless
 
         public static void Read()
         {
-            foreach (Keys pressedKey in GameInput.CurrentKeyboardState.GetPressedKeys())
+            foreach (Keys pressedKey in Input.CurrentKeyboardState.GetPressedKeys())
             {
-                if (GameInput.OldKeyboardState.IsKeyUp(pressedKey))
+                if (Input.OldKeyboardState.IsKeyUp(pressedKey))
                 {
                     switch (pressedKey) // DESIGN: should be extern!
                     {
