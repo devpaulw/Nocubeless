@@ -17,6 +17,15 @@ namespace Nocubeless
         public static MouseState OldMouseState { get; private set; }
 
         //public GameInput() { }
+        public static bool IsKeyReleased(Keys key)
+        {
+            return OldKeyboardState.IsKeyDown(key) && CurrentKeyboardState.IsKeyUp(key);
+        }
+
+        public static bool IsKeyPressed(Keys key)
+        {
+            return OldKeyboardState.IsKeyUp(key) && CurrentKeyboardState.IsKeyDown(key);
+        }
 
         public static void ReloadCurrentStates()
         {
