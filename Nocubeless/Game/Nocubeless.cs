@@ -14,6 +14,7 @@ namespace Nocubeless
 {
 	class Nocubeless : Game // mediator MAIN CLASS
 	{
+
 		private readonly GraphicsDeviceManager graphicsDeviceManager;
 		// test spydotnet
 		public SpriteBatch SpriteBatch { get; set; }
@@ -23,6 +24,7 @@ namespace Nocubeless
 		public Camera Camera { get; set; }
 		public CubeWorld CubeWorld { get; set; }
 		public CubeWorldScene Scene { get; set; }
+		public Player Player { get; set;}
 
 		public Nocubeless()
 		{
@@ -57,6 +59,7 @@ namespace Nocubeless
 			Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
 			CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nclws"));
 			Scene = new CubeWorldScene(this);
+			Player = new Player(new Vector3(0, 0, 0), 1, 3, 1, CubeWorld.GetGraphicsCubeRatio() / 2);
 
 			#region Graphics Config
 			var blendState = BlendState.AlphaBlend;

@@ -10,14 +10,14 @@ namespace Nocubeless
 {
 	class PlayerInputComponent : NocubelessComponent
 	{
-		private PlayerEntity PlayerEntity;
+		private int cursorSet = 0;
+
 		public PlayerInputComponent(Nocubeless nocubeless) : base(nocubeless)
 		{
-			PlayerEntity = new PlayerEntity(new Vector3(0, 0, 0), 1, 3, 1, Nocubeless.CubeWorld.GetGraphicsCubeRatio() / 2);
 			Nocubeless.Camera.Speed = Nocubeless.CubeWorld.GetGraphicsCubeRatio() / 2;
-			//Nocubeless.Camera.Position = PlayerEntity.Position;
+
+			//Nocubeless.Camera.Position = Nocubeless.Player.Position;
 		}
-		private int cursorSet = 0;
 
 		public override void Update(GameTime gameTime)
 		{
@@ -38,19 +38,24 @@ namespace Nocubeless
 				}
 				Mouse.SetPosition(Nocubeless.GraphicsDevice.Viewport.Width / 2, Nocubeless.GraphicsDevice.Viewport.Height / 2);
 
-
-				float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 				var direction = Vector3.Zero;
 
-				if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.Run))
+
+				if (GameInput.IsKeyPressed(Nocubeless.Settings.Keys.Run))
 				{
-					Nocubeless.Camera.Speed = 2.5f;
+					Nocubeless.Player.Speed = Nocubeless.Player.Speed * 3f;
 				}
+				else if (GameInput.IsKeyReleased(Nocubeless.Settings.Keys.Run))
+				{
+					Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
+				}
+
+				Nocubeless.Player.UpdateSpeed((float)gameTime.ElapsedGameTime.TotalSeconds);
 
 				if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveRight))
 				{
 					direction = Nocubeless.Camera.Right;
-					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(PlayerEntity.GetNextPosition(deltaTime * direction))))
+					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
 					{
 						direction = Vector3.Zero;
 					}
@@ -58,7 +63,7 @@ namespace Nocubeless
 				else if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveLeft))
 				{
 					direction = -Nocubeless.Camera.Right;
-					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(PlayerEntity.GetNextPosition(deltaTime * direction))))
+					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
 					{
 						direction = Vector3.Zero;
 					}
@@ -69,7 +74,7 @@ namespace Nocubeless
 
 					direction += Nocubeless.Camera.Front;
 
-					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(PlayerEntity.GetNextPosition(deltaTime * direction))))
+					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
 					{
 						direction -= Nocubeless.Camera.Front;
 					}
@@ -78,7 +83,7 @@ namespace Nocubeless
 				{
 					direction -= Nocubeless.Camera.Front;
 
-					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(PlayerEntity.GetNextPosition(deltaTime * direction))))
+					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
 					{
 						direction += Nocubeless.Camera.Front;
 					}
@@ -87,15 +92,23 @@ namespace Nocubeless
 				if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveUpward))
 				{
 					direction.Y += 1;
+
+					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+					{
+						direction.Y -= 1;
+					}
 				}
 				else if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveDown))
 				{
 					direction.Y -= 1;
+					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+					{
+						direction.Y += 1;
+					}
 				}
 
-				//Nocubeless.CubeWorld.IsFreeSpace(ToCoordinates(PlayerEntity.Position + deltaTime * direction)
-				PlayerEntity.Move(deltaTime * direction);
-				Nocubeless.Camera.Position = PlayerEntity.Position;
+				Nocubeless.Player.Move(direction);
+				Nocubeless.Camera.Position = Nocubeless.Player.Position;
 			}
 
 			base.Update(gameTime);
