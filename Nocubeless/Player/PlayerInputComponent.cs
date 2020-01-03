@@ -41,11 +41,11 @@ namespace Nocubeless
 				var direction = Vector3.Zero;
 
 
-				if (GameInput.IsKeyPressed(Nocubeless.Settings.Keys.Run))
+				if (GameInput.WasJustKeyPressed(Nocubeless.Settings.Keys.Run))
 				{
 					Nocubeless.Player.Speed = Nocubeless.Player.Speed * 3f;
 				}
-				else if (GameInput.IsKeyReleased(Nocubeless.Settings.Keys.Run))
+				else if (GameInput.WasJustKeyReleased(Nocubeless.Settings.Keys.Run))
 				{
 					Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
 				}

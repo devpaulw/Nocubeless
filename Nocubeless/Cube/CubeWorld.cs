@@ -44,7 +44,7 @@ namespace Nocubeless
         }
         public float GetGraphicsCubeRatio() // how much is a cube smaller/bigger in the graphics representation?
         {
-            return 1.0f / Settings.HeightOfCubes / 2.0f;
+            return 1.0f / (Settings.HeightOfCubes * 2.0f);
         }
     }
 }
