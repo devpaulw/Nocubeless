@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	class PlayerInputComponent : NocubelessComponent
+	class PlayerInputProcessor : NocubelessComponent
 	{
 		private int cursorSet = 0;
 
-		public PlayerInputComponent(Nocubeless nocubeless) : base(nocubeless)
+		public PlayerInputProcessor(Nocubeless nocubeless) : base(nocubeless)
 		{
 			Nocubeless.Camera.Speed = Nocubeless.CubeWorld.GetGraphicsCubeRatio() / 2;
 
@@ -23,36 +23,51 @@ namespace Nocubeless
 		{
 			if (Nocubeless.CurrentState == NocubelessState.Playing)
 			{
-				Point middlePoint = new Point(Nocubeless.GraphicsDevice.Viewport.Width / 2, Nocubeless.GraphicsDevice.Viewport.Height / 2);
-				Point deltaPoint;
-
+				
 				if (cursorSet > 1)
 				{
-					deltaPoint = new Point(GameInput.CurrentMouseState.X - middlePoint.X, GameInput.CurrentMouseState.Y - middlePoint.Y);
-					Nocubeless.Camera.Rotate(deltaPoint.Y * Nocubeless.Settings.Camera.MouseSensitivity, -deltaPoint.X * Nocubeless.Settings.Camera.MouseSensitivity);
-
+					Vector2 movement = Nocubeless.Input.GetMouseMovement();
+					Nocubeless.Camera.Rotate(movement.Y, -movement.X);
 				}
 				else
 				{
 					cursorSet++; // Prevent bad camera arisen
 				}
-				Mouse.SetPosition(Nocubeless.GraphicsDevice.Viewport.Width / 2, Nocubeless.GraphicsDevice.Viewport.Height / 2);
+				
 
 				var direction = Vector3.Zero;
-
-
-				if (GameInput.WasJustKeyPressed(Nocubeless.Settings.Keys.Run))
+				if (Input.IsPressed(Nocubeless.Settings.Keys.Run))
 				{
 					Nocubeless.Player.Speed = Nocubeless.Player.Speed * 3f;
 				}
-				else if (GameInput.WasJustKeyReleased(Nocubeless.Settings.Keys.Run))
+				else if (Input.IsReleased(Nocubeless.Settings.Keys.Run))
+				{
+					Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
+				}
+
+
+				if (GameInput.IsKeyPressed(Nocubeless.Settings.Keys.Run))
+				{
+					Nocubeless.Player.Speed = Nocubeless.Player.Speed * 3f;
+				}
+				else if (GameInput.IsKeyReleased(Nocubeless.Settings.Keys.Run))
 				{
 					Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
 				}
 
 				Nocubeless.Player.UpdateSpeed((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-				if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveRight))
+				if (Input.IsPressed(Keys.V))
+				{
+					Nocubeless.Camera.Zoom(120);
+				}
+				else if (Input.IsReleased(Keys.V))
+				{
+					Nocubeless.Camera.Zoom(100);
+				}
+				
+
+				if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveRight))
 				{
 					direction = Nocubeless.Camera.Right;
 					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
@@ -60,7 +75,7 @@ namespace Nocubeless
 						direction = Vector3.Zero;
 					}
 				}
-				else if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveLeft))
+				else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveLeft))
 				{
 					direction = -Nocubeless.Camera.Right;
 					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
@@ -69,7 +84,7 @@ namespace Nocubeless
 					}
 				}
 
-				if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveForward))
+				if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveForward))
 				{
 
 					direction += Nocubeless.Camera.Front;
@@ -79,7 +94,7 @@ namespace Nocubeless
 						direction -= Nocubeless.Camera.Front;
 					}
 				}
-				else if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveBackward))
+				else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveBackward))
 				{
 					direction -= Nocubeless.Camera.Front;
 
@@ -89,7 +104,7 @@ namespace Nocubeless
 					}
 				}
 
-				if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveUpward))
+				if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveUpward))
 				{
 					direction.Y += 1;
 
@@ -98,7 +113,7 @@ namespace Nocubeless
 						direction.Y -= 1;
 					}
 				}
-				else if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveDown))
+				else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveDown))
 				{
 					direction.Y -= 1;
 					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))

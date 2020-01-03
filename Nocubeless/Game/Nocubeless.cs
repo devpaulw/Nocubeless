@@ -21,10 +21,12 @@ namespace Nocubeless
 		public NocubelessSettings Settings { get; set; }
 		public NocubelessState CurrentState { get; set; }
 
+		public Window Window { get; set; }
 		public Camera Camera { get; set; }
 		public CubeWorld CubeWorld { get; set; }
 		public CubeWorldScene Scene { get; set; }
 		public Player Player { get; set;}
+		public Input Input { get; set; }
 
 		public Nocubeless()
 		{
@@ -54,12 +56,15 @@ namespace Nocubeless
 
 		protected override void Initialize()
 		{
+			Window = new Window(GraphicsDevice);
 			SpriteBatch = new SpriteBatch(GraphicsDevice);
 
 			Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
 			CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nclws"));
 			Scene = new CubeWorldScene(this);
 			Player = new Player(new Vector3(0, 0, 0), 1, 3, 1, CubeWorld.GetGraphicsCubeRatio() / 2);
+			Input = new Input(this);
+			//Window = new Window(this);
 
 			#region Graphics Config
 			var blendState = BlendState.AlphaBlend;
@@ -73,12 +78,13 @@ namespace Nocubeless
 			#endregion
 
 			#region Components Linking
-			var playerInput = new PlayerInputComponent(this);
+			var playerInputProcessing = new PlayerInputProcessor(this);
 			var cubeWorldSceneInput = new CubeWorldSceneInput(this, Scene);
 			var colorPickerMenu = new ColorPickerMenu(this, cubeWorldSceneInput.OnColorPicking);
 			var coordDisplayer = new InfoDisplayer(this);
 
-			Components.Add(playerInput);
+			Components.Add(Input);
+			Components.Add(playerInputProcessing);
 			Components.Add(Scene);
 			Components.Add(cubeWorldSceneInput);
 			Components.Add(colorPickerMenu);
@@ -98,14 +104,14 @@ namespace Nocubeless
 			if (!IsActive) // Don't take in care when window is not focused
 				return;
 
-			GameInput.ReloadCurrentStates();
+			Input.ReloadCurrentStates();
 
-			if (GameInput.CurrentKeyboardState.IsKeyDown(Keys.Escape))
+			if (Input.CurrentKeyboardState.IsKeyDown(Keys.Escape))
 				Exit();
 
 			base.Update(gameTime);
 
-			GameInput.ReloadOldStates();
+			Input.ReloadOldStates();
 		}
 
 		protected override void Draw(GameTime gameTime)

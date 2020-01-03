@@ -16,9 +16,7 @@ namespace Nocubeless
 		}
 		public float AspectRatio { get; set; }
 
-		public Vector3 Position {
-			get; set;
-		}
+		public Vector3 Position { get; set; }
 		public Vector3 Front { get; private set; }
 		public Vector3 Up { get; private set; }
 		public Vector3 Right { get; private set; }
@@ -27,6 +25,11 @@ namespace Nocubeless
 
 		private float Pitch = 0.0f;
 		private float Yaw = 0.0f;
+
+		public float minFov { get; set; }
+		public float maxFov { get; set; }
+		private float defaultFov;
+
 		public Vector3 Target
 		{
 			get
@@ -37,13 +40,16 @@ namespace Nocubeless
 
 		public Camera(CameraSettings settings, Viewport viewport)
 		{
-			Fov = settings.Fov;
+			defaultFov = MathHelper.ToRadians(settings.Fov);
+			fovInRadians = defaultFov;
 			AspectRatio = viewport.AspectRatio;
 
 			Front = Vector3.UnitZ;
 			Up = Vector3.UnitY;
-
 			Right = Vector3.Cross(Front, Up);
+
+			minFov = 0.5f;
+			maxFov = 2.0f;
 		}
 
 		// TODO optimizing
@@ -78,6 +84,11 @@ namespace Nocubeless
 				(float)Math.Sin(Pitch),
 				(float)(Math.Cos(Pitch) * Math.Sin(Yaw)));
 			Right = Vector3.Normalize(Vector3.Cross(Front, Up));
+		}
+
+		public void Zoom(float percentage)
+		{
+			fovInRadians = MathHelper.Clamp(defaultFov / (percentage / 100.0f), minFov, maxFov);
 		}
 	}
 }
