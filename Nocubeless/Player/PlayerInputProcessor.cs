@@ -23,7 +23,7 @@ namespace Nocubeless
 		{
 			if (Nocubeless.CurrentState == NocubelessState.Playing)
 			{
-				
+
 				if (cursorSet > 1)
 				{
 					Vector2 movement = Nocubeless.Input.GetMouseMovement();
@@ -33,7 +33,7 @@ namespace Nocubeless
 				{
 					cursorSet++; // Prevent bad camera arisen
 				}
-				
+
 
 				var direction = Vector3.Zero;
 				if (Input.IsPressed(Nocubeless.Settings.Keys.Run))
@@ -45,12 +45,11 @@ namespace Nocubeless
 					Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
 				}
 
-
-				if (GameInput.IsKeyPressed(Nocubeless.Settings.Keys.Run))
+				if (Input.IsPressed(Nocubeless.Settings.Keys.Run))
 				{
 					Nocubeless.Player.Speed = Nocubeless.Player.Speed * 3f;
 				}
-				else if (GameInput.IsKeyReleased(Nocubeless.Settings.Keys.Run))
+				else if (Input.IsReleased(Nocubeless.Settings.Keys.Run))
 				{
 					Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
 				}
@@ -65,12 +64,12 @@ namespace Nocubeless
 				{
 					Nocubeless.Camera.Zoom(100);
 				}
-				
+
 
 				if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveRight))
 				{
 					direction = Nocubeless.Camera.Right;
-					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+					if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
 					{
 						direction = Vector3.Zero;
 					}
@@ -78,7 +77,7 @@ namespace Nocubeless
 				else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveLeft))
 				{
 					direction = -Nocubeless.Camera.Right;
-					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+					if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
 					{
 						direction = Vector3.Zero;
 					}
@@ -89,7 +88,7 @@ namespace Nocubeless
 
 					direction += Nocubeless.Camera.Front;
 
-					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+					if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
 					{
 						direction -= Nocubeless.Camera.Front;
 					}
@@ -98,7 +97,7 @@ namespace Nocubeless
 				{
 					direction -= Nocubeless.Camera.Front;
 
-					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+					if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
 					{
 						direction += Nocubeless.Camera.Front;
 					}
@@ -108,7 +107,7 @@ namespace Nocubeless
 				{
 					direction.Y += 1;
 
-					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+					if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
 					{
 						direction.Y -= 1;
 					}
@@ -116,7 +115,7 @@ namespace Nocubeless
 				else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveDown))
 				{
 					direction.Y -= 1;
-					if (!Nocubeless.Scene.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+					if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
 					{
 						direction.Y += 1;
 					}

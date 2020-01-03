@@ -12,21 +12,19 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Nocubeless
 {
-	class Nocubeless : Game // mediator MAIN CLASS
+	class Nocubeless : Game
 	{
-
 		private readonly GraphicsDeviceManager graphicsDeviceManager;
 		// test spydotnet
 		public SpriteBatch SpriteBatch { get; set; }
 		public NocubelessSettings Settings { get; set; }
 		public NocubelessState CurrentState { get; set; }
 
-		public Window Window { get; set; }
+		public Window Window { get; set; } // SDNMSG: This is a conflict, fix it.
 		public Camera Camera { get; set; }
 		public CubeWorld CubeWorld { get; set; }
-		public CubeWorldScene Scene { get; set; }
 		public Player Player { get; set;}
-		public Input Input { get; set; }
+		public Input Input { get; set; } // SDNMSG: That is not well handled! You should better either use a Full static class or Full Dynamic but not both :/
 
 		public Nocubeless()
 		{
@@ -36,22 +34,6 @@ namespace Nocubeless
 
 			Settings = NocubelessSettings.Default;
 			Settings.Graphics.SetToGame(this, graphicsDeviceManager);
-
-			#region Test Zone
-			//var testSave = new CubeWorldSaveHandler(@"save.nws");
-
-			//var rnd = new Random();
-
-			//var testChunk = new CubeChunk(new Coordinates(-8, -8, -8));
-			///*tmp*/
-			//for (int i = 0; i < CubeChunk.TotalSize; i++)
-			//    testChunk[i] = new CubeColor(rnd.Next(0, 8), rnd.Next(0, 8), rnd.Next(0, 8));
-
-			//testSave.SetChunk(testChunk);
-
-			//testSave.GetChunkAt(new Coordinates(0, 0, 0));
-
-			#endregion
 		}
 
 		protected override void Initialize()
@@ -61,7 +43,6 @@ namespace Nocubeless
 
 			Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
 			CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nclws"));
-			Scene = new CubeWorldScene(this);
 			Player = new Player(new Vector3(0, 0, 0), 1, 3, 1, CubeWorld.GetGraphicsCubeRatio() / 2);
 			Input = new Input(this);
 			//Window = new Window(this);
@@ -79,13 +60,14 @@ namespace Nocubeless
 
 			#region Components Linking
 			var playerInputProcessing = new PlayerInputProcessor(this);
-			var cubeWorldSceneInput = new CubeWorldSceneInput(this, Scene);
+			var cubeWorldProcessor = new CubeWorldProcessor(this);
+			var cubeWorldSceneInput = new CubeWorldSceneInput(this);
 			var colorPickerMenu = new ColorPickerMenu(this, cubeWorldSceneInput.OnColorPicking);
 			var coordDisplayer = new InfoDisplayer(this);
 
 			Components.Add(Input);
 			Components.Add(playerInputProcessing);
-			Components.Add(Scene);
+			Components.Add(cubeWorldProcessor);
 			Components.Add(cubeWorldSceneInput);
 			Components.Add(colorPickerMenu);
 			Components.Add(coordDisplayer);
