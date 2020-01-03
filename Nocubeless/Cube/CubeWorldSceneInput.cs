@@ -28,8 +28,8 @@ namespace Nocubeless
             if (Nocubeless.CurrentState == NocubelessState.Playing)
             {
                 { // break/Lay switcher
-                    if (GameInput.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.SwitchLayBreak)
-                        && GameInput.OldKeyboardState.IsKeyUp(Nocubeless.Settings.Keys.SwitchLayBreak))
+                    if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.SwitchLayBreak)
+                        && Input.OldKeyboardState.IsKeyUp(Nocubeless.Settings.Keys.SwitchLayBreak))
                     {
                         @break = !@break; // invert value
                     }
@@ -44,8 +44,8 @@ namespace Nocubeless
                         Scene.PreviewCube(newCube);
                     }
                     { // lay
-                        if (GameInput.CurrentMouseState.RightButton == ButtonState.Pressed
-                            && GameInput.OldMouseState.RightButton == ButtonState.Released)
+                        if (Input.CurrentMouseState.RightButton == ButtonState.Pressed
+                            && Input.OldMouseState.RightButton == ButtonState.Released)
                         {
                             Scene.LayCube(newCube);
                         }
@@ -55,8 +55,8 @@ namespace Nocubeless
                 { // break
                     Scene.PreviewCube(null);
 
-                    if (GameInput.CurrentMouseState.LeftButton == ButtonState.Pressed
-                        && GameInput.OldMouseState.LeftButton == ButtonState.Released)
+                    if (Input.CurrentMouseState.LeftButton == ButtonState.Pressed
+                        && Input.OldMouseState.LeftButton == ButtonState.Released)
                     {
                         Coordinates toBreakCube = Scene.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
                         Scene.BreakCube(toBreakCube); // DESIGN: You know the way
