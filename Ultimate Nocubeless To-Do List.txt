@@ -1,7 +1,5 @@
 The Ultimate Nocubeless To-Do List File:
 
-- Coordinates Display
-- Organize de project 
 - Fix Equals in Coordinates
 - Pipette
 - Camera not smooth fix

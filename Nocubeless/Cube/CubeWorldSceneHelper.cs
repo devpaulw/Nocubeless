@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    static class CubeWorldSceneHelper
+    static class CubeWorldHelper
     {
-        public static Coordinates GetTargetedCube(this CubeWorldScene scene, Camera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
+        public static Coordinates GetTargetedCube(this CubeWorld cubeWorld, Camera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
         {
-            Vector3 checkPosition = camera.Position * scene.World.GetGraphicsCubeRatio(); // Not a beautiful way!
+            Vector3 checkPosition = camera.Position * cubeWorld.GetGraphicsCubeRatio(); // Not a beautiful way!
 
             Coordinates actualPosition = null;
             Coordinates convertedCheckPosition;
@@ -26,7 +26,7 @@ namespace Nocubeless
 
                 if (convertedCheckPosition != actualPosition)
                 {
-                    if (!scene.IsFreeSpace(convertedCheckPosition)) // check if it's a free space
+                    if (!cubeWorld.IsFreeSpace(convertedCheckPosition)) // check if it's a free space
                         return convertedCheckPosition;
                 }
 
@@ -35,9 +35,9 @@ namespace Nocubeless
 
             return actualPosition;
         }
-        public static Coordinates GetTargetedNewCube(this CubeWorldScene scene, Camera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
+        public static Coordinates GetTargetedNewCube(this CubeWorld cubeWorld, Camera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
         {
-            Vector3 checkPosition = camera.Position * scene.World.GetGraphicsCubeRatio();
+            Vector3 checkPosition = camera.Position * cubeWorld.GetGraphicsCubeRatio();
 
             Coordinates oldPosition = null;
             Coordinates actualPosition = null;
@@ -53,7 +53,7 @@ namespace Nocubeless
 
                 if (convertedCheckPosition != actualPosition) // perf maintainer
                 {
-                    if (oldPosition != null && !scene.IsFreeSpace(convertedCheckPosition)) // check if it's a free space
+                    if (oldPosition != null && !cubeWorld.IsFreeSpace(convertedCheckPosition)) // check if it's a free space
                         return oldPosition;
                     else if (actualPosition != null) // or accept the new checkable position (or exit if actualPosition wasn't initialized)
                         oldPosition = actualPosition;

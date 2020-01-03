@@ -14,12 +14,9 @@ namespace Nocubeless
 
         private bool @break;
 
-        public CubeWorldScene Scene { get; set; }
 
-        public CubeWorldSceneInput(Nocubeless nocubeless, CubeWorldScene scene) : base(nocubeless)
+        public CubeWorldSceneInput(Nocubeless nocubeless) : base(nocubeless)
         {
-            Scene = scene;
-
             nextColor = new CubeColor(7, 7, 7);
         }
 
@@ -38,28 +35,28 @@ namespace Nocubeless
 
                 if (!@break)
                 {
-                    Coordinates previewCubePosition = Scene.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+                    Coordinates previewCubePosition = Nocubeless.CubeWorld.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
                     Cube newCube = new Cube(nextColor, previewCubePosition);
                     { // prev
-                        Scene.PreviewCube(newCube);
+                        Nocubeless.CubeWorld.PreviewCube(newCube);
                     }
                     { // lay
                         if (Input.CurrentMouseState.RightButton == ButtonState.Pressed
                             && Input.OldMouseState.RightButton == ButtonState.Released)
                         {
-                            Scene.LayCube(newCube);
+                            Nocubeless.CubeWorld.LayCube(newCube);
                         }
                     }
                 }
                 else
                 { // break
-                    Scene.PreviewCube(null);
+                    Nocubeless.CubeWorld.PreviewCube(null);
 
                     if (Input.CurrentMouseState.LeftButton == ButtonState.Pressed
                         && Input.OldMouseState.LeftButton == ButtonState.Released)
                     {
-                        Coordinates toBreakCube = Scene.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
-                        Scene.BreakCube(toBreakCube); // DESIGN: You know the way
+                        Coordinates toBreakCube = Nocubeless.CubeWorld.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+                        Nocubeless.CubeWorld.BreakCube(toBreakCube); // DESIGN: You know the way
                     }
                 }
             }
