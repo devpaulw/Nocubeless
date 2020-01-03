@@ -19,7 +19,6 @@ namespace Nocubeless
 		public Vector3 Position {
 			get; set;
 		}
-		//public Vector3[] HookedPosition = new Vector3[1];
 		public Vector3 Front { get; private set; }
 		public Vector3 Up { get; private set; }
 		public Vector3 Right { get; private set; }
@@ -36,19 +35,15 @@ namespace Nocubeless
 			}
 		}
 
-		//public void HookTo(ref Vector3 position)
-		//{
-		//	HookedPosition[0] = position;
-		//}
-
 		public Camera(CameraSettings settings, Viewport viewport)
 		{
 			Fov = settings.Fov;
 			AspectRatio = viewport.AspectRatio;
 
-			//Position = Vector3.Zero;
 			Front = Vector3.UnitZ;
 			Up = Vector3.UnitY;
+
+			Right = Vector3.Cross(Front, Up);
 		}
 
 		// TODO optimizing
@@ -56,11 +51,11 @@ namespace Nocubeless
 		{
 			get
 			{
-				const float nearPlane = 0.0005f, farPlane = 100.0f;
+				const float zNear = 0.0005f, zFar = 100.0f;
 				return Matrix.CreatePerspectiveFieldOfView(
 					fovInRadians,
 					AspectRatio,
-					nearPlane, farPlane);
+					zNear, zFar);
 			}
 		}
 
@@ -82,9 +77,7 @@ namespace Nocubeless
 				(float)(Math.Cos(Pitch) * Math.Cos(Yaw)),
 				(float)Math.Sin(Pitch),
 				(float)(Math.Cos(Pitch) * Math.Sin(Yaw)));
-			Front.Normalize();
-
-			Right = Vector3.Cross(Front, Up);
+			Right = Vector3.Normalize(Vector3.Cross(Front, Up));
 		}
 	}
 }
