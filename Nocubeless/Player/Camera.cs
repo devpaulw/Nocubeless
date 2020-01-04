@@ -21,8 +21,6 @@ namespace Nocubeless
 		public Vector3 Up { get; private set; }
 		public Vector3 Right { get; private set; }
 
-		public float Speed { get; set; } = 1.0f;
-
 		private float Pitch = 0.0f;
 		private float Yaw = 0.0f;
 
@@ -73,11 +71,11 @@ namespace Nocubeless
 			}
 		}
 
-		public void Rotate(float pitchInRadians, float yawInRadians)
+		public void Rotate(float pitch, float yaw)
 		{
 			const float maxPitch = MathHelper.PiOver2 - 0.01f;
-			Pitch = MathHelper.Clamp(Pitch - pitchInRadians, -maxPitch, maxPitch);
-			Yaw -= yawInRadians;
+			Pitch = MathHelper.Clamp(Pitch - pitch, -maxPitch, maxPitch);
+			Yaw -= yaw;
 
 			Front = new Vector3(
 				(float)(Math.Cos(Pitch) * Math.Cos(Yaw)),

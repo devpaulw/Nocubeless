@@ -24,6 +24,7 @@ namespace Nocubeless
         {
             if (Nocubeless.CurrentState == NocubelessState.Playing)
             {
+
                 { // break/Lay switcher
                     if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.SwitchLayBreak)
                         && Input.OldKeyboardState.IsKeyUp(Nocubeless.Settings.Keys.SwitchLayBreak))

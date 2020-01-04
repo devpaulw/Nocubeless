@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	class Input : NocubelessComponent
+	static class Input
 	{
 
 		public static KeyboardState CurrentKeyboardState { get; private set; }
@@ -16,16 +16,6 @@ namespace Nocubeless
 
 		public static KeyboardState OldKeyboardState { get; private set; }
 		public static MouseState OldMouseState { get; private set; }
-
-		public Input(Nocubeless nocubeless) : base(nocubeless)
-		{
-
-		}
-
-		public override void Update(GameTime gameTime)
-		{
-			Mouse.SetPosition(Nocubeless.Window.Center.X, Nocubeless.Window.Center.Y);
-		}
 
 		public static void ReloadCurrentStates()
 		{
@@ -39,21 +29,6 @@ namespace Nocubeless
 			OldMouseState = CurrentMouseState;
 		}
 
-		#region Mouse input
-		public Vector2 GetMouseMovement()
-		{
-			return Nocubeless.Settings.Camera.MouseSensitivity
-				* new Vector2(CurrentMouseState.X - Nocubeless.Window.Center.X, CurrentMouseState.Y - Nocubeless.Window.Center.Y);
-		}
-
-		public int GetScrollWheelMovement()
-		{
-			return CurrentMouseState.ScrollWheelValue - OldMouseState.ScrollWheelValue;
-		}
-		#endregion
-
-		#region Keyboard input
-
 		public static bool IsReleased(Keys key)
 		{
 			return OldKeyboardState.IsKeyDown(key) && CurrentKeyboardState.IsKeyUp(key);
@@ -62,8 +37,5 @@ namespace Nocubeless
 		{
 			return OldKeyboardState.IsKeyUp(key) && CurrentKeyboardState.IsKeyDown(key);
 		}
-		#endregion
-
-
 	}
 }

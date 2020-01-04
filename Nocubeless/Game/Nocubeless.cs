@@ -20,11 +20,10 @@ namespace Nocubeless
 		public NocubelessSettings Settings { get; set; }
 		public NocubelessState CurrentState { get; set; }
 
-		public Window Window { get; set; } // SDNMSG: This is a conflict, fix it.
 		public Camera Camera { get; set; }
 		public CubeWorld CubeWorld { get; set; }
 		public Player Player { get; set;}
-		public Input Input { get; set; } // SDNMSG: That is not well handled! You should better either use a Full static class or Full Dynamic but not both :/
+		public PlayingInput PlayingInput;
 
 		public Nocubeless()
 		{
@@ -38,14 +37,13 @@ namespace Nocubeless
 
 		protected override void Initialize()
 		{
-			Window = new Window(GraphicsDevice);
 			SpriteBatch = new SpriteBatch(GraphicsDevice);
 
 			Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
 			CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nclws"));
+			// TODO initialize with PlayerSettings
 			Player = new Player(new Vector3(0, 0, 0), 1, 3, 1, CubeWorld.GetGraphicsCubeRatio() / 2);
-			Input = new Input(this);
-			//Window = new Window(this);
+			PlayingInput = new PlayingInput(this);
 
 			#region Graphics Config
 			var blendState = BlendState.AlphaBlend;
@@ -59,14 +57,12 @@ namespace Nocubeless
 			#endregion
 
 			#region Components Linking
-			var playerInputProcessing = new PlayerInputProcessor(this);
 			var cubeWorldProcessor = new CubeWorldProcessor(this);
 			var cubeWorldSceneInput = new CubeWorldSceneInput(this);
 			var colorPickerMenu = new ColorPickerMenu(this, cubeWorldSceneInput.OnColorPicking);
 			var coordDisplayer = new InfoDisplayer(this);
 
-			Components.Add(Input);
-			Components.Add(playerInputProcessing);
+			Components.Add(PlayingInput);
 			Components.Add(cubeWorldProcessor);
 			Components.Add(cubeWorldSceneInput);
 			Components.Add(colorPickerMenu);
@@ -90,6 +86,12 @@ namespace Nocubeless
 
 			if (Input.CurrentKeyboardState.IsKeyDown(Keys.Escape))
 				Exit();
+
+			if (CurrentState == NocubelessState.Playing)
+			{
+				Player.UpdateSpeed((float)gameTime.ElapsedGameTime.TotalSeconds);
+				PlayingInput.Update(gameTime);
+			}
 
 			base.Update(gameTime);
 
