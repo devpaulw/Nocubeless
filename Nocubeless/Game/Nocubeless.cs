@@ -23,7 +23,7 @@ namespace Nocubeless
 		public Camera Camera { get; set; }
 		public CubeWorld CubeWorld { get; set; }
 		public Player Player { get; set;}
-		public PlayingInput PlayingInput;
+		public PlayingInput PlayingInput; // SDNMSG! No! It have to be private and not updated there!
 
 		public Nocubeless()
 		{

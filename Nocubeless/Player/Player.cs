@@ -9,7 +9,7 @@ namespace Nocubeless
 {
 	class Player
 	{
-		public Vector3 Position { get; set; }
+		public Vector3 Position { get; set; } // SDNMSG: Replace with Coordinates?
 		public int Width { get; set; }
 		public int Height { get; set; }
 		public int Length { get; set; }
@@ -17,7 +17,7 @@ namespace Nocubeless
 		private float ActualSpeed { get; set; }
 		public Vector3 Velocity { get; set; }
 
-		public Player(Vector3 position, int width, int height, int length, float speed)
+		public Player(Vector3 position, int width, int height, int length, float speed) // SDNMSG: A player can know the CubeWorld and Camera
 		{
 			Position = position;
 			Width = width;
