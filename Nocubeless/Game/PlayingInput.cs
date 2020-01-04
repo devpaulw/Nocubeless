@@ -18,7 +18,7 @@ namespace Nocubeless
 			WindowCenter = new Point(Nocubeless.GraphicsDevice.Viewport.Width / 2, Nocubeless.GraphicsDevice.Viewport.Height / 2);
 		}
 
-		public override void Update(GameTime gameTime)
+		public void Update()
 		{
 			ProcessInput();
 			Mouse.SetPosition(WindowCenter.X, WindowCenter.Y);

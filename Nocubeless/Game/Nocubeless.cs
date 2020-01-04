@@ -90,7 +90,7 @@ namespace Nocubeless
 			if (CurrentState == NocubelessState.Playing)
 			{
 				Player.UpdateSpeed((float)gameTime.ElapsedGameTime.TotalSeconds);
-				PlayingInput.Update(gameTime);
+				PlayingInput.Update();
 			}
 
 			base.Update(gameTime);
