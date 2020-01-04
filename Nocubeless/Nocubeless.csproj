@@ -96,9 +96,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Physic %28BinaryBluff%29\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Content\Effects\CubeEffect.fx" />
   </ItemGroup>
