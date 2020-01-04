@@ -29,11 +29,11 @@ namespace Nocubeless
 			OldMouseState = CurrentMouseState;
 		}
 
-		public static bool IsReleased(Keys key)
+		public static bool IsReleased(Keys key) // SDNMSG: "WasJustReleased" is a better name
 		{
 			return OldKeyboardState.IsKeyDown(key) && CurrentKeyboardState.IsKeyUp(key);
 		}
-		public static bool IsPressed(Keys key)
+		public static bool IsPressed(Keys key) // SDNMSG: "WasJustPressed" is a better name
 		{
 			return OldKeyboardState.IsKeyUp(key) && CurrentKeyboardState.IsKeyDown(key);
 		}
