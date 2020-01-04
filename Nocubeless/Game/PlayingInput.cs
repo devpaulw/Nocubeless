@@ -8,138 +8,176 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    class PlayingInput : NocubelessComponent
-    {
-        private Point WindowCenter { get; set; }
+	// BBMSG: CubeWorldSceneInput was merged with PlayingInput because it is the class that manage all the inputs of the class
+	class PlayingInput : NocubelessComponent
+	{
+		private CubeColor cubeToLayColor;
+		private bool shouldLayCube = true;
+		private Point WindowCenter { get; set; }
 
-        public PlayingInput(Nocubeless nocubeless) : base(nocubeless)
-        {
-            WindowCenter = new Point(Nocubeless.GraphicsDevice.Viewport.Width / 2, Nocubeless.GraphicsDevice.Viewport.Height / 2);
-        }
+		public PlayingInput(Nocubeless nocubeless) : base(nocubeless)
+		{
+			cubeToLayColor = new CubeColor(7, 7, 7);
+			WindowCenter = new Point(Nocubeless.GraphicsDevice.Viewport.Width / 2, Nocubeless.GraphicsDevice.Viewport.Height / 2);
+		}
 
-        public override void Update(GameTime gameTime)
-        {
-            if (Nocubeless.CurrentState == NocubelessState.Playing)
-            {
-                // TODO move this instruction to another class, it doesn't belong to input
-                Nocubeless.Player.UpdateSpeed((float)gameTime.ElapsedGameTime.TotalSeconds);
- 
-                ProcessInput();
-                Mouse.SetPosition(WindowCenter.X, WindowCenter.Y);
+		public override void Update(GameTime gameTime)
+		{
+			if (Nocubeless.CurrentState == NocubelessState.Playing)
+			{
+				// TODO move this instruction to another class, it doesn't belong to input
+				Nocubeless.Player.UpdateSpeed((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            }
-        }
+				Vector2 movement = GetMouseMovement() / 57;
+				Nocubeless.Camera.Rotate(movement.Y, -movement.X);
 
-        private void ProcessInput()
-        {
-            ProcessMouseInput();
-            ProcessKeyboardInput();
-        }
+				ProcessKeyboardInput();
+				ProcessMouseButtonsInput();
+				Mouse.SetPosition(WindowCenter.X, WindowCenter.Y);
+			}
+		}
+		private void ProcessMouseButtonsInput()
+		{
+			if (shouldLayCube)
+			{
+				Coordinates cubeToPreviewPosition = Nocubeless.CubeWorld.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+				Cube cubeToLay = new Cube(cubeToLayColor, cubeToPreviewPosition);
 
-        private void ProcessMouseInput()
-        {
-            Vector2 movement = GetMouseMovement() / 57;
-            Nocubeless.Camera.Rotate(movement.Y, -movement.X);
-        }
+				if (!Nocubeless.Player.IsColliding(cubeToLay, Nocubeless.CubeWorld.GetGraphicsCubeRatio())) // CHEAT
+				{
+					Nocubeless.CubeWorld.PreviewCube(cubeToLay);
 
-        private void ProcessKeyboardInput()
-        {
-            var direction = Vector3.Zero;
+					if (Input.WasRightMouseButtonJustPressed())
+					{
+						Nocubeless.CubeWorld.LayCube(cubeToLay);
+					}
+				}
+				else
+				{
+					Nocubeless.CubeWorld.PreviewCube(null);
+				}
+			}
+			else
+			{ // break
+				Nocubeless.CubeWorld.PreviewCube(null);
 
-            if (Input.WasJustPressed(Nocubeless.Settings.Keys.Run))
-            {
-                Nocubeless.Player.Speed = Nocubeless.Player.Speed * 3f;
-            }
-            else if (Input.WasJustReleased(Nocubeless.Settings.Keys.Run))
-            {
-                Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
-            }
+				if (Input.WasLeftMouseButtonJustPressed())
+				{
+					Coordinates cubeToBreakPosition = Nocubeless.CubeWorld.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+					Nocubeless.CubeWorld.BreakCube(cubeToBreakPosition); // DESIGN: You know the way
+				}
+			}
 
-            if (Input.WasJustPressed(Nocubeless.Settings.Keys.Run))
-            {
-                Nocubeless.Player.Speed = Nocubeless.Player.Speed * 3f;
-            }
-            else if (Input.WasJustReleased(Nocubeless.Settings.Keys.Run))
-            {
-                Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
-            }
+		}
 
-            if (Input.WasJustPressed(Keys.V))
-            {
-                Nocubeless.Camera.Zoom(120);
-            }
-            else if (Input.WasJustReleased(Keys.V))
-            {
-                Nocubeless.Camera.Zoom(100);
-            }
+		private void ProcessKeyboardInput()
+		{
+			var direction = Vector3.Zero;
+
+			if (Input.WasJustPressed(Nocubeless.Settings.Keys.Run))
+			{
+				Nocubeless.Player.Speed = Nocubeless.Player.Speed * 3f;
+			}
+			else if (Input.WasJustReleased(Nocubeless.Settings.Keys.Run))
+			{
+				Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
+			}
+
+			if (Input.WasJustPressed(Nocubeless.Settings.Keys.Run))
+			{
+				Nocubeless.Player.Speed = Nocubeless.Player.Speed * 3f;
+			}
+			else if (Input.WasJustReleased(Nocubeless.Settings.Keys.Run))
+			{
+				Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
+			}
+
+			if (Input.WasJustPressed(Keys.V))
+			{
+				Nocubeless.Camera.Zoom(120);
+			}
+			else if (Input.WasJustReleased(Keys.V))
+			{
+				Nocubeless.Camera.Zoom(100);
+			}
 
 
-            if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveRight))
-            {
-                direction = Nocubeless.Camera.Right;
-                if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
-                {
-                    direction = Vector3.Zero;
-                }
-            }
-            else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveLeft))
-            {
-                direction = -Nocubeless.Camera.Right;
-                if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
-                {
-                    direction = Vector3.Zero;
-                }
-            }
+			if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveRight))
+			{
+				direction = Nocubeless.Camera.Right;
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+				{
+					direction = Vector3.Zero;
+				}
+			}
+			else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveLeft))
+			{
+				direction = -Nocubeless.Camera.Right;
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+				{
+					direction = Vector3.Zero;
+				}
+			}
 
-            if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveForward))
-            {
-                direction += Nocubeless.Camera.Front;
+			if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveForward))
+			{
+				direction += Nocubeless.Camera.Front;
 
-                if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
-                {
-                    direction -= Nocubeless.Camera.Front;
-                }
-            }
-            else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveBackward))
-            {
-                direction -= Nocubeless.Camera.Front;
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+				{
+					direction -= Nocubeless.Camera.Front;
+				}
+			}
+			else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveBackward))
+			{
+				direction -= Nocubeless.Camera.Front;
 
-                if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
-                {
-                    direction += Nocubeless.Camera.Front;
-                }
-            }
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+				{
+					direction += Nocubeless.Camera.Front;
+				}
+			}
 
-            if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveUpward))
-            {
-                direction.Y += 1;
+			if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveUpward))
+			{
+				direction.Y += Nocubeless.CubeWorld.GetGraphicsCubeRatio();
 
-                if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
-                {
-                    direction.Y -= 1;
-                }
-            }
-            else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveDown))
-            {
-                direction.Y -= 1;
-                if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
-                {
-                    direction.Y += 1;
-                }
-            }
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+				{
+					direction.Y -= Nocubeless.CubeWorld.GetGraphicsCubeRatio();
+				}
+			}
+			else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveDown))
+			{
+				direction.Y -= Nocubeless.CubeWorld.GetGraphicsCubeRatio();
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+				{
+					direction.Y += Nocubeless.CubeWorld.GetGraphicsCubeRatio();
+				}
+			}
 
-            Nocubeless.Player.Move(direction);
-        }
+			Nocubeless.Player.Move(direction);
 
-        private Vector2 GetMouseMovement()
-        {
-            return Nocubeless.Settings.Camera.MouseSensitivity
-                * new Vector2(Input.CurrentMouseState.X - WindowCenter.X, Input.CurrentMouseState.Y - WindowCenter.Y);
-        }
+			if (Input.WasJustPressed(Nocubeless.Settings.Keys.SwitchLayBreak))
+			{
+				shouldLayCube = !shouldLayCube;
+			}
+		}
 
-        private int GetScrollWheelMovement()
-        {
-            return Input.CurrentMouseState.ScrollWheelValue - Input.OldMouseState.ScrollWheelValue;
-        }
-    }
+		public Vector2 GetMouseMovement()
+		{
+			return Nocubeless.Settings.Camera.MouseSensitivity
+				* new Vector2(Input.CurrentMouseState.X - WindowCenter.X, Input.CurrentMouseState.Y - WindowCenter.Y);
+		}
+
+		public int GetScrollWheelMovement()
+		{
+			return Input.CurrentMouseState.ScrollWheelValue - Input.OldMouseState.ScrollWheelValue;
+		}
+
+		public void OnColorPicking(object sender, ColorPickingEventArgs e) // c pas beau ça ?
+		{
+			cubeToLayColor = e.Color;
+		}
+	}
 }

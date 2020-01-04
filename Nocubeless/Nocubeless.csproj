@@ -62,7 +62,6 @@
     <Compile Include="Cube\CubeWorldProcessor.cs" />
     <Compile Include="Cube\CubeWorld.cs" />
     <Compile Include="Cube\CubeWorldSceneHelper.cs" />
-    <Compile Include="Cube\CubeWorldSceneInput.cs" />
     <Compile Include="Cube\ShallowCubeWorldHandler.cs" />
     <Compile Include="Effects\CubeEffect.cs" />
     <Compile Include="Game\PlayingInput.cs" />

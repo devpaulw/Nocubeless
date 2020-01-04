@@ -8,75 +8,77 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    class Cube
-    {
-        public Coordinates Coordinates { get; set; }
-        public CubeColor Color { get; set; }
+	class Cube
+	{
+		public static float size = 0.01f;
+		public Coordinates Coordinates { get; set; } // BBMSG Is Position a better name ?
+		public CubeColor Color { get; set; }
 
-        public Cube(CubeColor color, Coordinates position)
-        {
-            Coordinates = position;
-            Color = color;
-        }
 
-        public static ModelMeshPart LoadModel(GraphicsDevice graphicsDevice)
-        {
-            const int primitiveCount = 36;
+		public Cube(CubeColor color, Coordinates position)
+		{
+			Coordinates = position;
+			Color = color;
+		}
 
-            VertexPosition[] vertices = new VertexPosition[]
-            {
-                new VertexPosition(new Vector3(-1.0f, -1.0f,  1.0f)),
-                new VertexPosition(new Vector3(1.0f, -1.0f,  1.0f)),
-                new VertexPosition(new Vector3(1.0f,  1.0f,  1.0f)),
-                new VertexPosition(new Vector3(-1.0f,  1.0f,  1.0f)),
+		public static ModelMeshPart LoadModel(GraphicsDevice graphicsDevice)
+		{
+			const int primitiveCount = 36;
+
+			VertexPosition[] vertices = new VertexPosition[]
+			{
+				new VertexPosition(new Vector3(-1.0f, -1.0f,  1.0f)),
+				new VertexPosition(new Vector3(1.0f, -1.0f,  1.0f)),
+				new VertexPosition(new Vector3(1.0f,  1.0f,  1.0f)),
+				new VertexPosition(new Vector3(-1.0f,  1.0f,  1.0f)),
                 // back
                 new VertexPosition(new Vector3(-1.0f, -1.0f, -1.0f)),
-                new VertexPosition(new Vector3(1.0f, -1.0f, -1.0f)),
-                new VertexPosition(new Vector3(1.0f,  1.0f, -1.0f)),
-                new VertexPosition(new Vector3(-1.0f,  1.0f, -1.0f))
-            };
-            short[] indices = new short[primitiveCount]
-            {
+				new VertexPosition(new Vector3(1.0f, -1.0f, -1.0f)),
+				new VertexPosition(new Vector3(1.0f,  1.0f, -1.0f)),
+				new VertexPosition(new Vector3(-1.0f,  1.0f, -1.0f))
+			};
+			short[] indices = new short[primitiveCount]
+			{
                 // front
                 0, 1, 2,
-                2, 3, 0,
+				2, 3, 0,
                 // right
                 1, 5, 6,
-                6, 2, 1,
+				6, 2, 1,
                 // back
                 7, 6, 5,
-                5, 4, 7,
+				5, 4, 7,
                 // left
                 4, 0, 3,
-                3, 7, 4,
+				3, 7, 4,
                 // bottom
                 4, 5, 1,
-                1, 0, 4,
+				1, 0, 4,
                 // top
                 3, 2, 6,
-                6, 7, 3
-            };
+				6, 7, 3
+			};
 
-            VertexBuffer vertexBuffer;
-            IndexBuffer indexBuffer;
+			VertexBuffer vertexBuffer;
+			IndexBuffer indexBuffer;
 
-            ModelMeshPart modelMeshPart;
+			ModelMeshPart modelMeshPart;
 
-            vertexBuffer = new VertexBuffer(graphicsDevice, VertexPosition.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly); ;
-            vertexBuffer.SetData(vertices);
+			vertexBuffer = new VertexBuffer(graphicsDevice, VertexPosition.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly); ;
+			vertexBuffer.SetData(vertices);
 
-            indexBuffer = new IndexBuffer(graphicsDevice, typeof(short), indices.Length, BufferUsage.WriteOnly);
-            indexBuffer.SetData(indices);
+			indexBuffer = new IndexBuffer(graphicsDevice, typeof(short), indices.Length, BufferUsage.WriteOnly);
+			indexBuffer.SetData(indices);
 
-            modelMeshPart = new ModelMeshPart()
-            {
-                IndexBuffer = indexBuffer,
-                PrimitiveCount = primitiveCount,
-                StartIndex = 0,
-                VertexBuffer = vertexBuffer
-            };
+			modelMeshPart = new ModelMeshPart()
+			{
+				IndexBuffer = indexBuffer,
+				PrimitiveCount = primitiveCount,
+				StartIndex = 0,
+				VertexBuffer = vertexBuffer
+			};
 
-            return modelMeshPart;
-        }
-    }
+			return modelMeshPart;
+		}
+	}
 }

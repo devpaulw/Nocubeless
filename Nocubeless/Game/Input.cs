@@ -37,5 +37,15 @@ namespace Nocubeless
 		{
 			return OldKeyboardState.IsKeyUp(key) && CurrentKeyboardState.IsKeyDown(key);
 		}
+
+		public static bool WasRightMouseButtonJustPressed()
+		{
+			return CurrentMouseState.RightButton == ButtonState.Pressed && OldMouseState.RightButton == ButtonState.Released;
+		}
+
+		public static bool WasLeftMouseButtonJustPressed()
+		{
+			return CurrentMouseState.LeftButton == ButtonState.Pressed && OldMouseState.LeftButton == ButtonState.Released;
+		}
 	}
 }

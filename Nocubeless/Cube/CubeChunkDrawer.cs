@@ -14,7 +14,7 @@ namespace Nocubeless
         private readonly CubeEffect cubeEffect;
         private readonly Matrix cubeScale;
 
-        public float HeightOfCubes { get; set; }
+        public float HeightOfCubes { get; set; } // BBMSG: Is cubeHeight a better noun ? (it avoids 'of' and it's still english because it's a compound noun)
 
         public CubeChunkDrawer(Game game, float heightOfCubes) : base(game)
         {

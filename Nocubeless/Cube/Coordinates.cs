@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,8 +33,6 @@ namespace Nocubeless
 
 		public bool Equals(Coordinates other)
 		{
-			// BBMSG i added contracts to avoid some Roslyn warnings
-			Contract.Requires(other != null);
 			return X == other.X &&
 				Y == other.Y &&
 				Z == other.Z;
@@ -53,17 +50,20 @@ namespace Nocubeless
 
 		public static bool operator >(Coordinates left, Coordinates right)
 		{
-			Contract.Requires(left != null && right != null);
 			return left.X > right.X
 				|| left.Y > right.Y
 				|| left.Z > right.Z;
 		}
 		public static bool operator <(Coordinates left, Coordinates right)
 		{
-			Contract.Requires(left != null && right != null);
 			return left.X < right.X
 				|| left.Y < right.Y
 				|| left.Z < right.Z;
+		}
+
+		internal static Coordinates Abs(Coordinates coordinates)
+		{
+			return new Coordinates(Math.Abs(coordinates.X), Math.Abs(coordinates.Y), Math.Abs(coordinates.Z));
 		}
 
 		// BBMSG Add and Multiply should be private or public ?
@@ -75,9 +75,8 @@ namespace Nocubeless
 		{
 			return Multiply(coordinates, scalar);
 		}
-		public static Coordinates Multiply(Coordinates coordinates, float scalar)
+		internal static Coordinates Multiply(Coordinates coordinates, float scalar)
 		{
-			Contract.Requires(coordinates != null);
 			return new Coordinates((int)(coordinates.X * scalar), (int)(coordinates.Y * scalar), (int)(coordinates.Z * scalar));
 		}
 
@@ -85,15 +84,24 @@ namespace Nocubeless
 		{
 			return Add(coordinates1, coordinates2);
 		}
-		public static Coordinates Add(Coordinates coordinates1, Coordinates coordinates2)
+		public static Coordinates operator -(Coordinates coordinates1, Coordinates coordinates2)
 		{
-			Contract.Requires(coordinates1 != null && coordinates2 != null);
+			return Subtract(coordinates1, coordinates2);
+		}
+		internal static Coordinates Add(Coordinates coordinates1, Coordinates coordinates2)
+		{
 			return new Coordinates(coordinates1.X + coordinates2.X, coordinates1.Y + coordinates2.Y, coordinates1.Z + coordinates2.Z);
 		}
 
+		// THE FUNCTION DOES NOT WORK BECAUSE IT DOESN'T TAKE INTO ACCOUNT THE CUBE RATIO
 		public static Coordinates FromTruncated(Vector3 vector3)
 		{
 			return new Coordinates((int)vector3.X, (int)vector3.Y, (int)vector3.Z);
+		}
+
+		internal static Coordinates Subtract(Coordinates coordinates1, Coordinates coordinates2)
+		{
+			return new Coordinates(coordinates1.X - coordinates2.X, coordinates1.Y - coordinates2.Y, coordinates1.Z - coordinates2.Z);
 		}
 	}
 
