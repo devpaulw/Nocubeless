@@ -90,6 +90,8 @@ namespace Nocubeless
                     select chunk).FirstOrDefault();
         }
 
+        // BBMSG i think Cube (or Coordinates) should know how to convert themself to Graphics (a method cube.GetGraphicsCoordinates or coordinates.ToGraphics)
+        // BBMSG moreover i think the cubes should know their height (it's overkill to store in all cubes the same height but maybe we can make a static Cube.Size initialized by CubeWorld)
         public Vector3 GetGraphicsCubePosition(Coordinates cubePosition) // cube position in graphics representation.
         {
             return cubePosition.ToVector3() / GetGraphicsCubeRatio();

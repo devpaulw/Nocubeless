@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
+	// BBMSG i think we should made the differences between Coordinates (Coordinates in the World) and Vector3 (Graphics Coordinates) clearer by renaming the first one WorldCoordinates
 	public class Coordinates : IEquatable<Coordinates> // TODO: Fix equal and use the true operator.
 	{
 		public int X { get; set; }
 		public int Y { get; set; }
 		public int Z { get; set; }
-		public static Coordinates Zero { get => new Coordinates(0, 0, 0); }
-
+		public static Coordinates Origin { get => new Coordinates(0, 0, 0); }
 		public Coordinates(int x, int y, int z)
 		{
 			X = x;

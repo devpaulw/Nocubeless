@@ -41,7 +41,7 @@ namespace Nocubeless
 			Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
 			CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nclws"));
 			// TODO initialize with a PlayerSettings singleton
-			Player = new Player(Coordinates.Zero, 1, 3, 1, CubeWorld.GetGraphicsCubeRatio() / 2, Camera);
+			Player = new Player(Coordinates.Origin, 1, 3, 1, CubeWorld.GetGraphicsCubeRatio() / 2, Camera);
 
 			#region Graphics Config
 			var blendState = BlendState.AlphaBlend;
