@@ -23,7 +23,6 @@ namespace Nocubeless
 		public Camera Camera { get; set; }
 		public CubeWorld CubeWorld { get; set; }
 		public Player Player { get; set;}
-		public PlayingInput PlayingInput; // SDNMSG! No! It have to be private and not updated there!
 
 		public Nocubeless()
 		{
@@ -41,9 +40,8 @@ namespace Nocubeless
 
 			Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
 			CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nclws"));
-			// TODO initialize with PlayerSettings
-			Player = new Player(new Vector3(0, 0, 0), 1, 3, 1, CubeWorld.GetGraphicsCubeRatio() / 2);
-			PlayingInput = new PlayingInput(this);
+			// TODO initialize with a PlayerSettings singleton
+			Player = new Player(Coordinates.Zero, 1, 3, 1, CubeWorld.GetGraphicsCubeRatio() / 2, Camera);
 
 			#region Graphics Config
 			var blendState = BlendState.AlphaBlend;
@@ -61,8 +59,9 @@ namespace Nocubeless
 			var cubeWorldSceneInput = new CubeWorldSceneInput(this);
 			var colorPickerMenu = new ColorPickerMenu(this, cubeWorldSceneInput.OnColorPicking);
 			var coordDisplayer = new InfoDisplayer(this);
+			var playingInput = new PlayingInput(this);
 
-			Components.Add(PlayingInput);
+			Components.Add(playingInput);
 			Components.Add(cubeWorldProcessor);
 			Components.Add(cubeWorldSceneInput);
 			Components.Add(colorPickerMenu);
@@ -86,12 +85,6 @@ namespace Nocubeless
 
 			if (Input.CurrentKeyboardState.IsKeyDown(Keys.Escape))
 				Exit();
-
-			if (CurrentState == NocubelessState.Playing)
-			{
-				Player.UpdateSpeed((float)gameTime.ElapsedGameTime.TotalSeconds);
-				PlayingInput.Update();
-			}
 
 			base.Update(gameTime);
 

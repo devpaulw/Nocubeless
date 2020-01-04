@@ -17,7 +17,6 @@ namespace Nocubeless
                 return new CameraSettings
                 {
                     Fov = 100,
-                    // SDNMSG: removed MoveSpeed because it's replaced with PlayerSettings
                     MouseSensitivity = 0.175f,
                 };
             }

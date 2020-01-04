@@ -9,36 +9,42 @@ namespace Nocubeless
 {
 	class Player
 	{
-		public Vector3 Position { get; set; } // SDNMSG: Replace with Coordinates?
+		public Coordinates TruncatedPosition {
+			get; set;
+		}
+		public Vector3 Position { get; set; }
 		public int Width { get; set; }
 		public int Height { get; set; }
 		public int Length { get; set; }
 		public float Speed { get; set; }
 		private float ActualSpeed { get; set; }
-		public Vector3 Velocity { get; set; }
+		private Camera Camera { get; set; }
 
-		public Player(Vector3 position, int width, int height, int length, float speed) // SDNMSG: A player can know the CubeWorld and Camera
+		public Player(Coordinates position, int width, int height, int length, float speed, Camera camera) // BBMSG: "A player can know the CubeWorld" => i don't agree, it's another class that should manage the player and the cube and their interactions
 		{
-			Position = position;
+			Position = position.ToVector3();
+			TruncatedPosition = Coordinates.FromTruncated(Position);
 			Width = width;
 			Height = height;
 			Length = length;
 			Speed = speed;
+			Camera = camera;
 		}
-		// TODO: utiliser un pointeur pour suivre le delta time
 		public void UpdateSpeed(float deltaTime)
 		{
 			ActualSpeed = Speed * deltaTime;
 		}
 
-		public void Move(Vector3 velocity)
+		public void Move(Vector3 direction)
 		{
-			Position += ActualSpeed * velocity;
+			Camera.Position += ActualSpeed * direction;
+			Position = Camera.Position;
+			TruncatedPosition = Coordinates.FromTruncated(Position);
 		}
 
-		public Vector3 GetNextPosition(Vector3 velocity)
+		public Vector3 GetNextPosition(Vector3 direction)
 		{
-			return Position + ActualSpeed * velocity;
+			return ActualSpeed * direction + Position;
 		}
 	}
 }

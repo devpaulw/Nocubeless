@@ -10,7 +10,6 @@ namespace Nocubeless
 {
     class PlayingInput : NocubelessComponent
     {
-        // SDNMSG: Removed this, because it didn't work anymore, we'll have to find another way to spawn with the head rotated at 0,0,0 //private int cameraRise = 0;
         private Point WindowCenter { get; set; }
 
         public PlayingInput(Nocubeless nocubeless) : base(nocubeless)
@@ -18,10 +17,17 @@ namespace Nocubeless
             WindowCenter = new Point(Nocubeless.GraphicsDevice.Viewport.Width / 2, Nocubeless.GraphicsDevice.Viewport.Height / 2);
         }
 
-        public void Update()
+        public override void Update(GameTime gameTime)
         {
-            ProcessInput();
-            Mouse.SetPosition(WindowCenter.X, WindowCenter.Y);
+            if (Nocubeless.CurrentState == NocubelessState.Playing)
+            {
+                // TODO move this instruction to another class, it doesn't belong to input
+                Nocubeless.Player.UpdateSpeed((float)gameTime.ElapsedGameTime.TotalSeconds);
+ 
+                ProcessInput();
+                Mouse.SetPosition(WindowCenter.X, WindowCenter.Y);
+
+            }
         }
 
         private void ProcessInput()
@@ -40,29 +46,29 @@ namespace Nocubeless
         {
             var direction = Vector3.Zero;
 
-            if (Input.IsPressed(Nocubeless.Settings.Keys.Run))
+            if (Input.WasJustPressed(Nocubeless.Settings.Keys.Run))
             {
                 Nocubeless.Player.Speed = Nocubeless.Player.Speed * 3f;
             }
-            else if (Input.IsReleased(Nocubeless.Settings.Keys.Run))
+            else if (Input.WasJustReleased(Nocubeless.Settings.Keys.Run))
             {
                 Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
             }
 
-            if (Input.IsPressed(Nocubeless.Settings.Keys.Run))
+            if (Input.WasJustPressed(Nocubeless.Settings.Keys.Run))
             {
                 Nocubeless.Player.Speed = Nocubeless.Player.Speed * 3f;
             }
-            else if (Input.IsReleased(Nocubeless.Settings.Keys.Run))
+            else if (Input.WasJustReleased(Nocubeless.Settings.Keys.Run))
             {
                 Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
             }
 
-            if (Input.IsPressed(Keys.V))
+            if (Input.WasJustPressed(Keys.V))
             {
                 Nocubeless.Camera.Zoom(120);
             }
-            else if (Input.IsReleased(Keys.V))
+            else if (Input.WasJustReleased(Keys.V))
             {
                 Nocubeless.Camera.Zoom(100);
             }
@@ -123,7 +129,6 @@ namespace Nocubeless
             }
 
             Nocubeless.Player.Move(direction);
-            Nocubeless.Camera.Position = Nocubeless.Player.Position;
         }
 
         private Vector2 GetMouseMovement()
