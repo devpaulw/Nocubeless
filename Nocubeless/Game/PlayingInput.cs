@@ -90,9 +90,15 @@ namespace Nocubeless
 				}
 			}
 		}
-	
+
 		private void ProcessKeyboardInput()
 		{
+
+			if (Input.WasJustPressed(Nocubeless.Settings.Keys.SwitchLayBreak))
+			{
+				shouldLayCube = !shouldLayCube;
+			}
+
 			var direction = Vector3.Zero;
 
 			if (Input.WasJustPressed(Nocubeless.Settings.Keys.Run))
@@ -177,32 +183,50 @@ namespace Nocubeless
 				}
 			}
 
-			// TMP
-			//var dirX = direction.X;
-			//var dirY = direction.Y;
-			//var dirZ = direction.Z;
-			//direction.X = 0;
-			//if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetTruncatedCoordinatesFromGraphics(Nocubeless.Player.GetNextGraphicalPosition(direction))))
-			//{
-			//	direction.X = dirX;
-			//	direction.Z = 0;
-
-			//	if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetTruncatedCoordinatesFromGraphics(Nocubeless.Player.GetNextGraphicalPosition(direction))))
-			//	{
-			//		Console.WriteLine("df");
-			//	}
-			//	direction.Z = dirZ;
-			//}
-			//direction.X = dirX;
-
-			Nocubeless.Player.Move(direction);
-			Nocubeless.Camera.Position = Nocubeless.Player.ScreenCoordinates;
-
-			if (Input.WasJustPressed(Nocubeless.Settings.Keys.SwitchLayBreak))
+			if (!IsTargetingCubeIntersection(direction))
 			{
-				shouldLayCube = !shouldLayCube;
+				Nocubeless.Player.Move(direction);
+				Nocubeless.Camera.Position = Nocubeless.Player.ScreenCoordinates;
 			}
-		} 
+		}
+
+		private bool IsTargetingCubeIntersection(Vector3 direction)
+		{
+			// UGLY prevent the user from passing through two diagonal blocks
+			// horizontal verification
+			Vector3 directionTmp = direction;
+			directionTmp.X = 0;
+
+			if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextGraphicalPosition(directionTmp))))
+			{
+				directionTmp.X = direction.X;
+				directionTmp.Z = 0;
+
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextGraphicalPosition(directionTmp))))
+				{
+					return true;
+				}
+			}
+
+			// vertical verification
+			directionTmp.X = direction.X;
+			directionTmp.Y = 0;
+			directionTmp.Z = direction.Z;
+
+			if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextGraphicalPosition(directionTmp))))
+			{
+				directionTmp.X = 0;
+				directionTmp.Y = direction.Y;
+				directionTmp.Z = 0;
+
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextGraphicalPosition(directionTmp))))
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
 
 		// TODO move to another class
 		public Vector2 GetMouseMovement()

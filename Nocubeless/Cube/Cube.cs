@@ -15,7 +15,7 @@ namespace Nocubeless
 		// Maybe but I'm not sure because it's a conflict with the floating Position
 		// BBMSG ANSWER I think we should have a convention in our project by naming all coordinates of the world WorldPosition (or something like that you can propose another name) and all graphics coordinates something like GraphicsCoordinates or ScreenCoordinates
 		// BBMSG what's the real difference between WorldCoordinates and Vector3, why having a integer coordinates is important ? (is that to guarantee greater limits ?),
-		// because i want to know if it's important if the player have an WorldCoordinates
+		// i ask that because i want to know if WordCoordinates should be prefered to represent coordinates (with DynamicEntity for example)
 		public CubeColor Color { get; set; }
 
 

@@ -37,7 +37,8 @@ namespace Nocubeless
 		{
 			ScreenCoordinates += screenSpeed * direction;
 		}
-
+		
+		// TODO GetNextWordPosition()
 		public Vector3 GetNextGraphicalPosition(Vector3 direction)
 		{
 			return screenSpeed * direction + ScreenCoordinates;

@@ -105,11 +105,6 @@ namespace Nocubeless
 		{
 			return cubePosition.ToVector3() / GetGraphicsCubeRatio();
 		}
-		// TMP
-		public WorldCoordinates GetTruncatedCoordinatesFromGraphics(Vector3 position)
-		{
-			return WorldCoordinates.FromTruncated(position * GetGraphicsCubeRatio());
-		}
 		public WorldCoordinates GetCoordinatesFromGraphics(Vector3 position)
 		{
 			return new WorldCoordinates(position * GetGraphicsCubeRatio());
