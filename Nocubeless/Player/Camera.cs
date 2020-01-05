@@ -38,9 +38,10 @@ namespace Nocubeless
 
 		public Camera(CameraSettings settings, Viewport viewport)
 		{
-			defaultFov = MathHelper.ToRadians(settings.Fov);
+			defaultFov = MathHelper.ToRadians(settings.DefaultFov);
 			fovInRadians = defaultFov;
 			AspectRatio = viewport.AspectRatio;
+			MouseSensitivity = settings.DefaultMouseSensitivity;
 
 			Front = Vector3.UnitZ;
 			Up = Vector3.UnitY;
@@ -71,7 +72,7 @@ namespace Nocubeless
 			}
 		}
 
-
+		public float MouseSensitivity { get; set; }
 
 		public void Rotate(float pitch, float yaw)
 		{

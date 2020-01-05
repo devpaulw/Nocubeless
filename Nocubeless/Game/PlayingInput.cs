@@ -121,11 +121,14 @@ namespace Nocubeless
 
 			if (Input.WasJustPressed(Keys.V))
 			{
-				Nocubeless.Camera.Zoom(120);
+				// BBMSG would Nocubeless.Camera.Settings.ZoomPercentage be better ? moreover we can directly pass the Camera.Default to the Camera() constructor 
+				Nocubeless.Camera.Zoom(Nocubeless.Settings.Camera.ZoomPercentage);
+				Nocubeless.Camera.MouseSensitivity = Nocubeless.Settings.Camera.MouseSensitivityWhenZooming;
 			}
 			else if (Input.WasJustReleased(Keys.V))
 			{
 				Nocubeless.Camera.Zoom(100);
+				Nocubeless.Camera.MouseSensitivity = Nocubeless.Settings.Camera.DefaultMouseSensitivity;
 			}
 
 
@@ -231,7 +234,7 @@ namespace Nocubeless
 		// TODO move to another class
 		public Vector2 GetMouseMovement()
 		{
-			return Nocubeless.Settings.Camera.MouseSensitivity
+			return Nocubeless.Camera.MouseSensitivity
 				* new Vector2(Input.CurrentMouseState.X - windowCenter.X, Input.CurrentMouseState.Y - windowCenter.Y);
 		}
 

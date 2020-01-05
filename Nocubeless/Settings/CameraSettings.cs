@@ -8,18 +8,23 @@ namespace Nocubeless
 {
     internal class CameraSettings
     {
-        public float Fov { get; set; }
+        public float DefaultFov { get; set; }
         public float MoveSpeed { get; set; }
-        public float MouseSensitivity { get; set; }
+        public float DefaultMouseSensitivity { get; set; }
+        public int ZoomPercentage { get; set; }
+        public float MouseSensitivityWhenZooming { get; set; }
 
         public static CameraSettings Default {
             get {
                 return new CameraSettings
                 {
-                    Fov = 100,
-                    MouseSensitivity = 0.175f,
+                    DefaultFov = 100,
+                    ZoomPercentage = 200,
+                    DefaultMouseSensitivity = 0.175f,
+                    MouseSensitivityWhenZooming = 0.075f
                 };
             }
         }
+
     }
 }
