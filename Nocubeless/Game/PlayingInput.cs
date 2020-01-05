@@ -24,13 +24,25 @@ namespace Nocubeless
 			var colorPipette = new ColorPipette(Nocubeless);
 
 			Game.Components.Add(colorPipette);
-			// SDNMSG: add playerMover, HeadRotater...
+			// add playerMover, HeadRotater...
 			// add cubeLayer, Breaker, Previewer
 			// ...
 			// why not a lot of small parts like that? Like the color pipette above
 			// becoz I really don't like everything in the same class
 			// If it's too disturbing, we can think about make private class many partial Playing Input classes, why not.
 
+			// BBMSG it's a good idea to break down this class but in your examples the classes are far too small,
+			// i think it's a bad idea to have classes with too few elements in it, it would create too much classes and i think classes should represent a set of data and behaviors rather than just a behavior
+			// (in OOP i think objects should represents one concept or physical thing, but not just one action)
+			// but the PlayingInput is too big and should be transformed into smaller parts
+			// what do you think about having classes like:
+			//		> PlayerEntityInputProcessor (which would process inputs related to moving the head, the player, ...)
+			//		> CubeInteractionsInputProcessor (which would process inputs related to picking a color, breaking a cube...)
+			// Or things like
+			//		> PlayerInventoryInputProcessor
+			//		> MainMenuInputProcessor
+			// 
+			// i wait for your opinion before continuing because it's a open debate and i may be wrong :)
 			base.Initialize();
 		}
 
@@ -38,9 +50,6 @@ namespace Nocubeless
 		{
 			if (Nocubeless.CurrentState == NocubelessState.Playing)
 			{
-				// TODO move this instruction to another class, it doesn't belong to input
-				//Nocubeless.Player.UpdateSpeed((float)gameTime.ElapsedGameTime.TotalSeconds);
-
 				Vector2 movement = GetMouseMovement() / 57;
 				Nocubeless.Camera.Rotate(movement.Y, -movement.X);
 
@@ -81,7 +90,7 @@ namespace Nocubeless
 				}
 			}
 		}
-
+	
 		private void ProcessKeyboardInput()
 		{
 			var direction = Vector3.Zero;
@@ -117,7 +126,7 @@ namespace Nocubeless
 			if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveRight))
 			{
 				direction = Nocubeless.Camera.Right;
-				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextGraphicalPosition(direction))))
 				{
 					direction = Vector3.Zero;
 				}
@@ -125,7 +134,7 @@ namespace Nocubeless
 			else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveLeft))
 			{
 				direction = -Nocubeless.Camera.Right;
-				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextGraphicalPosition(direction))))
 				{
 					direction = Vector3.Zero;
 				}
@@ -135,7 +144,7 @@ namespace Nocubeless
 			{
 				direction += Nocubeless.Camera.Front;
 
-				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextGraphicalPosition(direction))))
 				{
 					direction -= Nocubeless.Camera.Front;
 				}
@@ -144,7 +153,7 @@ namespace Nocubeless
 			{
 				direction -= Nocubeless.Camera.Front;
 
-				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextGraphicalPosition(direction))))
 				{
 					direction += Nocubeless.Camera.Front;
 				}
@@ -154,7 +163,7 @@ namespace Nocubeless
 			{
 				direction += Nocubeless.Camera.Up;
 
-				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextGraphicalPosition(direction))))
 				{
 					direction -= Nocubeless.Camera.Up;
 				}
@@ -162,14 +171,14 @@ namespace Nocubeless
 			else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveDown))
 			{
 				direction -= Nocubeless.Camera.Up;
-				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
+				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextGraphicalPosition(direction))))
 				{
 					direction += Nocubeless.Camera.Up;
 				}
 			}
 
 			Nocubeless.Player.Move(direction);
-
+			Nocubeless.Camera.Position = Nocubeless.Player.ScreenCoordinates;
 
 			if (Input.WasJustPressed(Nocubeless.Settings.Keys.SwitchLayBreak))
 			{
@@ -177,6 +186,7 @@ namespace Nocubeless
 			}
 		} 
 
+		// TODO move to another class
 		public Vector2 GetMouseMovement()
 		{
 			return Nocubeless.Settings.Camera.MouseSensitivity
@@ -196,7 +206,7 @@ namespace Nocubeless
 		{
 			const float cubeSize = 0.1f;
 			var cubeMiddlePoint = new Vector3(cube.Coordinates.X + cubeSize / 2, cube.Coordinates.Y + cubeSize / 2, cube.Coordinates.Z + cubeSize / 2) / Nocubeless.CubeWorld.GetGraphicsCubeRatio();
-			var middlePoint = new Vector3(player.Position.X + player.Width / 2, player.Position.Y + player.Height / 2, player.Position.Z + player.Length / 2);
+			var middlePoint = new Vector3(player.ScreenCoordinates.X + player.Width / 2, player.ScreenCoordinates.Y + player.Height / 2, player.ScreenCoordinates.Z + player.Length / 2);
 			Vector3 gap = middlePoint - cubeMiddlePoint;
 			gap.X = Math.Abs(gap.X);
 			gap.Y = Math.Abs(gap.Y);

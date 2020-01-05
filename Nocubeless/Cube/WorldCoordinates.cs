@@ -32,7 +32,7 @@ namespace Nocubeless
 			return new Vector3(X, Y, Z);
 		}
 
-		public static WorldCoordinates FromVector3(Vector3 vector3) 
+		public static WorldCoordinates FromVector3(Vector3 vector3)
 			=> new WorldCoordinates(vector3);
 
 		#region Formulas
@@ -48,12 +48,6 @@ namespace Nocubeless
 				throw new NullReferenceException();
 
 			return new WorldCoordinates(coordinates1.X + coordinates2.X, coordinates1.Y + coordinates2.Y, coordinates1.Z + coordinates2.Z);
-		}
-
-		// THE FUNCTION DOES NOT WORK BECAUSE IT DOESN'T TAKE INTO ACCOUNT THE CUBE RATIO
-		public static WorldCoordinates FromTruncated(Vector3 vector3)
-		{
-			return new WorldCoordinates((int)vector3.X, (int)vector3.Y, (int)vector3.Z);
 		}
 
 		private static WorldCoordinates Subtract(WorldCoordinates coordinates1, WorldCoordinates coordinates2)
@@ -76,7 +70,7 @@ namespace Nocubeless
 		#region Operators
 		public static bool operator ==(WorldCoordinates left, WorldCoordinates right)
 		{
-			return !(left is null) && 
+			return !(left is null) &&
 				left.Equals(right);
 		}
 
@@ -107,9 +101,7 @@ namespace Nocubeless
 
 		public static WorldCoordinates operator *(float scalar, WorldCoordinates coordinates)
 		{
-			return null;
-			//return Multiply(coordinates, scalar);
-
+			return Multiply(coordinates, scalar);
 		}
 		public static WorldCoordinates operator *(WorldCoordinates coordinates, float scalar)
 		{

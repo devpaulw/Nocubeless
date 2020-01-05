@@ -71,6 +71,8 @@ namespace Nocubeless
 			}
 		}
 
+
+
 		public void Rotate(float pitch, float yaw)
 		{
 			const float maxPitch = MathHelper.PiOver2 - 0.01f;

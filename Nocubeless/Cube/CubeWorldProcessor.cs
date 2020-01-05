@@ -103,7 +103,6 @@ namespace Nocubeless
                 new EffectMatrices(Nocubeless.Camera.ProjectionMatrix,
                 Nocubeless.Camera.ViewMatrix,
                 Matrix.Identity);
-
             chunkDrawer.Draw(ref chunk, position, gaps, effectMatrices);
         }
         private void DrawCube(Cube cube, float transparency = 1.0f)

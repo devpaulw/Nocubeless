@@ -9,7 +9,7 @@ namespace Nocubeless
 {
 	abstract class DynamicEntity
 	{
-		public Vector3 Position { get; set; }
+		public Vector3 ScreenCoordinates { get; set; }
 		public float Speed
 		{
 			get => worldSpeed;
@@ -25,7 +25,7 @@ namespace Nocubeless
 
 		public DynamicEntity(Vector3 position)
 		{
-			Position = position;
+			ScreenCoordinates = position;
 		}
 		public void Update(float deltaTime)
 		{
@@ -35,7 +35,12 @@ namespace Nocubeless
 
 		public void Move(Vector3 direction)
 		{
-			Position += screenSpeed * direction;
+			ScreenCoordinates += screenSpeed * direction;
+		}
+
+		public Vector3 GetNextGraphicalPosition(Vector3 direction)
+		{
+			return screenSpeed * direction + ScreenCoordinates;
 		}
 	}
 }
