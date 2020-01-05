@@ -18,9 +18,9 @@ namespace Nocubeless
 		public float Height { get; set; }
 		public float Length { get; set; }
 		public float Speed { get; set; }
-		private float speed { get; set; } // SDNMSG: we rarely do a get set private statement, make it a normal variable, however a Getter-Setter is never in lower-case ^^'
+		private float speed { get; set; } // SDNMSG: we rarely do a get set private statement, make it a normal variable, however a Getter-Setter is never in lower-case ^^'; PS: separate your private and public statements.
 		public Camera Camera { get; set; }
-
+		public CubeColor NextColorToLay { get; set; } // SDNMSG: I need you advises to know whether it's a good idea to put that there
 		
 
 		public Player(WorldCoordinates position, int width, int height, int length /*SDNMSG: REMOVE These unused parameters*/, float speed, Camera camera) // i don't agree, it's another class that should manage the player and the cube and their interactions // SDN ANSWER: You're right

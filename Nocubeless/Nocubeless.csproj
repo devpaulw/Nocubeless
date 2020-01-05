@@ -65,6 +65,7 @@
     <Compile Include="Cube\CubeWorldHelper.cs" />
     <Compile Include="Cube\ShallowCubeWorldHandler.cs" />
     <Compile Include="Effects\CubeEffect.cs" />
+    <Compile Include="Game\ColorPipette.cs" />
     <Compile Include="Game\NocubelessApp.cs" />
     <Compile Include="Game\PlayingInput.cs" />
     <Compile Include="Game\Input.cs" />
@@ -72,10 +73,11 @@
     <Compile Include="Game\NocubelessComponent.cs" />
     <Compile Include="Game\NocubelessDrawableComponent.cs" />
     <Compile Include="Game\NocubelessState.cs" />
-    <Compile Include="Menus 2D\ColorPickerMenu.cs" />
+    <Compile Include="Menus 2D\Color Picker\ColorPickerMenu.cs" />
+    <Compile Include="Menus 2D\Color Picker\RGBTextBoxes.cs" />
     <Compile Include="Menus 2D\ColorPickingEventArgs.cs" />
     <Compile Include="Menus 2D\InfoDisplayer.cs" />
-    <Compile Include="Menus 2D\PickerCube.cs" />
+    <Compile Include="Menus 2D\Color Picker\PickerCube.cs" />
     <Compile Include="Menus 2D\TextBox.cs" />
     <Compile Include="Menus 2D\TextInput.cs" />
     <Compile Include="Player\Camera.cs" />

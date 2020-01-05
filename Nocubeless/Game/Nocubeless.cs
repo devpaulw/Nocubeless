@@ -57,7 +57,7 @@ namespace Nocubeless
 			#region Components Linking
 			var playingInput = new PlayingInput(this);
 			var cubeWorldProcessor = new CubeWorldProcessor(this);
-			var colorPickerMenu = new ColorPickerMenu(this, playingInput.OnColorPicking);
+			var colorPickerMenu = new ColorPickerMenu(this);
 			var coordDisplayer = new InfoDisplayer(this);
 
 			Components.Add(playingInput);
