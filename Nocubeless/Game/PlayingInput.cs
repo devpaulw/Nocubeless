@@ -31,7 +31,7 @@ namespace Nocubeless
 			// becoz I really don't like everything in the same class
 			// If it's too disturbing, we can think about make private class many partial Playing Input classes, why not.
 
-			// BBMSG it's a good idea to break down this class but in your examples the classes are far too small,
+			// it's a good idea to break down this class but in your examples the classes are far too small,
 			// i think it's a bad idea to have classes with too few elements in it, it would create too much classes (which would be more difficult to organise and to retrieve the files and to follow the execution of the program to find the bugs)
 			// moreover i think classes should represent a set of data and behaviors rather than just a behavior
 			// (in OOP i think objects should represents one concept or physical thing, but not just one action)
@@ -43,6 +43,8 @@ namespace Nocubeless
 			//		> MainMenuInputProcessor
 			// 
 			// i wait for your opinion before continuing because it's a open debate and i may be wrong :)
+			// SDNMSG ANSWER: You're right, it's a bad idea to put too few things into a single class, especially in a Game.
+			// Your idea is better! 
 			base.Initialize();
 		}
 
@@ -62,7 +64,7 @@ namespace Nocubeless
 		{
 			if (shouldLayCube)
 			{
-				WorldCoordinates cubeToPreviewPosition = Nocubeless.CubeWorld.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+				CubeCoordinates cubeToPreviewPosition = Nocubeless.CubeWorld.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
 				Cube cubeToLay = new Cube(Nocubeless.Player.NextColorToLay, cubeToPreviewPosition);
 
 				if (!AreColliding(Nocubeless.Player, cubeToLay))
@@ -85,7 +87,7 @@ namespace Nocubeless
 
 				if (Input.WasLeftMouseButtonJustPressed())
 				{
-					WorldCoordinates cubeToBreakPosition = Nocubeless.CubeWorld.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+					CubeCoordinates cubeToBreakPosition = Nocubeless.CubeWorld.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
 					Nocubeless.CubeWorld.BreakCube(cubeToBreakPosition);
 				}
 			}
@@ -115,7 +117,7 @@ namespace Nocubeless
 
 			if (Input.WasJustPressed(Keys.V))
 			{
-				Nocubeless.Camera.Zoom(120);
+				Nocubeless.Camera.Zoom(200);
 			}
 			else if (Input.WasJustReleased(Keys.V))
 			{
@@ -213,7 +215,9 @@ namespace Nocubeless
 
 		// TODO move to another class
 		// "Good idea, Physics?"
-		// BBMSG ANSWER probably later, when there will be other methods to put in it, i needed the cube ratio, that's why i left this method here for now
+		// ANSWER probably later, when there will be other methods to put in it, i needed the cube ratio, that's why i left this method here for now
+		// SDNMSG ANSWER LAST: Okay, we'll see later.
+		// PS I added the keyword "LAST", it means we can delete our message block, we can do that
 		private bool AreColliding(Player player, Cube cube)
 		{
 			const float cubeSize = 0.1f;

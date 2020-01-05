@@ -11,15 +11,18 @@ namespace Nocubeless
 	class Cube
 	{
 		public static float size = 0.01f;
-		public WorldCoordinates Coordinates { get; set; }
+		public CubeCoordinates Coordinates { get; set; }
 		// Maybe but I'm not sure because it's a conflict with the floating Position
-		// BBMSG ANSWER I think we should have a convention in our project by naming all coordinates of the world WorldPosition (or something like that you can propose another name) and all graphics coordinates something like GraphicsCoordinates or ScreenCoordinates
-		// BBMSG what's the real difference between WorldCoordinates and Vector3, why having a integer coordinates is important ? (is that to guarantee greater limits ?),
+		// ANSWER I think we should have a convention in our project by naming all coordinates of the world WorldPosition (or something like that you can propose another name) and all graphics coordinates something like GraphicsCoordinates or ScreenCoordinates
+		// what's the real difference between WorldCoordinates and Vector3, why having a integer coordinates is important ? (is that to guarantee greater limits ?),
 		// because i want to know if it's important if the player have an WorldCoordinates
+		// SDNMSG ANSWER: If it was not an integer, cubes could be placed weird, you know
+		// Or make a CubeCoordinates class and WorldCoordinates class, we can separate these aspects! But keep integer for Cubes coordinates
+		// Ok, I renamed the class CubeCoordinates to be more precise, now if you need a class with floating value, do it, it's a very good idea. ;)
 		public CubeColor Color { get; set; }
 
 
-		public Cube(CubeColor color, WorldCoordinates position)
+		public Cube(CubeColor color, CubeCoordinates position)
 		{
 			Coordinates = position;
 			Color = color;

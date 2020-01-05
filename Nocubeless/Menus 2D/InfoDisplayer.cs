@@ -17,8 +17,8 @@ namespace Nocubeless
         private SpriteFont font;
         private Vector2 drawPosition;
 
-        public WorldCoordinates PlayerCoordinates { get; private set; } // DOLATER: This fonction, should be in a specific Player kind class
-        public WorldCoordinates ChunkCoordinates { get; private set; }
+        public CubeCoordinates PlayerCoordinates { get; private set; } // DOLATER: This fonction, should be in a specific Player kind class
+        public CubeCoordinates ChunkCoordinates { get; private set; }
 
         public InfoDisplayer(Nocubeless nocubeless) : base(nocubeless) { }
 

@@ -24,7 +24,7 @@ namespace Nocubeless
 		private float Pitch = 0.0f;
 		private float Yaw = 0.0f;
 
-		public float minFov { get; set; }
+		public float minFov { get; set; } // SDNMSG: Never write Getter-Setter in lower case, be careful, rename it
 		public float maxFov { get; set; }
 		private float defaultFov;
 

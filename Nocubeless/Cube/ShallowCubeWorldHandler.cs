@@ -16,7 +16,7 @@ namespace Nocubeless
             chunks = new List<CubeChunk>();
         }
 
-        public CubeChunk GetChunkAt(WorldCoordinates coordinates)
+        public CubeChunk GetChunkAt(CubeCoordinates coordinates)
         {
             var gotChunk = (from chunk in chunks
                             where chunk.Coordinates.Equals(coordinates)
@@ -44,7 +44,7 @@ namespace Nocubeless
             chunks.Add(chunk);
         }
 
-        public bool ChunkExistsAt(WorldCoordinates coordinates)
+        public bool ChunkExistsAt(CubeCoordinates coordinates)
         {
             var gotChunk = (from chunk in chunks
                             where chunk.Coordinates.Equals(coordinates)

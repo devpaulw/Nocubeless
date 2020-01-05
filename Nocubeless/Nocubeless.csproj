@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cube\CubeChunkHelper.cs" />
-    <Compile Include="Cube\WorldCoordinates.cs" />
+    <Compile Include="Cube\CubeCoordinates.cs" />
     <Compile Include="Cube\Cube.cs" />
     <Compile Include="Cube\CubeChunk.cs" />
     <Compile Include="Cube\CubeChunkDrawer.cs" />
