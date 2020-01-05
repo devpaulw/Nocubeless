@@ -51,5 +51,10 @@ namespace Nocubeless
 		{
 			return CurrentMouseState.MiddleButton == ButtonState.Pressed && OldMouseState.MiddleButton == ButtonState.Released;
 		}
+
+		public static int GetScrollWheelMovement()
+		{
+			return CurrentMouseState.ScrollWheelValue - OldMouseState.ScrollWheelValue;
+		}
 	}
 }

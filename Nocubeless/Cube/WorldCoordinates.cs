@@ -103,6 +103,13 @@ namespace Nocubeless
 		{
 			return Multiply(coordinates, scalar);
 		}
+
+		public static WorldCoordinates FromTruncated(Vector3 vector3)
+		{
+			// TODO can remove Math.floor
+			return new WorldCoordinates((int)Math.Floor(vector3.X), (int)Math.Floor(vector3.Y), (int)Math.Floor(vector3.Z));
+		}
+
 		public static WorldCoordinates operator *(WorldCoordinates coordinates, float scalar)
 		{
 			return Multiply(coordinates, scalar);

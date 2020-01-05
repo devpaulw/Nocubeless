@@ -24,8 +24,9 @@ namespace Nocubeless
 					Width = 0.1f,
 					Height = 0.1f,
 					Length = 0.1f,
-					WalkingSpeed = 2.5f,
-					RunningSpeed = 5.0f
+					WalkingSpeed = 1.0f,
+					RunningSpeed = 3.0f,
+					FlyingSpeed = 2.0f
 				};
 			}
 		}

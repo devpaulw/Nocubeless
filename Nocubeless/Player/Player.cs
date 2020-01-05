@@ -26,11 +26,5 @@ namespace Nocubeless
 			Speed = settings.WalkingSpeed;
 			Settings = settings;
 		}
-
-		// TMP maybe i will use a virtual Move(), the problem would be that Player would be the only class to override it
-		//public new void Move(Vector3 direction)
-		//{
-		//	base.Move(direction);
-		//}
 	}
 }
