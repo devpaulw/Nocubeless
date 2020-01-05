@@ -65,6 +65,7 @@
     <Compile Include="Cube\CubeWorldHelper.cs" />
     <Compile Include="Cube\ShallowCubeWorldHandler.cs" />
     <Compile Include="Effects\CubeEffect.cs" />
+    <Compile Include="Game\NocubelessApp.cs" />
     <Compile Include="Game\PlayingInput.cs" />
     <Compile Include="Game\Input.cs" />
     <Compile Include="Game\Nocubeless.cs" />

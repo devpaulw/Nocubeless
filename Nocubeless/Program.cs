@@ -10,9 +10,9 @@ namespace Nocubeless
     {
         static void Main()
         {
-            using (var nocubeless = new Nocubeless())
+            using (var app = new Nocubeless())
             {
-                nocubeless.Run();
+                app.Run();
             }
         }
     }

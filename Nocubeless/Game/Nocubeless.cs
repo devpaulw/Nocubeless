@@ -1,4 +1,4 @@
-﻿/* Parallel SpydotNet branch */
+﻿/* DEVELOP BRANCH */
 
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace Nocubeless
 	class Nocubeless : Game
 	{
 		private readonly GraphicsDeviceManager graphicsDeviceManager;
-		// test spydotnet
+
 		public SpriteBatch SpriteBatch { get; set; }
 		public NocubelessSettings Settings { get; set; }
 		public NocubelessState CurrentState { get; set; }
