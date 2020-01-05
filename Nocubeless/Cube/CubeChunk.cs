@@ -16,7 +16,7 @@ namespace Nocubeless
 
         private readonly CubeColor[] cubeColors;
 
-        public WorldCoordinates Coordinates { get; set; }
+        public CubeCoordinates Coordinates { get; set; }
 
         public CubeColor this[int position] {
             get {
@@ -27,7 +27,7 @@ namespace Nocubeless
             }
         }
 
-        public CubeChunk(WorldCoordinates coordinates)
+        public CubeChunk(CubeCoordinates coordinates)
         {
             Coordinates = coordinates;
 

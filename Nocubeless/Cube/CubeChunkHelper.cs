@@ -8,7 +8,7 @@ namespace Nocubeless
 {
     public static class CubeChunkHelper
     {
-        public static WorldCoordinates FindBaseCoordinates(WorldCoordinates cubeCoordinates) // find real chunk coordinates from lamba cube coordinates
+        public static CubeCoordinates FindBaseCoordinates(CubeCoordinates cubeCoordinates) // find real chunk coordinates from lamba cube coordinates
         {
             if (cubeCoordinates == null)
                 throw new NullReferenceException();
@@ -17,7 +17,7 @@ namespace Nocubeless
                 y = FindCloserLeftMultiple(cubeCoordinates.Y),
                 z = FindCloserLeftMultiple(cubeCoordinates.Z);
 
-            return new WorldCoordinates(x, y, z);
+            return new CubeCoordinates(x, y, z);
 
             /// <summary>
             /// This method find the first value that is a multiple of a CubeChunk Size by crossing from the left.
@@ -30,7 +30,7 @@ namespace Nocubeless
                 return value;
             }
         }
-        public static int GetIndexFromCoordinates(WorldCoordinates cubeCoordinates) // get position of the cube in the chunk from lamba cube coordinates
+        public static int GetIndexFromCoordinates(CubeCoordinates cubeCoordinates) // get position of the cube in the chunk from lamba cube coordinates
         {
             if (cubeCoordinates == null)
                 throw new NullReferenceException();

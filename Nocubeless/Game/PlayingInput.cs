@@ -24,25 +24,7 @@ namespace Nocubeless
 			var colorPipette = new ColorPipette(Nocubeless);
 
 			Game.Components.Add(colorPipette);
-			// add playerMover, HeadRotater...
-			// add cubeLayer, Breaker, Previewer
-			// ...
-			// why not a lot of small parts like that? Like the color pipette above
-			// becoz I really don't like everything in the same class
-			// If it's too disturbing, we can think about make private class many partial Playing Input classes, why not.
 
-			// BBMSG it's a good idea to break down this class but in your examples the classes are far too small,
-			// i think it's a bad idea to have classes with too few elements in it, it would create too much classes (which would be more difficult to organise and to retrieve the files and to follow the execution of the program to find the bugs)
-			// moreover i think classes should represent a set of data and behaviors rather than just a behavior
-			// (in OOP i think objects should represents one concept or physical thing, but not just one action)
-			// but the PlayingInput is too big and should be transformed into smaller parts
-			// what do you think about having more global classes like (names are just examples, it's just for the idea) :
-			//		> PlayerEntityInputProcessor (which would process inputs related to moving the head, the player, ...)
-			//		> CubeInteractionsInputProcessor (which would process inputs related to picking a color, breaking a cube...)
-			//		> PlayerInventoryInputProcessor
-			//		> MainMenuInputProcessor
-			// 
-			// i wait for your opinion before continuing because it's a open debate and i may be wrong :)
 			base.Initialize();
 		}
 
@@ -62,7 +44,7 @@ namespace Nocubeless
 		{
 			if (shouldLayCube)
 			{
-				WorldCoordinates cubeToPreviewPosition = Nocubeless.CubeWorld.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+				CubeCoordinates cubeToPreviewPosition = Nocubeless.CubeWorld.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
 				Cube cubeToLay = new Cube(Nocubeless.Player.NextColorToLay, cubeToPreviewPosition);
 
 				if (!AreColliding(Nocubeless.Player, cubeToLay))
@@ -85,7 +67,7 @@ namespace Nocubeless
 
 				if (Input.WasLeftMouseButtonJustPressed())
 				{
-					WorldCoordinates cubeToBreakPosition = Nocubeless.CubeWorld.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+					CubeCoordinates cubeToBreakPosition = Nocubeless.CubeWorld.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
 					Nocubeless.CubeWorld.BreakCube(cubeToBreakPosition);
 				}
 			}
@@ -239,8 +221,6 @@ namespace Nocubeless
 		}
 
 		// TODO move to another class
-		// "Good idea, Physics?"
-		// BBMSG ANSWER probably later, when there will be other methods to put in it, i needed the cube ratio, that's why i left this method here for now
 		private bool AreColliding(Player player, Cube cube)
 		{
 			const float cubeSize = 0.1f;

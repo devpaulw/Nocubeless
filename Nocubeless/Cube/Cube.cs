@@ -11,15 +11,11 @@ namespace Nocubeless
 	class Cube
 	{
 		public static float size = 0.01f;
-		public WorldCoordinates Coordinates { get; set; }
-		// Maybe but I'm not sure because it's a conflict with the floating Position
-		// BBMSG ANSWER I think we should have a convention in our project by naming all coordinates of the world WorldPosition (or something like that you can propose another name) and all graphics coordinates something like GraphicsCoordinates or ScreenCoordinates
-		// BBMSG what's the real difference between WorldCoordinates and Vector3, why having a integer coordinates is important ? (is that to guarantee greater limits ?),
-		// i ask that because i want to know if WordCoordinates should be prefered to represent coordinates (with DynamicEntity for example)
+		public CubeCoordinates Coordinates { get; set; }
 		public CubeColor Color { get; set; }
 
 
-		public Cube(CubeColor color, WorldCoordinates position)
+		public Cube(CubeColor color, CubeCoordinates position)
 		{
 			Coordinates = position;
 			Color = color;

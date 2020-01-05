@@ -9,12 +9,12 @@ namespace Nocubeless
 {
     static class CubeWorldHelper
     {
-        public static WorldCoordinates GetTargetedCube(this CubeWorld cubeWorld, Camera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
+        public static CubeCoordinates GetTargetedCube(this CubeWorld cubeWorld, Camera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
         {
             Vector3 checkPosition = camera.Position * cubeWorld.GetGraphicsCubeRatio(); // Not a beautiful way!
 
-            WorldCoordinates actualPosition = null;
-            WorldCoordinates convertedCheckPosition;
+            CubeCoordinates actualPosition = null;
+            CubeCoordinates convertedCheckPosition;
 
             const int checkIntensity = 100;
             float checkIncrement = (float)maxLayingDistance / checkIntensity;
@@ -22,7 +22,7 @@ namespace Nocubeless
             for (int i = 0; i < checkIntensity; i++)
             { // in World, is free space
                 checkPosition += camera.Front * checkIncrement; // increment check zone
-                convertedCheckPosition = WorldCoordinates.FromVector3(checkPosition);
+                convertedCheckPosition = CubeCoordinates.FromVector3(checkPosition);
 
                 if (convertedCheckPosition == actualPosition)
                 {
@@ -35,13 +35,13 @@ namespace Nocubeless
 
             return actualPosition;
         }
-        public static WorldCoordinates GetTargetedNewCube(this CubeWorld cubeWorld, Camera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
+        public static CubeCoordinates GetTargetedNewCube(this CubeWorld cubeWorld, Camera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
         {
             Vector3 checkPosition = camera.Position * cubeWorld.GetGraphicsCubeRatio();
 
-            WorldCoordinates oldPosition = null;
-            WorldCoordinates actualPosition = null;
-            WorldCoordinates convertedCheckPosition;
+            CubeCoordinates oldPosition = null;
+            CubeCoordinates actualPosition = null;
+            CubeCoordinates convertedCheckPosition;
 
             const int checkIntensity = 100;
             float checkIncrement = (float)maxLayingDistance / checkIntensity;
@@ -49,7 +49,7 @@ namespace Nocubeless
             for (int i = 0; i < checkIntensity; i++)
             { // in World, is free space
                 checkPosition += camera.Front * checkIncrement; // increment check zone
-                convertedCheckPosition = WorldCoordinates.FromVector3(checkPosition);
+                convertedCheckPosition = CubeCoordinates.FromVector3(checkPosition);
 
                 if (convertedCheckPosition == actualPosition) // perf maintainer
                 {
