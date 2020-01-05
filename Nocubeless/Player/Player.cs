@@ -18,6 +18,7 @@ namespace Nocubeless
 		public float Length { get; set; }
 		public PlayerSettings Settings { get; set; }
 		public Camera Camera { get; set; }
+		public CubeColor NextColorToLay { get; set; }
 
 		public Player(PlayerSettings settings, WorldCoordinates position, Camera camera) : base(position.ToVector3())
 		{
