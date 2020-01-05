@@ -8,8 +8,8 @@ namespace Nocubeless
 {
     public interface ICubeWorldHandler
     {
-        CubeChunk GetChunkAt(Coordinates coordinates);
+        CubeChunk GetChunkAt(WorldCoordinates coordinates);
         void SetChunk(CubeChunk chunk);
-        bool ChunkExistsAt(Coordinates coordinates);
+        bool ChunkExistsAt(WorldCoordinates coordinates);
     }
 }

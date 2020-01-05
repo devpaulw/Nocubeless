@@ -53,7 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cube\Coordinates.cs" />
+    <Compile Include="Cube\CubeChunkHelper.cs" />
+    <Compile Include="Cube\WorldCoordinates.cs" />
     <Compile Include="Cube\Cube.cs" />
     <Compile Include="Cube\CubeChunk.cs" />
     <Compile Include="Cube\CubeChunkDrawer.cs" />

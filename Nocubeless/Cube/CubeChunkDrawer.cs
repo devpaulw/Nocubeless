@@ -14,15 +14,15 @@ namespace Nocubeless
         private readonly CubeEffect cubeEffect;
         private readonly Matrix cubeScale;
 
-        public float HeightOfCubes { get; set; } // BBMSG: Is cubeHeight (or better: cubeSize because it's also for width and length) a better noun ? (it avoids 'of' and it's still english because it's a compound noun)
+        public float CubeHeight { get; set; }
 
         public CubeChunkDrawer(Game game, float heightOfCubes) : base(game)
         {
-            HeightOfCubes = heightOfCubes;
+            CubeHeight = heightOfCubes;
 
             cubeMeshPart = Cube.LoadModel(Game.GraphicsDevice);
             cubeEffect = new CubeEffect(Game);
-            cubeScale = Matrix.CreateScale(HeightOfCubes);
+            cubeScale = Matrix.CreateScale(CubeHeight);
         }
 
         public void Draw(ref CubeChunk chunk, Vector3 position, float gap, EffectMatrices effectMatrices) // TO-OPTIMIZE

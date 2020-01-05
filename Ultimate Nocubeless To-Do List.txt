@@ -1,6 +1,5 @@
 The Ultimate Nocubeless To-Do List File:
 
-- Fix Equals in Coordinates
 - Pipette
 - Camera not smooth fix
 - Zoom functionality

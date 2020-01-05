@@ -24,22 +24,22 @@ namespace Nocubeless
 
         public void LayCube(Cube cube)
         {
-            var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(cube.Coordinates);
+            var chunkCoordinates = CubeChunkHelper.FindBaseCoordinates(cube.Coordinates);
 
             var tookChunk = TakeChunkAt(chunkCoordinates);
 
-            int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(cube.Coordinates);
+            int cubePositionInChunk = CubeChunkHelper.GetIndexFromCoordinates(cube.Coordinates);
 
             tookChunk[cubePositionInChunk] = cube.Color;
         }
 
-        public void BreakCube(Coordinates coordinates)
+        public void BreakCube(WorldCoordinates coordinates)
         {
-            var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(coordinates);
+            var chunkCoordinates = CubeChunkHelper.FindBaseCoordinates(coordinates);
 
             var tookChunk = TakeChunkAt(chunkCoordinates);
 
-            int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(coordinates);
+            int cubePositionInChunk = CubeChunkHelper.GetIndexFromCoordinates(coordinates);
 
             tookChunk[cubePositionInChunk] = null;
         }
@@ -49,18 +49,18 @@ namespace Nocubeless
             PreviewableCube = cube;
         }
 
-        public bool IsFreeSpace(Coordinates coordinates) // TO-OPTIMIZE
+        public bool IsFreeSpace(WorldCoordinates coordinates) // TO-OPTIMIZE
         {
-            var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(coordinates);
+            var chunkCoordinates = CubeChunkHelper.FindBaseCoordinates(coordinates);
 
             var gotChunk = (from chunk in LoadedChunks
-                            where chunk.Coordinates.Equals(chunkCoordinates)
+                            where chunk.Coordinates == chunkCoordinates
                             select chunk).FirstOrDefault();
 
             if (gotChunk == null) // don't try to check in a not loaded chunk, or it will crash
                 return false;
 
-            int cubePositionInChunk = CubeChunk.Helper.GetPositionFromCoordinates(coordinates);
+            int cubePositionInChunk = CubeChunkHelper.GetIndexFromCoordinates(coordinates);
 
             if (!(gotChunk[cubePositionInChunk] == null))
                 return false;
@@ -68,7 +68,7 @@ namespace Nocubeless
             return true;
         }
 
-        public void LoadChunk(Coordinates chunkCoordinates)
+        public void LoadChunk(WorldCoordinates chunkCoordinates)
         {
             var gotChunk = GetChunkAt(chunkCoordinates);
             if (gotChunk != null)
@@ -83,29 +83,30 @@ namespace Nocubeless
             LoadedChunks.Remove(chunk);
         }
 
-        public CubeChunk TakeChunkAt(Coordinates chunkCoordinates)
+        public CubeChunk TakeChunkAt(WorldCoordinates chunkCoordinates)
         {
             return (from chunk in LoadedChunks
-                    where chunk.Coordinates.Equals(chunkCoordinates)
+                    where chunk.Coordinates == chunkCoordinates
                     select chunk).FirstOrDefault();
         }
 
-        // BBMSG i think Cube (or Coordinates) should know how to convert themself to Graphics (a method cube.GetGraphicsCoordinates or coordinates.ToGraphics)
-        // BBMSG moreover i think the cubes should know their height (it's overkill to store in all cubes the same height but maybe we can make a static Cube.Size initialized by CubeWorld)
-        public Vector3 GetGraphicsCubePosition(Coordinates cubePosition) // cube position in graphics representation.
+        //  i think Cube (or Coordinates) should know how to convert themself to Graphics (a method cube.GetGraphicsCoordinates or coordinates.ToGraphics)
+        //  moreover i think the cubes should know their height (it's overkill to store in all cubes the same height but maybe we can make a static Cube.Size initialized by CubeWorld)
+        // SDNMSG ANSWER: Maybe the user will be able to configure its own cube Size, so, it could seems strange, but good idea, do some kind of this sometimes!
+        public Vector3 GetGraphicsCubePosition(WorldCoordinates cubePosition) // cube position in graphics representation.
         {
             return cubePosition.ToVector3() / GetGraphicsCubeRatio();
         }
-        public Coordinates GetCoordinatesFromGraphics(Vector3 position)
+        public WorldCoordinates GetCoordinatesFromGraphics(Vector3 position)
         {
-            return (position * GetGraphicsCubeRatio()).ToCubeCoordinate();
+            return new WorldCoordinates(position * GetGraphicsCubeRatio());
         }
         public float GetGraphicsCubeRatio() // how much is a cube smaller/bigger in the graphics representation?
         {
             return 1.0f / (Settings.HeightOfCubes * 2.0f);
         }
 
-        private CubeChunk GetChunkAt(Coordinates coordinates)
+        private CubeChunk GetChunkAt(WorldCoordinates coordinates)
         {
             return Handler.GetChunkAt(coordinates);
         }

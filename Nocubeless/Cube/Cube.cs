@@ -11,11 +11,11 @@ namespace Nocubeless
 	class Cube
 	{
 		public static float size = 0.01f;
-		public Coordinates Coordinates { get; set; } // BBMSG Is Position a better name ?
+		public WorldCoordinates Coordinates { get; set; } // Is Position a better name ? // SDNMSG: Maybe but I'm not sure because it's a conflict with the floating Position
 		public CubeColor Color { get; set; }
 
 
-		public Cube(CubeColor color, Coordinates position)
+		public Cube(CubeColor color, WorldCoordinates position)
 		{
 			Coordinates = position;
 			Color = color;

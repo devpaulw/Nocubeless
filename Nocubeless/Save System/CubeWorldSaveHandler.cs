@@ -15,17 +15,17 @@ namespace Nocubeless
         {
             #region File Path assignment and trying it exists
             if (!File.Exists(filePath))
-                File.Create(filePath);
+                File.Create(filePath).Close();
 
             FilePath = filePath;
             #endregion
         }
 
-        public CubeChunk GetChunkAt(Coordinates coordinates)
+        public CubeChunk GetChunkAt(WorldCoordinates coordinates)
         {
             var dataOffset = GetChunkDataOffset(coordinates);
 
-            if (dataOffset == null)
+            if (dataOffset == -1)
                 return null;
             else
             {
@@ -37,18 +37,21 @@ namespace Nocubeless
 
         public void SetChunk(CubeChunk chunk)
         {
+            if (chunk == null)
+                throw new NullReferenceException();
+
             var dataOffset = GetChunkDataOffset(chunk.Coordinates);
 
-            if (dataOffset == null) // if the file doesn't contain a chunk at these coordinates, add it
+            if (dataOffset == -1) // if the file doesn't contain a chunk at these coordinates, add it
                 AddChunk(chunk);
             else // else, replace at the offset in the file
                 ReplaceChunk(chunk, (int)dataOffset);
         }
 
-        public bool ChunkExistsAt(Coordinates coordinates)
+        public bool ChunkExistsAt(WorldCoordinates coordinates)
         {
             var dataOffset = GetChunkDataOffset(coordinates);
-            if (dataOffset == null)
+            if (dataOffset == -1)
                 return false;
             else return true;
         }
@@ -98,14 +101,14 @@ namespace Nocubeless
             }
         }
 
-        private void WriteChunkCoordinates(Coordinates chunkCoordinates, BinaryWriter writer)
+        private static void WriteChunkCoordinates(WorldCoordinates chunkCoordinates, BinaryWriter writer)
         {
             writer.Write(chunkCoordinates.X);
             writer.Write(chunkCoordinates.Y);
             writer.Write(chunkCoordinates.Z);
         }
 
-        private void WriteChunkData(CubeChunk chunk, BinaryWriter writer)
+        private static void WriteChunkData(CubeChunk chunk, BinaryWriter writer)
         {
             for (int i = 0; i < CubeChunk.TotalSize; i++)
             {
@@ -120,7 +123,7 @@ namespace Nocubeless
             }
         }
 
-        private int? GetChunkDataOffset(Coordinates chunkCoordinates)
+        private int GetChunkDataOffset(WorldCoordinates chunkCoordinates)
         {
             int dataSize = CubeChunk.TotalSize * 3;
 
@@ -130,19 +133,19 @@ namespace Nocubeless
             {
                 while (stream.Position < stream.Length)
                 {
-                    var foundCoordinates = new Coordinates(reader.ReadInt32(),
+                    var foundCoordinates = new WorldCoordinates(reader.ReadInt32(),
                         reader.ReadInt32(),
                         reader.ReadInt32());
 
-                    if (foundCoordinates.Equals(chunkCoordinates))
-                        return (int?)stream.Position;
+                    if (foundCoordinates == chunkCoordinates)
+                        return (int)stream.Position;
 
                     stream.Seek(dataSize, SeekOrigin.Current); // jump to the next coordinates
                 }
 
             }
 
-            return null; // no offset found
+            return -1; // no offset found
         }
         #endregion
     }

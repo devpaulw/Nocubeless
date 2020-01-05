@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	// BBMSG: CubeWorldSceneInput was merged with PlayingInput because it is the class that manage all the inputs of the class
+	// CubeWorldSceneInput was merged with PlayingInput because it is the class that manage all the inputs of the class
+	// SDNMSG ANSWER: Nice way!
 	class PlayingInput : NocubelessComponent
 	{
 		private CubeColor cubeToLayColor;
@@ -40,7 +41,7 @@ namespace Nocubeless
 		{
 			if (shouldLayCube)
 			{
-				Coordinates cubeToPreviewPosition = Nocubeless.CubeWorld.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+				WorldCoordinates cubeToPreviewPosition = Nocubeless.CubeWorld.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
 				Cube cubeToLay = new Cube(cubeToLayColor, cubeToPreviewPosition);
 
 				if (!Nocubeless.Player.IsColliding(cubeToLay, Nocubeless.CubeWorld.GetGraphicsCubeRatio())) // CHEAT
@@ -63,14 +64,14 @@ namespace Nocubeless
 
 				if (Input.WasLeftMouseButtonJustPressed())
 				{
-					Coordinates cubeToBreakPosition = Nocubeless.CubeWorld.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
-					Nocubeless.CubeWorld.BreakCube(cubeToBreakPosition); // DESIGN: You know the way
+					WorldCoordinates cubeToBreakPosition = Nocubeless.CubeWorld.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+					Nocubeless.CubeWorld.BreakCube(cubeToBreakPosition);
 				}
 			}
 
 		}
 
-		private void ProcessKeyboardInput()
+		private void ProcessKeyboardInput() // SDNMSG: Run and Up/Down is too fast (do you forgot using gameTime?)
 		{
 			var direction = Vector3.Zero;
 
@@ -175,7 +176,7 @@ namespace Nocubeless
 			return Input.CurrentMouseState.ScrollWheelValue - Input.OldMouseState.ScrollWheelValue;
 		}
 
-		public void OnColorPicking(object sender, ColorPickingEventArgs e) // c pas beau ça ?
+		public void OnColorPicking(object sender, ColorPickingEventArgs e)
 		{
 			cubeToLayColor = e.Color;
 		}

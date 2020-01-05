@@ -40,7 +40,7 @@ namespace Nocubeless
         }
 
 
-        private void LoadChunks(Coordinates playerCoordinates) // it's the big cube algorithm
+        private void LoadChunks(WorldCoordinates playerCoordinates) // it's the big cube algorithm
         {
             int viewingCubes = CubeChunk.Size * Nocubeless.Settings.Graphics.ChunkViewDistance;
             int min = -(viewingCubes / 2);
@@ -52,7 +52,7 @@ namespace Nocubeless
                 {
                     for (int z = min; z < max; z += CubeChunk.Size)
                     { // explore chunks to load
-                        var chunkCoordinates = CubeChunk.Helper.FindBaseCoordinates(new Coordinates(playerCoordinates.X + x, playerCoordinates.Y + y, playerCoordinates.Z + z));
+                        var chunkCoordinates = CubeChunkHelper.FindBaseCoordinates(new WorldCoordinates(playerCoordinates.X + x, playerCoordinates.Y + y, playerCoordinates.Z + z));
 
                         var tookChunk = Nocubeless.CubeWorld.TakeChunkAt(chunkCoordinates);
 
@@ -63,7 +63,7 @@ namespace Nocubeless
             }
         }
 
-        void UnloadFarChunks(Coordinates playerCoordinates) // TODO: no need this argument now
+        void UnloadFarChunks(WorldCoordinates playerCoordinates) // TODO: no need this argument now
         {
             int viewingCubes = CubeChunk.Size * Nocubeless.Settings.Graphics.ChunkViewDistance;
             int min = -(viewingCubes / 2);
@@ -71,8 +71,8 @@ namespace Nocubeless
 
             for (int i = 0; i < Nocubeless.CubeWorld.LoadedChunks.Count; i++)
             {
-                var playerMinCoordinates = CubeChunk.Helper.FindBaseCoordinates(new Coordinates(playerCoordinates.X + min, playerCoordinates.Y + min, playerCoordinates.Z + min));
-                var playerMaxCoordinates = CubeChunk.Helper.FindBaseCoordinates(new Coordinates(playerCoordinates.X + max, playerCoordinates.Y + max, playerCoordinates.Z + max));
+                var playerMinCoordinates = CubeChunkHelper.FindBaseCoordinates(new WorldCoordinates(playerCoordinates.X + min, playerCoordinates.Y + min, playerCoordinates.Z + min));
+                var playerMaxCoordinates = CubeChunkHelper.FindBaseCoordinates(new WorldCoordinates(playerCoordinates.X + max, playerCoordinates.Y + max, playerCoordinates.Z + max));
 
                 if (Nocubeless.CubeWorld.LoadedChunks[i].Coordinates < playerMinCoordinates 
                     || Nocubeless.CubeWorld.LoadedChunks[i].Coordinates > playerMaxCoordinates)
@@ -87,6 +87,9 @@ namespace Nocubeless
         {
             for (int i = 0; i < Nocubeless.CubeWorld.LoadedChunks.Count; i++) // save each chunk before closing
                 Nocubeless.CubeWorld.UnloadChunk(Nocubeless.CubeWorld.LoadedChunks[i]);
+
+            chunkDrawer.Dispose();
+            cubeDrawer.Dispose();
 
             base.Dispose(disposing);
         }

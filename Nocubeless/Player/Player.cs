@@ -10,7 +10,7 @@ namespace Nocubeless
 	class Player
 	{
 		// WARNING: THE TruncatedPosition DOES NOT CONTAINS THE POSITION
-		public Coordinates TruncatedPosition {
+		public WorldCoordinates TruncatedPosition {
 			get; set;
 		}
 		public Vector3 Position { get; set; }
@@ -18,15 +18,15 @@ namespace Nocubeless
 		public float Height { get; set; }
 		public float Length { get; set; }
 		public float Speed { get; set; }
-		private float speed { get; set; }
+		private float speed { get; set; } // SDNMSG: we rarely do a get set private statement, make it a normal variable, however a Getter-Setter is never in lower-case ^^'
 		public Camera Camera { get; set; }
 
 		
 
-		public Player(Coordinates position, int width, int height, int length, float speed, Camera camera) // BBMSG: "A player can know the CubeWorld" => i don't agree, it's another class that should manage the player and the cube and their interactions
+		public Player(WorldCoordinates position, int width, int height, int length /*SDNMSG: REMOVE These unused parameters*/, float speed, Camera camera) // i don't agree, it's another class that should manage the player and the cube and their interactions // SDN ANSWER: You're right
 		{
 			Position = position.ToVector3();
-			TruncatedPosition = Coordinates.FromTruncated(Position);
+			TruncatedPosition = WorldCoordinates.FromTruncated(Position);
 			// Dimensions specified in the constructor aren't take into account
 			//Width = width;
 			//Height = height;
@@ -42,7 +42,7 @@ namespace Nocubeless
 			speed = Speed * deltaTime;
 		}
 
-		// TODO move to another class ?
+		// TODO move to another class ? // SDNMSG: Good idea, Physics?
 		public bool IsColliding(Cube cube, float ratio) // CHEAT
 		{
 			const float cubeSize = 0.1f;
@@ -62,7 +62,7 @@ namespace Nocubeless
 		{
 			Camera.Position += speed * direction;
 			Position = Camera.Position;
-			TruncatedPosition = Coordinates.FromTruncated(Position);
+			TruncatedPosition = WorldCoordinates.FromTruncated(Position);
 		}
 
 		public Vector3 GetNextPosition(Vector3 direction)
