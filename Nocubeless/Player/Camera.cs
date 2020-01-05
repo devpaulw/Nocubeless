@@ -21,11 +21,13 @@ namespace Nocubeless
 		public Vector3 Up { get; private set; }
 		public Vector3 Right { get; private set; }
 
-		private float Pitch = 0.0f;
-		private float Yaw = 0.0f;
+		private float pitch = 0.0f;
+		private float yaw = 0.0f;
 
-		public float minFov { get; set; } // SDNMSG: Never write Getter-Setter in lower case, be careful, rename it
-		public float maxFov { get; set; }
+		public float MinFov { get; set; }
+		// Never write Getter-Setter in lower case, be careful, rename it
+		// BBMSG > if i forget a uppercase or it should be a lower case letter you can modify it without my permission :)
+		public float MaxFov { get; set; }
 		private float defaultFov;
 
 		public Vector3 Target
@@ -47,8 +49,8 @@ namespace Nocubeless
 			Up = Vector3.UnitY;
 			Right = Vector3.Cross(Front, Up);
 
-			minFov = 0.5f;
-			maxFov = 2.0f;
+			MinFov = 0.5f;
+			MaxFov = 2.0f;
 		}
 
 		// TODO optimizing
@@ -77,19 +79,19 @@ namespace Nocubeless
 		public void Rotate(float pitch, float yaw)
 		{
 			const float maxPitch = MathHelper.PiOver2 - 0.01f;
-			Pitch = MathHelper.Clamp(Pitch - pitch, -maxPitch, maxPitch);
-			Yaw -= yaw;
+			this.pitch = MathHelper.Clamp(this.pitch - pitch, -maxPitch, maxPitch);
+			this.yaw -= yaw;
 
 			Front = new Vector3(
-				(float)(Math.Cos(Pitch) * Math.Cos(Yaw)),
-				(float)Math.Sin(Pitch),
-				(float)(Math.Cos(Pitch) * Math.Sin(Yaw)));
+				(float)(Math.Cos(this.pitch) * Math.Cos(this.yaw)),
+				(float)Math.Sin(this.pitch),
+				(float)(Math.Cos(this.pitch) * Math.Sin(this.yaw)));
 			Right = Vector3.Normalize(Vector3.Cross(Front, Up));
 		}
 
 		public void Zoom(float percentage)
 		{
-			fovInRadians = MathHelper.Clamp(defaultFov / (percentage / 100.0f), minFov, maxFov);
+			fovInRadians = MathHelper.Clamp(defaultFov / (percentage / 100.0f), MinFov, MaxFov);
 		}
 	}
 }

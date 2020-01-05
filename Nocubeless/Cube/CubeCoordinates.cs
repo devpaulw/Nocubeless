@@ -41,8 +41,6 @@ namespace Nocubeless
 			return new CubeCoordinates(Math.Abs(coordinates.X), Math.Abs(coordinates.Y), Math.Abs(coordinates.Z));
 		}
 
-		// ANSWER: "Don't need same function both, I think, private, or EVEN inside operators!" => it seems Roslyn prefer that we define these methods because he think they are "a friendly alternative" xD
-		// SDNMSG ANSWER LAST: Okay, Roslyn is always right, follow it ;)
 		private static CubeCoordinates Add(CubeCoordinates coordinates1, CubeCoordinates coordinates2)
 		{
 			if (coordinates1 == null || coordinates2 == null)

@@ -41,7 +41,6 @@ namespace Nocubeless
 			return new WorldCoordinates(Math.Abs(coordinates.X), Math.Abs(coordinates.Y), Math.Abs(coordinates.Z));
 		}
 
-		// BBMSG ANSWER: "Don't need same function both, I think, private, or EVEN inside operators!" => it seems Roslyn prefer that we define these methods because he think they are "a friendly alternative" xD
 		private static WorldCoordinates Add(WorldCoordinates coordinates1, WorldCoordinates coordinates2)
 		{
 			if (coordinates1 == null || coordinates2 == null)
