@@ -44,6 +44,17 @@ namespace Nocubeless
             tookChunk[cubePositionInChunk] = null;
         }
 
+        public CubeColor GetCubeColorAt(WorldCoordinates coordinates) // TODO: Redundance fix
+        {
+            var chunkCoordinates = CubeChunkHelper.FindBaseCoordinates(coordinates);
+
+            var tookChunk = TakeChunkAt(chunkCoordinates);
+
+            int cubePositionInChunk = CubeChunkHelper.GetIndexFromCoordinates(coordinates);
+
+            return tookChunk[cubePositionInChunk];
+        }
+
         public void PreviewCube(Cube cube)
         {
             PreviewableCube = cube;

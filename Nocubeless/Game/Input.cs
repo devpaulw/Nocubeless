@@ -47,5 +47,9 @@ namespace Nocubeless
 		{
 			return CurrentMouseState.LeftButton == ButtonState.Pressed && OldMouseState.LeftButton == ButtonState.Released;
 		}
+		public static bool WasMiddleMouseButtonJustPressed()
+		{
+			return CurrentMouseState.MiddleButton == ButtonState.Pressed && OldMouseState.MiddleButton == ButtonState.Released;
+		}
 	}
 }

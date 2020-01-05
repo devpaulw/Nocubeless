@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	public class WorldCoordinates : IEquatable<WorldCoordinates> // TODO: Fix equal and use the true operator.
+	public class WorldCoordinates : IEquatable<WorldCoordinates>
 	{
 		public int X { get; set; }
 		public int Y { get; set; }
@@ -43,13 +43,6 @@ namespace Nocubeless
 			return new WorldCoordinates(Math.Abs(coordinates.X), Math.Abs(coordinates.Y), Math.Abs(coordinates.Z));
 		}
 
-		public static WorldCoordinates operator -(WorldCoordinates coordinates1, WorldCoordinates coordinates2)
-		{
-			if (coordinates1 == null || coordinates2 == null)
-				throw new NullReferenceException();
-
-			return Subtract(coordinates1, coordinates2);
-		}
 		//  Add and Multiply should be private or public ? 
 		// SDNMSG ANSWER: Don't need same function both, I think, private, or EVEN inside operators! ... (but why internal? xD)
 		internal static WorldCoordinates Add(WorldCoordinates coordinates1, WorldCoordinates coordinates2)
@@ -127,6 +120,13 @@ namespace Nocubeless
 				throw new NullReferenceException();
 
 			return Add(coordinates1, coordinates2);
+		}
+		public static WorldCoordinates operator -(WorldCoordinates coordinates1, WorldCoordinates coordinates2)
+		{
+			if (coordinates1 == null || coordinates2 == null)
+				throw new NullReferenceException();
+
+			return Subtract(coordinates1, coordinates2);
 		}
 		#endregion
 

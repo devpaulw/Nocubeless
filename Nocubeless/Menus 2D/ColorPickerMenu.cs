@@ -74,6 +74,12 @@ namespace Nocubeless
 
             if (Nocubeless.CurrentState == NocubelessState.ColorPicking)
             {
+                var provider = CultureInfo.CurrentCulture;
+
+                textBoxR.Text = Nocubeless.CubeWorld.PreviewableCube.Color.Red.ToString(provider);
+                textBoxG.Text = Nocubeless.CubeWorld.PreviewableCube.Color.Green.ToString(provider);
+                textBoxB.Text = Nocubeless.CubeWorld.PreviewableCube.Color.Blue.ToString(provider);
+
                 #region Text Boxes
                 textBoxR.Update(gameTime);
                 textBoxG.Update(gameTime);
@@ -81,7 +87,6 @@ namespace Nocubeless
 
                 try // textBox Picker Event
                 {
-                    var provider = CultureInfo.CurrentCulture;
                     int r = Convert.ToInt32(textBoxR.Text.ToString(provider), provider),
                     g = Convert.ToInt32(textBoxG.Text.ToString(provider), provider),
                     b = Convert.ToInt32(textBoxB.Text.ToString(provider), provider);

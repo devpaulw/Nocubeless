@@ -69,6 +69,18 @@ namespace Nocubeless
 				}
 			}
 
+			Pipette();
+
+			void Pipette()
+			{
+				if (Input.WasMiddleMouseButtonJustPressed())
+				{
+					// TODO: Put in  separated another class
+					var targetCubeCoordinates = Nocubeless.CubeWorld.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+					var targetCubeColor = Nocubeless.CubeWorld.GetCubeColorAt(targetCubeCoordinates);
+					OnColorPicking(this, new ColorPickingEventArgs() { Color = targetCubeColor });
+				}
+			}
 		}
 
 		private void ProcessKeyboardInput() // SDNMSG: Run and Up/Down is too fast (do you forgot using gameTime?)

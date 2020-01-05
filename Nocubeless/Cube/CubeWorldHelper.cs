@@ -22,7 +22,7 @@ namespace Nocubeless
             for (int i = 0; i < checkIntensity; i++)
             { // in World, is free space
                 checkPosition += camera.Front * checkIncrement; // increment check zone
-                convertedCheckPosition = new WorldCoordinates(checkPosition);
+                convertedCheckPosition = WorldCoordinates.FromVector3(checkPosition);
 
                 if (convertedCheckPosition == actualPosition)
                 {
@@ -49,7 +49,7 @@ namespace Nocubeless
             for (int i = 0; i < checkIntensity; i++)
             { // in World, is free space
                 checkPosition += camera.Front * checkIncrement; // increment check zone
-                convertedCheckPosition = new WorldCoordinates(checkPosition);
+                convertedCheckPosition = WorldCoordinates.FromVector3(checkPosition);
 
                 if (convertedCheckPosition == actualPosition) // perf maintainer
                 {
