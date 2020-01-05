@@ -11,7 +11,10 @@ namespace Nocubeless
 	class Cube
 	{
 		public static float size = 0.01f;
-		public WorldCoordinates Coordinates { get; set; } // Is Position a better name ? // SDNMSG: Maybe but I'm not sure because it's a conflict with the floating Position
+		
+		public WorldCoordinates Coordinates { get; set; }
+		// Maybe but I'm not sure because it's a conflict with the floating Position
+		// BBMSG ANSWER I think we should have a convention in our project by naming all coordinates of the world WorldPosition (or something like that you can propose another name) and all graphics coordinates something like GraphicsCoordinates or ScreenCoordinates
 		public CubeColor Color { get; set; }
 
 

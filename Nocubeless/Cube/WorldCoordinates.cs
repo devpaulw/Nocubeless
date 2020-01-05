@@ -32,8 +32,6 @@ namespace Nocubeless
 			return new Vector3(X, Y, Z);
 		}
 
-		// a method Coordinates.CreateFromVector3(Vector3) or Coordinates.From(Vector3) or constructor new Coordinates(Vector3) may be cleaner ?
-		// SDNMSG: Exact;
 		public static WorldCoordinates FromVector3(Vector3 vector3) 
 			=> new WorldCoordinates(vector3);
 
@@ -43,10 +41,12 @@ namespace Nocubeless
 			return new WorldCoordinates(Math.Abs(coordinates.X), Math.Abs(coordinates.Y), Math.Abs(coordinates.Z));
 		}
 
-		//  Add and Multiply should be private or public ? 
-		// SDNMSG ANSWER: Don't need same function both, I think, private, or EVEN inside operators! ... (but why internal? xD)
-		internal static WorldCoordinates Add(WorldCoordinates coordinates1, WorldCoordinates coordinates2)
+		// BBMSG ANSWER: "Don't need same function both, I think, private, or EVEN inside operators!" => it seems Roslyn prefer that we define these methods because he think they are "a friendly alternative" xD
+		private static WorldCoordinates Add(WorldCoordinates coordinates1, WorldCoordinates coordinates2)
 		{
+			if (coordinates1 == null || coordinates2 == null)
+				throw new NullReferenceException();
+
 			return new WorldCoordinates(coordinates1.X + coordinates2.X, coordinates1.Y + coordinates2.Y, coordinates1.Z + coordinates2.Z);
 		}
 
@@ -56,13 +56,19 @@ namespace Nocubeless
 			return new WorldCoordinates((int)vector3.X, (int)vector3.Y, (int)vector3.Z);
 		}
 
-		internal static WorldCoordinates Subtract(WorldCoordinates coordinates1, WorldCoordinates coordinates2)
+		private static WorldCoordinates Subtract(WorldCoordinates coordinates1, WorldCoordinates coordinates2)
 		{
+			if (coordinates1 == null || coordinates2 == null)
+				throw new NullReferenceException();
+
 			return new WorldCoordinates(coordinates1.X - coordinates2.X, coordinates1.Y - coordinates2.Y, coordinates1.Z - coordinates2.Z);
 		}
 
-		internal static WorldCoordinates Multiply(WorldCoordinates coordinates, float scalar)
+		private static WorldCoordinates Multiply(WorldCoordinates coordinates, float scalar)
 		{
+			if (coordinates == null)
+				throw new NullReferenceException();
+
 			return new WorldCoordinates((int)(coordinates.X * scalar), (int)(coordinates.Y * scalar), (int)(coordinates.Z * scalar));
 		}
 		#endregion
@@ -101,31 +107,21 @@ namespace Nocubeless
 
 		public static WorldCoordinates operator *(float scalar, WorldCoordinates coordinates)
 		{
-			if (coordinates == null)
-				throw new NullReferenceException();
+			return null;
+			//return Multiply(coordinates, scalar);
 
-			return Multiply(coordinates, scalar);
 		}
 		public static WorldCoordinates operator *(WorldCoordinates coordinates, float scalar)
 		{
-			if (coordinates == null)
-				throw new NullReferenceException();
-
 			return Multiply(coordinates, scalar);
 		}
 
 		public static WorldCoordinates operator +(WorldCoordinates coordinates1, WorldCoordinates coordinates2)
 		{
-			if (coordinates1 == null || coordinates2 == null)
-				throw new NullReferenceException();
-
 			return Add(coordinates1, coordinates2);
 		}
 		public static WorldCoordinates operator -(WorldCoordinates coordinates1, WorldCoordinates coordinates2)
 		{
-			if (coordinates1 == null || coordinates2 == null)
-				throw new NullReferenceException();
-
 			return Subtract(coordinates1, coordinates2);
 		}
 		#endregion

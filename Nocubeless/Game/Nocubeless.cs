@@ -41,7 +41,7 @@ namespace Nocubeless
 			Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
 			CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nclws"));
 			// TODO initialize with a PlayerSettings singleton
-			Player = new Player(WorldCoordinates.Origin, 1, 3, 1, CubeWorld.GetGraphicsCubeRatio() / 2, Camera);
+			Player = new Player(PlayerSettings.Default, WorldCoordinates.Origin, Camera);
 
 			#region Graphics Config
 			var blendState = BlendState.AlphaBlend;
@@ -55,15 +55,17 @@ namespace Nocubeless
 			#endregion
 
 			#region Components Linking
+			var dynamicEntities = new DynamicEntitiesComponent(this, Player);
 			var playingInput = new PlayingInput(this);
 			var cubeWorldProcessor = new CubeWorldProcessor(this);
 			var colorPickerMenu = new ColorPickerMenu(this, playingInput.OnColorPicking);
 			var coordDisplayer = new InfoDisplayer(this);
 
-			Components.Add(playingInput);
+			Components.Add(dynamicEntities);
 			Components.Add(cubeWorldProcessor);
 			Components.Add(colorPickerMenu);
 			Components.Add(coordDisplayer);
+			Components.Add(playingInput);
 			#endregion
 
 			base.Initialize();

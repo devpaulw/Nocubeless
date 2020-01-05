@@ -79,6 +79,8 @@
     <Compile Include="Menus 2D\TextBox.cs" />
     <Compile Include="Menus 2D\TextInput.cs" />
     <Compile Include="Player\Camera.cs" />
+    <Compile Include="Player\DynamicEntitiesComponent.cs" />
+    <Compile Include="Player\DynamicEntity.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Settings\GraphicsSettings.cs" />
     <Compile Include="Settings\InputKeySettings.cs" />
     <Compile Include="Settings\NocubelessSettings.cs" />
+    <Compile Include="Settings\PlayerSettings.cs" />
     <Compile Include="Settings\SongSettings.cs" />
     <Compile Include="Three Dimensional\EffectMatrices.cs" />
   </ItemGroup>

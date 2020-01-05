@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	// CubeWorldSceneInput was merged with PlayingInput because it is the class that manage all the inputs of the class
-	// SDNMSG ANSWER: Nice way!
 	class PlayingInput : NocubelessComponent
 	{
 		private CubeColor cubeToLayColor;
@@ -27,7 +25,7 @@ namespace Nocubeless
 			if (Nocubeless.CurrentState == NocubelessState.Playing)
 			{
 				// TODO move this instruction to another class, it doesn't belong to input
-				Nocubeless.Player.UpdateSpeed((float)gameTime.ElapsedGameTime.TotalSeconds);
+				//Nocubeless.Player.UpdateSpeed((float)gameTime.ElapsedGameTime.TotalSeconds);
 
 				Vector2 movement = GetMouseMovement() / 57;
 				Nocubeless.Camera.Rotate(movement.Y, -movement.X);
@@ -44,7 +42,7 @@ namespace Nocubeless
 				WorldCoordinates cubeToPreviewPosition = Nocubeless.CubeWorld.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
 				Cube cubeToLay = new Cube(cubeToLayColor, cubeToPreviewPosition);
 
-				if (!Nocubeless.Player.IsColliding(cubeToLay, Nocubeless.CubeWorld.GetGraphicsCubeRatio())) // CHEAT
+				if (!AreColliding(Nocubeless.Player, cubeToLay))
 				{
 					Nocubeless.CubeWorld.PreviewCube(cubeToLay);
 
@@ -83,26 +81,26 @@ namespace Nocubeless
 			}
 		}
 
-		private void ProcessKeyboardInput() // SDNMSG: Run and Up/Down is too fast (do you forgot using gameTime?)
+		private void ProcessKeyboardInput()
 		{
 			var direction = Vector3.Zero;
 
 			if (Input.WasJustPressed(Nocubeless.Settings.Keys.Run))
 			{
-				Nocubeless.Player.Speed = Nocubeless.Player.Speed * 3f;
+				Nocubeless.Player.Speed = Nocubeless.Player.Settings.RunningSpeed;
 			}
 			else if (Input.WasJustReleased(Nocubeless.Settings.Keys.Run))
 			{
-				Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
+				Nocubeless.Player.Speed = Nocubeless.Player.Settings.WalkingSpeed;
 			}
 
 			if (Input.WasJustPressed(Nocubeless.Settings.Keys.Run))
 			{
-				Nocubeless.Player.Speed = Nocubeless.Player.Speed * 3f;
+				Nocubeless.Player.Speed = Nocubeless.Player.Speed * 1.005f;
 			}
 			else if (Input.WasJustReleased(Nocubeless.Settings.Keys.Run))
 			{
-				Nocubeless.Player.Speed = Nocubeless.Player.Speed / 3f;
+				Nocubeless.Player.Speed = Nocubeless.Player.Speed / 1.005f;
 			}
 
 			if (Input.WasJustPressed(Keys.V))
@@ -153,23 +151,24 @@ namespace Nocubeless
 
 			if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveUpward))
 			{
-				direction.Y += Nocubeless.CubeWorld.GetGraphicsCubeRatio();
+				direction += Nocubeless.Camera.Up;
 
 				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
 				{
-					direction.Y -= Nocubeless.CubeWorld.GetGraphicsCubeRatio();
+					direction -= Nocubeless.Camera.Up;
 				}
 			}
 			else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveDown))
 			{
-				direction.Y -= Nocubeless.CubeWorld.GetGraphicsCubeRatio();
+				direction -= Nocubeless.Camera.Up;
 				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Player.GetNextPosition(direction))))
 				{
-					direction.Y += Nocubeless.CubeWorld.GetGraphicsCubeRatio();
+					direction += Nocubeless.Camera.Up;
 				}
 			}
 
 			Nocubeless.Player.Move(direction);
+
 
 			if (Input.WasJustPressed(Nocubeless.Settings.Keys.SwitchLayBreak))
 			{
@@ -191,6 +190,24 @@ namespace Nocubeless
 		public void OnColorPicking(object sender, ColorPickingEventArgs e)
 		{
 			cubeToLayColor = e.Color;
+		}
+
+		// TODO move to another class
+		// "Good idea, Physics?"
+		// BBMSG ANSWER probably later, when there will be other methods to put in it, i needed the cube ratio, that's why i left this method here for now
+		private bool AreColliding(Player player, Cube cube)
+		{
+			const float cubeSize = 0.1f;
+			var cubeMiddlePoint = new Vector3(cube.Coordinates.X + cubeSize / 2, cube.Coordinates.Y + cubeSize / 2, cube.Coordinates.Z + cubeSize / 2) / Nocubeless.CubeWorld.GetGraphicsCubeRatio();
+			var middlePoint = new Vector3(player.Position.X + player.Width / 2, player.Position.Y + player.Height / 2, player.Position.Z + player.Length / 2);
+			Vector3 gap = middlePoint - cubeMiddlePoint;
+			gap.X = Math.Abs(gap.X);
+			gap.Y = Math.Abs(gap.Y);
+			gap.Z = Math.Abs(gap.Z);
+
+			return gap.X <= (player.Width + cubeSize) / 2
+				&& gap.Y <= (player.Height + cubeSize) / 2
+				&& gap.Z <= (player.Length + cubeSize) / 2;
 		}
 	}
 }
