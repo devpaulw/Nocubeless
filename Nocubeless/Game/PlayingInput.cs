@@ -10,14 +10,28 @@ namespace Nocubeless
 {
 	class PlayingInput : NocubelessComponent
 	{
-		private CubeColor cubeToLayColor;
 		private bool shouldLayCube = true;
 		private Point WindowCenter { get; set; }
 
 		public PlayingInput(Nocubeless nocubeless) : base(nocubeless)
 		{
-			cubeToLayColor = new CubeColor(7, 7, 7);
+			Nocubeless.Player.NextColorToLay = new CubeColor(7, 7, 7); // TODO: Manage
 			WindowCenter = new Point(Nocubeless.GraphicsDevice.Viewport.Width / 2, Nocubeless.GraphicsDevice.Viewport.Height / 2);
+		}
+
+		public override void Initialize()
+		{
+			var colorPipette = new ColorPipette(Nocubeless);
+
+			Game.Components.Add(colorPipette);
+			// SDNMSG: add playerMover, HeadRotater...
+			// add cubeLayer, Breaker, Previewer
+			// ...
+			// why not a lot of small parts like that? Like the color pipette above
+			// becoz I really don't like everything in the same class
+			// If it's too disturbing, we can think about make private class many partial Playing Input classes, why not.
+
+			base.Initialize();
 		}
 
 		public override void Update(GameTime gameTime)
@@ -40,7 +54,7 @@ namespace Nocubeless
 			if (shouldLayCube)
 			{
 				WorldCoordinates cubeToPreviewPosition = Nocubeless.CubeWorld.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
-				Cube cubeToLay = new Cube(cubeToLayColor, cubeToPreviewPosition);
+				Cube cubeToLay = new Cube(Nocubeless.Player.NextColorToLay, cubeToPreviewPosition);
 
 				if (!AreColliding(Nocubeless.Player, cubeToLay))
 				{
@@ -64,19 +78,6 @@ namespace Nocubeless
 				{
 					WorldCoordinates cubeToBreakPosition = Nocubeless.CubeWorld.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
 					Nocubeless.CubeWorld.BreakCube(cubeToBreakPosition);
-				}
-			}
-
-			Pipette();
-
-			void Pipette()
-			{
-				if (Input.WasMiddleMouseButtonJustPressed())
-				{
-					// TODO: Put in  separated another class
-					var targetCubeCoordinates = Nocubeless.CubeWorld.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
-					var targetCubeColor = Nocubeless.CubeWorld.GetCubeColorAt(targetCubeCoordinates);
-					OnColorPicking(this, new ColorPickingEventArgs() { Color = targetCubeColor });
 				}
 			}
 		}
@@ -174,7 +175,7 @@ namespace Nocubeless
 			{
 				shouldLayCube = !shouldLayCube;
 			}
-		}
+		} 
 
 		public Vector2 GetMouseMovement()
 		{
@@ -187,10 +188,6 @@ namespace Nocubeless
 			return Input.CurrentMouseState.ScrollWheelValue - Input.OldMouseState.ScrollWheelValue;
 		}
 
-		public void OnColorPicking(object sender, ColorPickingEventArgs e)
-		{
-			cubeToLayColor = e.Color;
-		}
 
 		// TODO move to another class
 		// "Good idea, Physics?"

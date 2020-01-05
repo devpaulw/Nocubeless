@@ -1,6 +1,5 @@
 The Ultimate Nocubeless To-Do List File:
 
-- Pipette
 - Camera not smooth fix
 - Zoom functionality
 - Change Cube distance with wheel

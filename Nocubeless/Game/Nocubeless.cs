@@ -58,7 +58,7 @@ namespace Nocubeless
 			var dynamicEntities = new DynamicEntitiesComponent(this, Player);
 			var playingInput = new PlayingInput(this);
 			var cubeWorldProcessor = new CubeWorldProcessor(this);
-			var colorPickerMenu = new ColorPickerMenu(this, playingInput.OnColorPicking);
+			var colorPickerMenu = new ColorPickerMenu(this);
 			var coordDisplayer = new InfoDisplayer(this);
 
 			Components.Add(dynamicEntities);
