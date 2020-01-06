@@ -55,7 +55,7 @@ namespace Nocubeless
 
 			#region Components Linking
 			var dynamicEntities = new DynamicEntitiesComponent(this, Player);
-			var playingInput = new PlayingInput(this);
+			var gameInput = new ExplorationModeInputProcessor(this);
 			var cubeWorldProcessor = new CubeWorldProcessor(this);
 			var colorPickerMenu = new ColorPickerMenu(this);
 			var coordDisplayer = new InfoDisplayer(this);
@@ -64,7 +64,7 @@ namespace Nocubeless
 			Components.Add(cubeWorldProcessor);
 			Components.Add(colorPickerMenu);
 			Components.Add(coordDisplayer);
-			Components.Add(playingInput);
+			Components.Add(gameInput);
 			#endregion
 
 			base.Initialize();

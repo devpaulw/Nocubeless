@@ -65,10 +65,13 @@
     <Compile Include="Cube\CubeWorldHelper.cs" />
     <Compile Include="Cube\ShallowCubeWorldHandler.cs" />
     <Compile Include="Effects\CubeEffect.cs" />
-    <Compile Include="Game\ColorPipette.cs" />
+    <Compile Include="Input\CameraInputProcessor.cs" />
+    <Compile Include="Input\CubeInteractionsInputProcessor.cs" />
+    <Compile Include="Input\ExplorationModeInputProcessor.cs" />
+    <Compile Include="Input\PlayerEntityInputProcessor.cs" />
     <Compile Include="Game\NocubelessApp.cs" />
-    <Compile Include="Game\PlayingInput.cs" />
-    <Compile Include="Game\Input.cs" />
+    <Compile Include="Input\GameInputProcessor.cs" />
+    <Compile Include="Input\Input.cs" />
     <Compile Include="Game\Nocubeless.cs" />
     <Compile Include="Game\NocubelessComponent.cs" />
     <Compile Include="Game\NocubelessDrawableComponent.cs" />

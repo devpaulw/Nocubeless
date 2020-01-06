@@ -43,7 +43,7 @@ namespace Nocubeless
 			defaultFov = MathHelper.ToRadians(settings.DefaultFov);
 			fovInRadians = defaultFov;
 			AspectRatio = viewport.AspectRatio;
-			MouseSensitivity = settings.DefaultMouseSensitivity;
+			Sensitivity = settings.DefaultSensitivity;
 
 			Front = Vector3.UnitZ;
 			Up = Vector3.UnitY;
@@ -74,13 +74,13 @@ namespace Nocubeless
 			}
 		}
 
-		public float MouseSensitivity { get; set; }
+		public float Sensitivity { get; set; }
 
 		public void Rotate(float pitch, float yaw)
 		{
 			const float maxPitch = MathHelper.PiOver2 - 0.01f;
-			this.pitch = MathHelper.Clamp(this.pitch - pitch, -maxPitch, maxPitch);
-			this.yaw -= yaw;
+			this.pitch = MathHelper.Clamp(this.pitch - pitch * Sensitivity, -maxPitch, maxPitch);
+			this.yaw -= yaw * Sensitivity;
 
 			Front = new Vector3(
 				(float)(Math.Cos(this.pitch) * Math.Cos(this.yaw)),

@@ -41,7 +41,7 @@ namespace Nocubeless
 			return new CubeCoordinates(Math.Abs(coordinates.X), Math.Abs(coordinates.Y), Math.Abs(coordinates.Z));
 		}
 
-		private static CubeCoordinates Add(CubeCoordinates coordinates1, CubeCoordinates coordinates2)
+		public static CubeCoordinates Add(CubeCoordinates coordinates1, CubeCoordinates coordinates2)
 		{
 			if (coordinates1 == null || coordinates2 == null)
 				throw new NullReferenceException();
@@ -49,7 +49,7 @@ namespace Nocubeless
 			return new CubeCoordinates(coordinates1.X + coordinates2.X, coordinates1.Y + coordinates2.Y, coordinates1.Z + coordinates2.Z);
 		}
 
-		private static CubeCoordinates Subtract(CubeCoordinates coordinates1, CubeCoordinates coordinates2)
+		public static CubeCoordinates Subtract(CubeCoordinates coordinates1, CubeCoordinates coordinates2)
 		{
 			if (coordinates1 == null || coordinates2 == null)
 				throw new NullReferenceException();
@@ -57,7 +57,7 @@ namespace Nocubeless
 			return new CubeCoordinates(coordinates1.X - coordinates2.X, coordinates1.Y - coordinates2.Y, coordinates1.Z - coordinates2.Z);
 		}
 
-		private static CubeCoordinates Multiply(CubeCoordinates coordinates, float scalar)
+		public static CubeCoordinates Multiply(CubeCoordinates coordinates, float scalar)
 		{
 			if (coordinates == null)
 				throw new NullReferenceException();
