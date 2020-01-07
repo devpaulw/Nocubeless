@@ -25,8 +25,6 @@ namespace Nocubeless
 		private float yaw = 0.0f;
 
 		public float MinFov { get; set; }
-		// Never write Getter-Setter in lower case, be careful, rename it
-		// BBMSG > if i forget a uppercase or it should be a lower case letter you can modify it without my permission :)
 		public float MaxFov { get; set; }
 		private float defaultFov;
 

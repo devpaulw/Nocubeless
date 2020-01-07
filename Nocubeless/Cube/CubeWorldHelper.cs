@@ -64,5 +64,23 @@ namespace Nocubeless
 
             return actualPosition;
         }
+
+        public static Vector3 GetGraphicsCubePosition(this CubeWorld cubeWorld, CubeCoordinates cubePosition) // cube position in graphics representation.
+        {
+            return cubePosition.ToVector3() / cubeWorld.GetGraphicsCubeRatio();
+        }
+        // TMP
+        public static CubeCoordinates GetTruncatedCoordinatesFromGraphics(this CubeWorld cubeWorld, Vector3 position)
+        {
+            return CubeCoordinates.FromTruncated(position * cubeWorld.GetGraphicsCubeRatio());
+        }
+        public static CubeCoordinates GetCoordinatesFromGraphics(this CubeWorld cubeWorld, Vector3 position)
+        {
+            return new CubeCoordinates(position * cubeWorld.GetGraphicsCubeRatio());
+        }
+        public static float GetGraphicsCubeRatio(this CubeWorld cubeWorld) // how much is a cube smaller/bigger in the graphics representation?
+        {
+            return 1.0f / (cubeWorld.Settings.HeightOfCubes * 2.0f);
+        }
     }
 }

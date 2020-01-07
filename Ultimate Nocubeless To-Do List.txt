@@ -1,7 +1,7 @@
 The Ultimate Nocubeless To-Do List File:
 
+- Edit mode!
 - Camera not smooth fix
-- Zoom functionality
 - Change Cube distance with wheel
 - Change mouse sensitivity by Mouse
 - Screenshot Button

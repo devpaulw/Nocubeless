@@ -70,7 +70,6 @@
     <Compile Include="Input\IInputProcessor.cs" />
     <Compile Include="Input\NocubelessInputProcessor.cs" />
     <Compile Include="Input\PlayerEntityInputProcessor.cs" />
-    <Compile Include="Game\NocubelessApp.cs" />
     <Compile Include="Input\InputProcessorComponent.cs" />
     <Compile Include="Input\Input.cs" />
     <Compile Include="Game\Nocubeless.cs" />

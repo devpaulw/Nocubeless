@@ -101,24 +101,6 @@ namespace Nocubeless
 					select chunk).FirstOrDefault();
 		}
 
-		public Vector3 GetGraphicsCubePosition(CubeCoordinates cubePosition) // cube position in graphics representation.
-		{
-			return cubePosition.ToVector3() / GetGraphicsCubeRatio();
-		}
-		// TMP
-		public CubeCoordinates GetTruncatedCoordinatesFromGraphics(Vector3 position)
-		{
-			return CubeCoordinates.FromTruncated(position * GetGraphicsCubeRatio());
-		}
-		public CubeCoordinates GetCoordinatesFromGraphics(Vector3 position)
-		{
-			return new CubeCoordinates(position * GetGraphicsCubeRatio());
-		}
-		public float GetGraphicsCubeRatio() // how much is a cube smaller/bigger in the graphics representation?
-		{
-			return 1.0f / (Settings.HeightOfCubes * 2.0f);
-		}
-
 		private CubeChunk GetChunkAt(CubeCoordinates coordinates)
 		{
 			return Handler.GetChunkAt(coordinates);

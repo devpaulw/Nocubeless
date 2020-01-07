@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	interface IInputProcessor : IDisposable
+	interface IInputProcessor : IDisposable // SDNMSG: Why?
 	{
-		void Update(GameTime gameTime);
+		void Update(GameTime gameTime); // SDNMSG: It's conflict with NocubelessComponent <- GameComponent <- Update(GameTime)
 	}
 }
