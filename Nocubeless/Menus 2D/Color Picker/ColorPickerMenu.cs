@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    class ColorPickerMenu : NocubelessDrawableComponent
+    class ColorPickerMenu : NocubelessDrawableComponent, IInputProcessor
     {
         private Texture2D backgroundTexture;
         private Vector2 backgroundPosition;
@@ -54,22 +54,6 @@ namespace Nocubeless
 
         public override void Update(GameTime gameTime)
         {
-            ShowColorPicker();
-
-            void ShowColorPicker()
-            {
-                if (Input.WasJustPressed(Nocubeless.Settings.Keys.ShowColorPicker))
-                {
-                    if (Nocubeless.CurrentState == NocubelessState.Playing)
-                        Nocubeless.CurrentState = NocubelessState.ColorPicking;
-                    else
-                    {
-                        Nocubeless.CurrentState = NocubelessState.Playing;
-                        Mouse.SetPosition(Game.GraphicsDevice.Viewport.Width / 2, Game.GraphicsDevice.Viewport.Height / 2);
-                    }
-                }
-            }
-
             if (Nocubeless.CurrentState == NocubelessState.ColorPicking)
             {
                 rgbTextBoxes.Update(gameTime);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	class CameraInputProcessor : NocubelessComponent
+	class CameraInputProcessor : NocubelessComponent, IInputProcessor
 	{
 		private Point windowCenter;
 

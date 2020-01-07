@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	class PlayerEntityInputProcessor : NocubelessComponent
+	class PlayerEntityInputProcessor : NocubelessComponent, IInputProcessor
 	{
 		public PlayerEntityInputProcessor(Nocubeless nocubeless) : base(nocubeless)
 		{
-
 		}
 
 		public override void Update(GameTime gameTime)
@@ -26,12 +25,6 @@ namespace Nocubeless
 				Nocubeless.Player.Speed = Nocubeless.Player.Settings.WalkingSpeed;
 			}
 
-
-			MovePlayerEntity();
-		}
-
-		private void MovePlayerEntity()
-		{
 			var direction = Vector3.Zero;
 			if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveRight))
 			{
