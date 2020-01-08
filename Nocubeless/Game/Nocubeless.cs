@@ -20,7 +20,7 @@ namespace Nocubeless
 		public NocubelessSettings Settings { get; set; }
 		public NocubelessState CurrentState { get; set; }
 
-		public Camera Camera { get; set; }
+		public PlayingCamera Camera { get; set; }
 		public CubeWorld CubeWorld { get; set; }
 		public Player Player { get; set;}
 
@@ -38,7 +38,7 @@ namespace Nocubeless
 		{
 			SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-			Camera = new Camera(Settings.Camera, GraphicsDevice.Viewport);
+			Camera = new PlayingCamera(Settings.Camera, GraphicsDevice.Viewport);
 			CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nclws"));
 			Player = new Player(PlayerSettings.Default, CubeCoordinates.Origin);
 
@@ -57,9 +57,11 @@ namespace Nocubeless
 			Components.Add(new ColorPickerMenu(this));
 			Components.Add(new NocubelessInputProcessorChooser(this));
 			Components.Add(new DynamicEntitiesComponent(this, Player)); // SDNMSG: Don't ask the player, use Nocubeless.Player inside
-			Components.Add(new CubeWorldProcessor(this));
+			Components.Add(new CubeWorldScene(this));
 			Components.Add(new InfoDisplayer(this));
 			#endregion
+
+			Input.MiddlePoint = new Point(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
 
 			base.Initialize();
 		}

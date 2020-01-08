@@ -19,6 +19,7 @@ namespace Nocubeless
         private SpriteFont font;
         private Vector2 coordinatesDrawPosition;
         private Vector2 fpsDrawPosition;
+        private string state;
 
         private readonly FramesPerSecondCounter fpsCounter = new FramesPerSecondCounter();
 
@@ -50,6 +51,7 @@ namespace Nocubeless
         public override void Update(GameTime gameTime)
         {
             fpsCounter.Update(gameTime);
+            state = GetLitteralState();
 
             PlayerCoordinates = Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Camera.Position);
             ChunkCoordinates = CubeChunkHelper.FindBaseCoordinates(PlayerCoordinates);
@@ -59,6 +61,21 @@ namespace Nocubeless
             fpsDrawPosition = new Vector2(GraphicsDevice.Viewport.Width / 2, margin);
 
             base.Update(gameTime);
+
+            string GetLitteralState()
+            {
+                switch (Nocubeless.CurrentState)
+                {
+                    case NocubelessState.Playing:
+                        return "Playing";
+                    case NocubelessState.Editing:
+                        return "Editing world";
+                    case NocubelessState.ColorPicking:
+                        return "Picking a color...";
+                    default:
+                        return "Unknown";
+                }
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -67,7 +84,8 @@ namespace Nocubeless
 
             Nocubeless.SpriteBatch.DrawString(font, 
                 "Player coordinates:\n" + PlayerCoordinates.ToString() + 
-                "\nPlayer chunk coordinates:\n" + ChunkCoordinates.ToString(),
+                "\nPlayer chunk coordinates:\n" + ChunkCoordinates.ToString() +
+                "\n\nCurrent state: " + state,
                 coordinatesDrawPosition, Color.Black);
 
             Nocubeless.SpriteBatch.DrawString(font,

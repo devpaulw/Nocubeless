@@ -9,7 +9,7 @@ namespace Nocubeless
 {
     static class CubeWorldHelper
     {
-        public static CubeCoordinates GetTargetedCube(this CubeWorld cubeWorld, Camera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
+        public static CubeCoordinates GetTargetedCube(this CubeWorld cubeWorld, PlayingCamera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
         {
             Vector3 checkPosition = camera.Position * cubeWorld.GetGraphicsCubeRatio(); // Not a beautiful way!
 
@@ -35,7 +35,7 @@ namespace Nocubeless
 
             return actualPosition;
         }
-        public static CubeCoordinates GetTargetedNewCube(this CubeWorld cubeWorld, Camera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
+        public static CubeCoordinates GetTargetedNewCube(this CubeWorld cubeWorld, PlayingCamera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
         {
             Vector3 checkPosition = camera.Position * cubeWorld.GetGraphicsCubeRatio();
 

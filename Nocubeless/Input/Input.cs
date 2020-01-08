@@ -10,6 +10,7 @@ namespace Nocubeless
 {
 	static class Input
 	{
+		public static Point MiddlePoint { get; set; } = new Point(); // TODO: This should not be static, Input class update
 
 		public static KeyboardState CurrentKeyboardState { get; private set; }
 		public static MouseState CurrentMouseState { get; private set; }
@@ -27,6 +28,11 @@ namespace Nocubeless
 		{
 			OldKeyboardState = CurrentKeyboardState;
 			OldMouseState = CurrentMouseState;
+		}
+
+		public static void SetMouseInTheMiddle()
+		{
+			Mouse.SetPosition(MiddlePoint.X, MiddlePoint.Y);
 		}
 
 		public static bool WasJustReleased(Keys key)

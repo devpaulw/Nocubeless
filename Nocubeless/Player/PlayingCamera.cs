@@ -3,21 +3,22 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using MonoGame.Extended;
 
 namespace Nocubeless
 {
-	internal class Camera
+	internal class PlayingCamera
 	{
-		private float fovInRadians;
+		private float radiansFov;
 		public float Fov
 		{
-			get => MathHelper.ToDegrees(fovInRadians);
-			set => fovInRadians = MathHelper.ToRadians(value);
+			get => MathHelper.ToDegrees(radiansFov);
+			set => radiansFov = MathHelper.ToRadians(value);
 		}
 		public float AspectRatio { get; set; }
 
 		public Vector3 Position { get; set; }
-		public Vector3 Front { get; private set; }
+		public Vector3 Front { get; set; }
 		public Vector3 Up { get; private set; }
 		public Vector3 Right { get; private set; }
 
@@ -36,16 +37,14 @@ namespace Nocubeless
 			}
 		}
 
-		public Camera(CameraSettings settings, Viewport viewport)
+		public PlayingCamera(CameraSettings settings, Viewport viewport)
 		{
 			defaultFov = MathHelper.ToRadians(settings.DefaultFov);
-			fovInRadians = defaultFov;
+			radiansFov = defaultFov;
 			AspectRatio = viewport.AspectRatio;
 			Sensitivity = settings.DefaultSensitivity;
 
-			Front = Vector3.UnitZ;
-			Up = Vector3.UnitY;
-			Right = Vector3.Cross(Front, Up);
+			Reset();
 
 			MinFov = 0.5f;
 			MaxFov = 2.0f;
@@ -58,7 +57,7 @@ namespace Nocubeless
 			{
 				const float zNear = 0.0005f, zFar = 100.0f;
 				return Matrix.CreatePerspectiveFieldOfView(
-					fovInRadians,
+					radiansFov,
 					AspectRatio,
 					zNear, zFar);
 			}
@@ -72,7 +71,7 @@ namespace Nocubeless
 			}
 		}
 
-		public float Sensitivity { get; set; }
+		public float Sensitivity { get; set; } // SDNMSG: Don't leave your members lost, keep it uppermost
 
 		public void Rotate(float pitch, float yaw)
 		{
@@ -89,7 +88,14 @@ namespace Nocubeless
 
 		public void Zoom(float percentage)
 		{
-			fovInRadians = MathHelper.Clamp(defaultFov / (percentage / 100.0f), MinFov, MaxFov);
+			radiansFov = MathHelper.Clamp(defaultFov / (percentage / 100.0f), MinFov, MaxFov);
+		}
+
+		public void Reset()
+		{
+			Front = Vector3.UnitZ;
+			Up = Vector3.UnitY;
+			Right = Vector3.Cross(Front, Up);
 		}
 	}
 }

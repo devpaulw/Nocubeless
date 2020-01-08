@@ -19,6 +19,7 @@ namespace Nocubeless
         public Keys SwitchLayBreak { get; set; }
         public Keys ShowColorPicker { get; set; }
         public Keys Zoom { get; set; }
+        public Keys SwitchMode { get; set; }
 
         public static InputKeySettings DefaultUSEnglish {
             get {
@@ -33,7 +34,8 @@ namespace Nocubeless
                     Run = Keys.Q,
                     SwitchLayBreak = Keys.X,
                     Zoom = Keys.V,
-                    ShowColorPicker = Keys.C
+                    ShowColorPicker = Keys.C,
+                    SwitchMode = Keys.E
                 };
             }
         }
@@ -52,7 +54,8 @@ namespace Nocubeless
                     Run = Keys.A,
                     Zoom = Keys.V,
                     SwitchLayBreak = Keys.X,
-                    ShowColorPicker = Keys.C
+                    ShowColorPicker = Keys.C,
+                    SwitchMode = Keys.E
                 };
             }
         }

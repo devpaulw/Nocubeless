@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    class CubeWorldProcessor : NocubelessDrawableComponent
+    class CubeWorldScene : NocubelessDrawableComponent
     {
         private readonly CubeChunkDrawer chunkDrawer;
         private readonly CubeDrawer cubeDrawer; // for the previewable cube
 
-        public CubeWorldProcessor(Nocubeless nocubeless) : base(nocubeless)
+        public CubeWorldScene(Nocubeless nocubeless) : base(nocubeless)
         {
             chunkDrawer = new CubeChunkDrawer(Nocubeless, Nocubeless.CubeWorld.Settings.HeightOfCubes);
             cubeDrawer = new CubeDrawer(Nocubeless, Nocubeless.CubeWorld.Settings.HeightOfCubes);

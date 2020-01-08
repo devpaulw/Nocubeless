@@ -16,10 +16,14 @@ namespace Nocubeless
     class RGBTextBoxes : NocubelessDrawableComponent
     {
         private TextBox textBoxR, textBoxG, textBoxB;
-        private GuiSystem guiSystem;
+        //private GuiSystem guiSystem;
+
+        public ViewportAdapter ViewportAdapter { get; private set; }
 
         public RGBTextBoxes(Nocubeless nocubeless) : base(nocubeless)
         {
+            LoadContent();
+
             var textBoxFont = Game.Content.Load<SpriteFont>(@"Menus/Color Picker/InputTextBoxFont"); // DESIGN: not in the right place
 
             const int maxLength = 1;
@@ -65,29 +69,28 @@ namespace Nocubeless
 
         protected override void LoadContent()
         {
-            var viewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
-            var guiRenderer = new GuiSpriteBatchRenderer(GraphicsDevice, () => Matrix.Identity);
-            var font = Game.Content.Load<BitmapFont>("Menus/Color Picker/Sensation");
-            BitmapFont.UseKernings = false;
-            Skin.CreateDefault(font);
+            //ViewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
+            //var guiRenderer = new GuiSpriteBatchRenderer(GraphicsDevice, () => Matrix.Identity);
+            //var font = Game.Content.Load<BitmapFont>("Menus/Color Picker/Sensation");
+            //BitmapFont.UseKernings = false;
+            //Skin.CreateDefault(font);
 
-            var demoScreen = new Screen
-            {
-                Content = new StackPanel
-                {
-                    Margin = 5,
-                    Orientation = Orientation.Vertical,
-                    Items =
-                    {
-                    new Label("Buttons") { Margin = 5 },
-                    new Label("TextBox") { Margin = 5 },
-                    new MonoGame.Extended.Gui.Controls.TextBox { Text = "TextBox" },
-                    }
-                }
-            };
+            //var demoScreen = new Screen
+            //{
+            //    Content = new StackPanel
+            //    {
+            //        Margin = 5,
+            //        Orientation = Orientation.Vertical,
+            //        Items =
+            //        {
+            //        new Label("Buttons") { Margin = 5 },
+            //        new Label("TextBox") { Margin = 5 },
+            //        new MonoGame.Extended.Gui.Controls.TextBox { Text = "TextBox" },
+            //        }
+            //    }
+            //};
 
-
-            guiSystem = new GuiSystem(viewportAdapter, guiRenderer) { ActiveScreen = demoScreen };
+            //guiSystem = new GuiSystem(ViewportAdapter, guiRenderer) { ActiveScreen = demoScreen };
 
             base.LoadContent();
         }
@@ -114,7 +117,7 @@ namespace Nocubeless
                 g = Convert.ToInt32(textBoxG.Text.ToString(provider), provider),
                 b = Convert.ToInt32(textBoxB.Text.ToString(provider), provider);
 
-                CubeColor newColor = new CubeColor(r, g, b);
+                var newColor = new CubeColor(r, g, b);
 
                 Nocubeless.Player.NextColorToLay = newColor;
             }

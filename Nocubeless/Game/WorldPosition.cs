@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    enum NocubelessState
+    class WorldPosition
     {
-        Playing, ColorPicking, Editing
+
     }
 }

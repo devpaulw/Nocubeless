@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	class CubeInteractionsInputProcessor : InputProcessor
+	class PlayingCubeInteractionsInputProcessor : InputProcessor
 	{
 		private bool shouldLayCube = true;
 
-		public CubeInteractionsInputProcessor(Nocubeless nocubeless) : base(nocubeless)
+		public PlayingCubeInteractionsInputProcessor(Nocubeless nocubeless) : base(nocubeless)
 		{
 			Nocubeless.Player.NextColorToLay = new CubeColor(7, 7, 7); // TODO: Manage
 		}

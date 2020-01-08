@@ -1,6 +1,10 @@
 The Ultimate Nocubeless To-Do List File:
 
-- Edit mode!
+- World Position and Camera Structure Update
+- Edit mode
+	- Cube cursor
+	- Move and rotate scene
+	- Grid
 - Camera not smooth fix
 - Change Cube distance with wheel
 - Change mouse sensitivity by Mouse

@@ -1,4 +1,5 @@
 The Ultimate Nocubeless Bug List File:
 
 - Cannot use odd Chunk Size
-- We don't spawn with the upright head
+- We don't arise with the upright head
+- Can't quit Color Picker with C
