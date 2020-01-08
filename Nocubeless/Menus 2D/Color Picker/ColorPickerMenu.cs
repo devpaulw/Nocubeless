@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    class ColorPickerMenu : NocubelessDrawableComponent, IInputProcessor
+    class ColorPickerMenu : NocubelessDrawableComponent
     {
         private Texture2D backgroundTexture;
         private Vector2 backgroundPosition;
@@ -18,8 +18,7 @@ namespace Nocubeless
         private PickerCube pickerCube;
 
         public ColorPickerMenu(Nocubeless nocubeless) : base(nocubeless)
-        { 
-
+        {
         }
 
         protected override void LoadContent()

@@ -22,8 +22,6 @@ namespace Nocubeless
 				{
 					DefaultFov = 100,
 					ZoomPercentage = 200,
-					// renamed to Sensitivity instead of MouseSensitivity because it's not really related to Mouse
-					// SDNMSG ANSWER LAST: I agree
 					DefaultSensitivity = 0.175f,
 					SensitivityWhenZooming = 0.075f
 				};

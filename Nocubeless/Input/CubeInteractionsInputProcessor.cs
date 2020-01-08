@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	class CubeInteractionsInputProcessor : NocubelessComponent, IInputProcessor
+	class CubeInteractionsInputProcessor : InputProcessor
 	{
 		private bool shouldLayCube = true;
 
@@ -16,7 +16,7 @@ namespace Nocubeless
 			Nocubeless.Player.NextColorToLay = new CubeColor(7, 7, 7); // TODO: Manage
 		}
 
-		public override void Update(GameTime gameTime)
+		public override void Process()
 		{
 			if (Input.WasJustPressed(Nocubeless.Settings.Keys.SwitchLayBreak))
 			{
@@ -57,8 +57,6 @@ namespace Nocubeless
 					Nocubeless.CubeWorld.BreakCube(cubeToBreakPosition);
 				}
 			}
-
-			base.Update(gameTime);
 		}
 
 		public void Pick()

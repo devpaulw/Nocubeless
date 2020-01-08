@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 namespace Nocubeless
 {
 	// the class that decides which input processor to call
-	class NocubelessInputProcessor : NocubelessComponent
+	class NocubelessInputProcessorChooser : NocubelessComponent
 	{
-		InputProcessorComponent explorationGamemodeInput;
-		public NocubelessInputProcessor(Nocubeless nocubeless) : base(nocubeless)
+		private InputProcessorComponent gameInput;
+
+		public NocubelessInputProcessorChooser(Nocubeless nocubeless) : base(nocubeless)
 		{
-			explorationGamemodeInput = InputProcessorComponent.ExplorationGamemode(Nocubeless);
+			gameInput = InputProcessorComponent.ExplorationGamemode(Nocubeless);
 		}
 
 		public override void Update(GameTime gameTime)
@@ -32,7 +33,7 @@ namespace Nocubeless
 
 			if (Nocubeless.CurrentState == NocubelessState.Playing)
 			{
-				explorationGamemodeInput.Update(gameTime);
+				gameInput.Process();
 			}
 		}
 	}

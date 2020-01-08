@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	class PlayerEntityInputProcessor : NocubelessComponent, IInputProcessor
+	class PlayerEntityInputProcessor : InputProcessor
 	{
 		public PlayerEntityInputProcessor(Nocubeless nocubeless) : base(nocubeless)
 		{
 		}
 
-		public override void Update(GameTime gameTime)
+		public override void Process()
 		{
 			if (Input.WasJustPressed(Nocubeless.Settings.Keys.Run))
 			{

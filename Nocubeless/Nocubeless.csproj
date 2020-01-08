@@ -67,8 +67,8 @@
     <Compile Include="Effects\CubeEffect.cs" />
     <Compile Include="Input\CameraInputProcessor.cs" />
     <Compile Include="Input\CubeInteractionsInputProcessor.cs" />
-    <Compile Include="Input\IInputProcessor.cs" />
-    <Compile Include="Input\NocubelessInputProcessor.cs" />
+    <Compile Include="Input\InputProcessor.cs" />
+    <Compile Include="Input\NocubelessInputProcessorChooser.cs" />
     <Compile Include="Input\PlayerEntityInputProcessor.cs" />
     <Compile Include="Input\InputProcessorComponent.cs" />
     <Compile Include="Input\Input.cs" />

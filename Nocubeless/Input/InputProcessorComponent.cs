@@ -8,25 +8,25 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	class InputProcessorComponent : NocubelessComponent, IInputProcessor
+	class InputProcessorComponent : InputProcessor
 	{
-		protected List<IInputProcessor> inputProcessors;
+		protected List<InputProcessor> inputProcessors;
 
 		public InputProcessorComponent(Nocubeless nocubeless) : base(nocubeless)
 		{
-			inputProcessors = new List<IInputProcessor>();
+			inputProcessors = new List<InputProcessor>();
 		}
 
-		public void Add(IInputProcessor inputProcessor)
+		public void Add(InputProcessor inputProcessor)
 		{
 			inputProcessors.Add(inputProcessor);
 		}
 
-		public override void Update(GameTime gameTime)
+		public override void Process()
 		{
 			foreach (var inputProcessor in inputProcessors)
 			{
-				inputProcessor.Update(gameTime);
+				inputProcessor.Process();
 			}
 		}
 

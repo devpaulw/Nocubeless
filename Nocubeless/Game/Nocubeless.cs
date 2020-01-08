@@ -55,7 +55,7 @@ namespace Nocubeless
 
 			#region Components Linking
 			Components.Add(new ColorPickerMenu(this));
-			Components.Add(new NocubelessInputProcessor(this));
+			Components.Add(new NocubelessInputProcessorChooser(this));
 			Components.Add(new DynamicEntitiesComponent(this, Player));
 			Components.Add(new CubeWorldProcessor(this));
 			Components.Add(new InfoDisplayer(this));
