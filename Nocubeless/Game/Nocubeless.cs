@@ -56,7 +56,7 @@ namespace Nocubeless
 			#region Components Linking
 			Components.Add(new ColorPickerMenu(this));
 			Components.Add(new NocubelessInputProcessorChooser(this));
-			Components.Add(new DynamicEntitiesComponent(this, Player));
+			Components.Add(new DynamicEntitiesComponent(this, Player)); // SDNMSG: Don't ask the player, use Nocubeless.Player inside
 			Components.Add(new CubeWorldProcessor(this));
 			Components.Add(new InfoDisplayer(this));
 			#endregion

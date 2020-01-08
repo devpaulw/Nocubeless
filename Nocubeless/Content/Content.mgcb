@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\DLL\MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -25,6 +26,23 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Menus/Color Picker/InputTextBoxFont.spritefont
+
+#begin Menus/Color Picker/Sensation.fnt
+/importer:
+/processor:
+/build:Menus/Color Picker/Sensation.fnt
+
+#begin Menus/Color Picker/Sensation_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Menus/Color Picker/Sensation_0.png
 
 #begin Menus/Font.spritefont
 /importer:FontDescriptionImporter

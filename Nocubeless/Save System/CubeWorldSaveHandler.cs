@@ -126,12 +126,11 @@ namespace Nocubeless
         private int GetChunkDataOffset(CubeCoordinates chunkCoordinates)
         {
             int dataSize = CubeChunk.TotalSize * 3;
-
             var stream = File.OpenRead(FilePath);
 
             using (var reader = new BinaryReader(stream))
             {
-                while (stream.Position < stream.Length)
+                while (stream.Position < stream.Length) 
                 {
                     var foundCoordinates = new CubeCoordinates(reader.ReadInt32(),
                         reader.ReadInt32(),

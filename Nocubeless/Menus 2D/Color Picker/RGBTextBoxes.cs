@@ -1,5 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.BitmapFonts;
+using MonoGame.Extended.Gui;
+using MonoGame.Extended.Gui.Controls;
+using MonoGame.Extended.ViewportAdapters;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,8 +16,9 @@ namespace Nocubeless
     class RGBTextBoxes : NocubelessDrawableComponent
     {
         private TextBox textBoxR, textBoxG, textBoxB;
+        private GuiSystem guiSystem;
 
-        public RGBTextBoxes(Nocubeless nocubeless) : base (nocubeless) 
+        public RGBTextBoxes(Nocubeless nocubeless) : base(nocubeless)
         {
             var textBoxFont = Game.Content.Load<SpriteFont>(@"Menus/Color Picker/InputTextBoxFont"); // DESIGN: not in the right place
 
@@ -58,8 +63,39 @@ namespace Nocubeless
                 false, maxLength);
         }
 
+        protected override void LoadContent()
+        {
+            var viewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
+            var guiRenderer = new GuiSpriteBatchRenderer(GraphicsDevice, () => Matrix.Identity);
+            var font = Game.Content.Load<BitmapFont>("Menus/Color Picker/Sensation");
+            BitmapFont.UseKernings = false;
+            Skin.CreateDefault(font);
+
+            var demoScreen = new Screen
+            {
+                Content = new StackPanel
+                {
+                    Margin = 5,
+                    Orientation = Orientation.Vertical,
+                    Items =
+                    {
+                    new Label("Buttons") { Margin = 5 },
+                    new Label("TextBox") { Margin = 5 },
+                    new MonoGame.Extended.Gui.Controls.TextBox { Text = "TextBox" },
+                    }
+                }
+            };
+
+
+            guiSystem = new GuiSystem(viewportAdapter, guiRenderer) { ActiveScreen = demoScreen };
+
+            base.LoadContent();
+        }
+
         public override void Update(GameTime gameTime)
         {
+            //guiSystem.Update(gameTime);
+
             var provider = CultureInfo.CurrentCulture;
 
             // sync 
@@ -90,6 +126,8 @@ namespace Nocubeless
 
         public override void Draw(GameTime gameTime)
         {
+            //guiSystem.Draw(gameTime);
+
             textBoxR.Draw(gameTime);
             textBoxG.Draw(gameTime);
             textBoxB.Draw(gameTime);
