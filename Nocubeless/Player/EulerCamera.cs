@@ -19,8 +19,9 @@ namespace Nocubeless
 		public Vector3 Front { get; set; }
 		public Vector3 Up { get; private set; }
 		public Vector3 Right { get; private set; }
-
-		private float pitch = 0.0f; // SDNMSG: In fact, I think these variables should not be directly in the Camera class
+		public float Sensitivity { get; set; } // Don't leave your members lost, keep it uppermost // BBMSG: indeed didn't saw it you can also change the position of private/public without my permission ! :)
+		private float pitch = 0.0f; // In fact, I think these variables should not be directly in the Camera class
+		// BBMSG: indeed you can move them where you want (i don't know where personally)
 		private float yaw = 0.0f;
 
 		public float MinFov { get; set; }
@@ -65,9 +66,8 @@ namespace Nocubeless
 			MaxFov = 2.0f;
 		}
 		
-		public float Sensitivity { get; set; } // SDNMSG: Don't leave your members lost, keep it uppermost
 
-		public void Rotate(float pitch, float yaw) // SDNMSG: In fact, I think these functions should not be directly in the Camera class (I mean with pitch and yaw)
+		public void Rotate(float pitch, float yaw) // In fact, I think these functions should not be directly in the Camera class (I mean with pitch and yaw) // BBMSG indeed you can move them
 		{
 			const float maxPitch = MathHelper.PiOver2 - 0.01f;
 			this.pitch = MathHelper.Clamp(this.pitch - pitch * Sensitivity, -maxPitch, maxPitch);

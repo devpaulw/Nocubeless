@@ -12,7 +12,6 @@ namespace Nocubeless
 	{
 		public EditingCameraInputProcessor(Nocubeless nocubeless) : base(nocubeless)
 		{
-
 		}
 
 		public override void Process()

@@ -13,10 +13,10 @@ namespace Nocubeless
 	{
 		private List<DynamicEntity> dynamicEntities;
 
-		public DynamicEntitiesComponent(Nocubeless nocubeless, Player player) : base(nocubeless)
+		public DynamicEntitiesComponent(Nocubeless nocubeless) : base(nocubeless)
 		{
 			dynamicEntities = new List<DynamicEntity>();
-			Add(player);
+			Add(Nocubeless.Player);
 		}
 		public void Add(DynamicEntity entity)
 		{

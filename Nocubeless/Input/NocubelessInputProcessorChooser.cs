@@ -10,13 +10,13 @@ namespace Nocubeless
 	// the class that decides which input processor to call
 	class NocubelessInputProcessorChooser : NocubelessComponent
 	{
-		private readonly PlayingProcessorComponent playingInput;
-		private readonly EditingProcessorComponent editingInput;
+		private readonly InputProcessorComponent playingInput;
+		private readonly InputProcessorComponent editingInput;
 
 		public NocubelessInputProcessorChooser(Nocubeless nocubeless) : base(nocubeless)
 		{
-			playingInput = PlayingProcessorComponent.ExplorationGamemode(Nocubeless);
-			editingInput = new EditingProcessorComponent(Nocubeless);
+			playingInput = InputProcessorComponentFactory.PlayingMode(Nocubeless);
+			editingInput = InputProcessorComponentFactory.EditingMode(Nocubeless);
 		}
 
 		public override void Update(GameTime gameTime)

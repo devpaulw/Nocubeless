@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,16 +8,13 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	class EditingProcessorComponent : InputProcessor
+	class InputProcessorComponent : InputProcessor
 	{
 		protected List<InputProcessor> inputProcessors;
 
-		public EditingProcessorComponent(Nocubeless nocubeless) : base(nocubeless)
+		public InputProcessorComponent(Nocubeless nocubeless) : base(nocubeless)
 		{
 			inputProcessors = new List<InputProcessor>();
-
-			Add(new EditingCameraInputProcessor(Nocubeless));
-			Add(new EditingCubeCursorInputProcessor(Nocubeless));
 		}
 
 		public void Add(InputProcessor inputProcessor)
