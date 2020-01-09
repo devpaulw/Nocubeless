@@ -15,6 +15,7 @@ namespace Nocubeless
 			inputProcessors = new List<InputProcessor>();
 
 			Add(new EditingCameraInputProcessor(Nocubeless));
+			Add(new EditingCubeCursorInputProcessor(Nocubeless));
 		}
 
 		public void Add(InputProcessor inputProcessor)

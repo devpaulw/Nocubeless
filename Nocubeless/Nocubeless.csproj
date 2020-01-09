@@ -44,9 +44,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLL\MonoGame.Extended.dll</HintPath>
     </Reference>
-    <Reference Include="MonoGame.Extended.Graphics">
-      <HintPath>DLL\MonoGame.Extended.Graphics.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Extended.Gui, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLL\MonoGame.Extended.Gui.dll</HintPath>
@@ -75,7 +72,7 @@
     <Compile Include="Cube\CubeChunkDrawer.cs" />
     <Compile Include="Cube\CubeColor.cs" />
     <Compile Include="Cube\CubeDrawer.cs" />
-    <Compile Include="Cube\CubeWorldScene.cs" />
+    <Compile Include="Cube\CubeWorldProcessor.cs" />
     <Compile Include="Cube\CubeWorld.cs" />
     <Compile Include="Cube\CubeWorldHelper.cs" />
     <Compile Include="Cube\ShallowCubeWorldHandler.cs" />
@@ -83,8 +80,8 @@
     <Compile Include="Editor\CubeWorldEditor.cs" />
     <Compile Include="Editor\EditingCamera.cs" />
     <Compile Include="Effects\CubeEffect.cs" />
-    <Compile Include="Game\WorldPosition.cs" />
     <Compile Include="Input\EditingCameraInputProcessor.cs" />
+    <Compile Include="Input\EditingCubeCursorInputProcessor.cs" />
     <Compile Include="Input\PlayingCameraInputProcessor.cs" />
     <Compile Include="Input\PlayingCubeInteractionsInputProcessor.cs" />
     <Compile Include="Input\InputProcessor.cs" />
@@ -104,7 +101,7 @@
     <Compile Include="Menus 2D\Color Picker\PickerCube.cs" />
     <Compile Include="Menus 2D\TextBox.cs" />
     <Compile Include="Menus 2D\TextInput.cs" />
-    <Compile Include="Player\PlayingCamera.cs" />
+    <Compile Include="Player\EulerCamera.cs" />
     <Compile Include="Player\DynamicEntitiesComponent.cs" />
     <Compile Include="Player\DynamicEntity.cs" />
     <Compile Include="Player\Player.cs" />

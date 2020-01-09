@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    class CubeWorldScene : NocubelessDrawableComponent
+    class CubeWorldProcessor : NocubelessDrawableComponent
     {
         private readonly CubeChunkDrawer chunkDrawer;
         private readonly CubeDrawer cubeDrawer; // for the previewable cube
 
-        public CubeWorldScene(Nocubeless nocubeless) : base(nocubeless)
+        public CubeWorldProcessor(Nocubeless nocubeless) : base(nocubeless)
         {
             chunkDrawer = new CubeChunkDrawer(Nocubeless, Nocubeless.CubeWorld.Settings.HeightOfCubes);
             cubeDrawer = new CubeDrawer(Nocubeless, Nocubeless.CubeWorld.Settings.HeightOfCubes);
@@ -102,7 +102,7 @@ namespace Nocubeless
             EffectMatrices effectMatrices =
                 new EffectMatrices(Nocubeless.Camera.ProjectionMatrix,
                 Nocubeless.Camera.ViewMatrix,
-                Matrix.Identity);
+                Nocubeless.Camera.WorldMatrix);
             chunkDrawer.Draw(ref chunk, position, gaps, effectMatrices);
         }
         private void DrawCube(Cube cube, float transparency = 1.0f)
@@ -112,7 +112,7 @@ namespace Nocubeless
             EffectMatrices effectMatrices =
                 new EffectMatrices(Nocubeless.Camera.ProjectionMatrix,
                 Nocubeless.Camera.ViewMatrix,
-                Matrix.Identity);
+                Nocubeless.Camera.WorldMatrix);
 
             cubeDrawer.Draw(cubeScenePosition, cube.Color.ToVector3(), effectMatrices, transparency);
         }
