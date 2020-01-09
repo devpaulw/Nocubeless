@@ -61,7 +61,7 @@ namespace Nocubeless
 			Components.Add(new InfoDisplayer(this));
 			#endregion
 
-			Input.MiddlePoint = new Point(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
+			Input.MiddlePoint = new Point(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2); // DESIGN
 
 			base.Initialize();
 		}
@@ -92,7 +92,7 @@ namespace Nocubeless
 			if (CurrentState == NocubelessState.Playing)
 				GraphicsDevice.Clear(new Color((int)(149 * intensity), (int)(165 * intensity), (int)(166 * intensity)));
 			else
-				GraphicsDevice.Clear(Color.Black);
+				GraphicsDevice.Clear(Color.CadetBlue);
 
 			SpriteBatch.Begin(blendState: GraphicsDevice.BlendState,
 				depthStencilState: GraphicsDevice.DepthStencilState,

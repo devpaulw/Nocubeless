@@ -16,7 +16,7 @@ namespace Nocubeless
     class RGBTextBoxes : NocubelessDrawableComponent
     {
         private TextBox textBoxR, textBoxG, textBoxB;
-        //private GuiSystem guiSystem;
+        private GuiSystem guiSystem;
 
         public ViewportAdapter ViewportAdapter { get; private set; }
 
@@ -69,35 +69,35 @@ namespace Nocubeless
 
         protected override void LoadContent()
         {
-            //ViewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
-            //var guiRenderer = new GuiSpriteBatchRenderer(GraphicsDevice, () => Matrix.Identity);
-            //var font = Game.Content.Load<BitmapFont>("Menus/Color Picker/Sensation");
-            //BitmapFont.UseKernings = false;
-            //Skin.CreateDefault(font);
+            ViewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
+            var guiRenderer = new GuiSpriteBatchRenderer(GraphicsDevice, () => Matrix.Identity);
+            var font = Game.Content.Load<BitmapFont>("Menus/Color Picker/Sensation");
+            BitmapFont.UseKernings = false;
+            Skin.CreateDefault(font);
 
-            //var demoScreen = new Screen
-            //{
-            //    Content = new StackPanel
-            //    {
-            //        Margin = 5,
-            //        Orientation = Orientation.Vertical,
-            //        Items =
-            //        {
-            //        new Label("Buttons") { Margin = 5 },
-            //        new Label("TextBox") { Margin = 5 },
-            //        new MonoGame.Extended.Gui.Controls.TextBox { Text = "TextBox" },
-            //        }
-            //    }
-            //};
+            var demoScreen = new Screen
+            {
+                Content = new StackPanel
+                {
+                    Margin = 5,
+                    Orientation = Orientation.Vertical,
+                    Items =
+                    {
+                    new Label("Buttons") { Margin = 5 },
+                    new Label("TextBox") { Margin = 5 },
+                    new MonoGame.Extended.Gui.Controls.TextBox { Text = "TextBox" },
+                    }
+                }
+            };
 
-            //guiSystem = new GuiSystem(ViewportAdapter, guiRenderer) { ActiveScreen = demoScreen };
+            guiSystem = new GuiSystem(ViewportAdapter, guiRenderer) { ActiveScreen = demoScreen };
 
             base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
-            //guiSystem.Update(gameTime);
+            guiSystem.Update(gameTime);
 
             var provider = CultureInfo.CurrentCulture;
 
@@ -129,7 +129,7 @@ namespace Nocubeless
 
         public override void Draw(GameTime gameTime)
         {
-            //guiSystem.Draw(gameTime);
+            guiSystem.Draw(gameTime);
 
             textBoxR.Draw(gameTime);
             textBoxG.Draw(gameTime);

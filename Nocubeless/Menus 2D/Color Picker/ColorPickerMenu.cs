@@ -67,7 +67,7 @@ namespace Nocubeless
             if (Nocubeless.CurrentState == NocubelessState.ColorPicking)
             {
                 #region Background
-                Nocubeless.SpriteBatch.Draw(backgroundTexture, backgroundPosition, Color.White);
+                //Nocubeless.SpriteBatch.Draw(backgroundTexture, backgroundPosition, Color.White);
                 #endregion
 
                 rgbTextBoxes.Draw(gameTime);

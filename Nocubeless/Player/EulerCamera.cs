@@ -21,7 +21,8 @@ namespace Nocubeless
 		public Vector3 Right { get; private set; }
 		public float Sensitivity { get; set; } // Don't leave your members lost, keep it uppermost // BBMSG: indeed didn't saw it you can also change the position of private/public without my permission ! :)
 		private float pitch = 0.0f; // In fact, I think these variables should not be directly in the Camera class
-		// BBMSG: indeed you can move them where you want (i don't know where personally)
+		// indeed you can move them where you want (i don't know where personally)
+		// SDNMSG LAST: Yes but I prefer letting you doing it to learn of your mistakes ;)
 		private float yaw = 0.0f;
 
 		public float MinFov { get; set; }

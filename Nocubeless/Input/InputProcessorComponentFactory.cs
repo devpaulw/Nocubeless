@@ -11,7 +11,8 @@ namespace Nocubeless
 		public static InputProcessorComponent PlayingMode(Nocubeless nocubeless)
 		{
 			// Or otherwise, we could make ONLY these kind of function and use one class instead of many xProcessorComponent class (because for example PlayingProcessorComponent looks like EditingCameraInputProcessor, the functions are the same and I don't see cases when it could be useful)
-			// BBMSG indeed it's better !
+			// indeed it's better !
+			// SDNMSG LAST: Nice job!
 			var playingMode = new InputProcessorComponent(nocubeless);
 			playingMode.Add(new PlayingCameraInputProcessor(nocubeless));
 			playingMode.Add(new PlayerEntityInputProcessor(nocubeless));

@@ -14,6 +14,7 @@ namespace Nocubeless
 		{
 		}
 
+
 		public override void Process()
 		{
 			const float cameraRotationRatio = 1f / 57f;
@@ -22,7 +23,7 @@ namespace Nocubeless
 				deltaX = Input.MiddlePoint.X - Input.CurrentMouseState.X;
 
 			//Nocubeless.Camera.Rotate(cameraRotationRatio * deltaY, cameraRotationRatio * deltaX);
-			Nocubeless.Camera.RotateWorld(cameraRotationRatio * deltaY, cameraRotationRatio * deltaX);
+			Nocubeless.Camera.Rotate(cameraRotationRatio * deltaY, cameraRotationRatio * deltaX);
 			Input.SetMouseInTheMiddle();
 		}
 	}
