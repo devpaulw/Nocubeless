@@ -53,7 +53,6 @@ namespace Nocubeless
 
         public override void Update(GameTime gameTime)
         {
-            Console.WriteLine(Nocubeless.CurrentState);
             if (Nocubeless.CurrentState == NocubelessState.ColorPicking)
             {
                 rgbTextBoxes.Update(gameTime);

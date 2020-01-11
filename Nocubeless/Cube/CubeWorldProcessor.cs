@@ -22,8 +22,8 @@ namespace Nocubeless
 
         public override void Update(GameTime gameTime)
         {
-            LoadChunks(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Camera.Position)); // DESIGN, A Player class?
-            UnloadFarChunks(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Camera.Position));
+            LoadChunks(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Camera.ScreenPosition)); // DESIGN, A Player class?
+            UnloadFarChunks(Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Camera.ScreenPosition));
 
             base.Update(gameTime);
         }

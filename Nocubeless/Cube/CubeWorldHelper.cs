@@ -11,7 +11,7 @@ namespace Nocubeless
     {
         public static CubeCoordinates GetTargetedCube(this CubeWorld cubeWorld, EulerCamera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
         {
-            Vector3 checkPosition = camera.Position * cubeWorld.GetGraphicsCubeRatio(); // Not a beautiful way!
+            Vector3 checkPosition = camera.ScreenPosition * cubeWorld.GetGraphicsCubeRatio(); // Not a beautiful way!
 
             CubeCoordinates actualPosition = null;
             CubeCoordinates convertedCheckPosition;
@@ -37,7 +37,7 @@ namespace Nocubeless
         }
         public static CubeCoordinates GetTargetedNewCube(this CubeWorld cubeWorld, EulerCamera camera, int maxLayingDistance) // is not 100% trustworthy, and is not powerful, be careful
         {
-            Vector3 checkPosition = camera.Position * cubeWorld.GetGraphicsCubeRatio();
+            Vector3 checkPosition = camera.ScreenPosition * cubeWorld.GetGraphicsCubeRatio();
 
             CubeCoordinates oldPosition = null;
             CubeCoordinates actualPosition = null;
@@ -65,15 +65,12 @@ namespace Nocubeless
             return actualPosition;
         }
 
+
         public static Vector3 GetGraphicsCubePosition(this CubeWorld cubeWorld, CubeCoordinates cubePosition) // cube position in graphics representation.
         {
             return cubePosition.ToVector3() / cubeWorld.GetGraphicsCubeRatio();
         }
-        // TMP
-        public static CubeCoordinates GetTruncatedCoordinatesFromGraphics(this CubeWorld cubeWorld, Vector3 position)
-        {
-            return CubeCoordinates.FromTruncated(position * cubeWorld.GetGraphicsCubeRatio());
-        }
+
         public static CubeCoordinates GetCoordinatesFromGraphics(this CubeWorld cubeWorld, Vector3 position)
         {
             return new CubeCoordinates(position * cubeWorld.GetGraphicsCubeRatio());

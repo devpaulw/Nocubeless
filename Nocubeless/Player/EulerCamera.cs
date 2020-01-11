@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using WorldCoordinates = Microsoft.Xna.Framework.Vector3;
 
 namespace Nocubeless
 {
@@ -15,14 +16,13 @@ namespace Nocubeless
 		}
 		public float AspectRatio { get; set; }
 
-		public Vector3 Position { get; set; }
+		public Vector3 ScreenPosition { get; set; }
+		public WorldCoordinates WorldPosition { get; set; }
 		public Vector3 Front { get; set; }
 		public Vector3 Up { get; private set; }
 		public Vector3 Right { get; private set; }
-		public float Sensitivity { get; set; } // Don't leave your members lost, keep it uppermost // BBMSG: indeed didn't saw it you can also change the position of private/public without my permission ! :)
-		private float pitch = 0.0f; // In fact, I think these variables should not be directly in the Camera class
-		// indeed you can move them where you want (i don't know where personally)
-		// SDNMSG LAST: Yes but I prefer letting you doing it to learn of your mistakes ;)
+		public float Sensitivity { get; set; }
+		private float pitch = 0.0f;
 		private float yaw = 0.0f;
 
 		public float MinFov { get; set; }
@@ -31,7 +31,7 @@ namespace Nocubeless
 
 		public Vector3 Target {
 			get {
-				return Position + Front;
+				return ScreenPosition + Front;
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace Nocubeless
 
 		public Matrix ViewMatrix {
 			get {
-				return Matrix.CreateLookAt(Position, Target, Up);
+				return Matrix.CreateLookAt(ScreenPosition, Target, Up);
 			}
 		}
 
@@ -66,7 +66,12 @@ namespace Nocubeless
 			MinFov = 0.5f;
 			MaxFov = 2.0f;
 		}
-		
+
+
+		public void Move(Vector3 velocity)
+		{
+			WorldPosition += velocity;
+		}
 
 		public void Rotate(float pitch, float yaw) // In fact, I think these functions should not be directly in the Camera class (I mean with pitch and yaw) // BBMSG indeed you can move them
 		{
