@@ -80,13 +80,15 @@
     <Compile Include="Editor\CubeWorldEditor.cs" />
     <Compile Include="Editor\EditingCamera.cs" />
     <Compile Include="Effects\CubeEffect.cs" />
+    <Compile Include="Game\Camera.cs" />
+    <Compile Include="Game\NocubelessEnvironmentSelector.cs" />
     <Compile Include="Input\EditingCameraInputProcessor.cs" />
     <Compile Include="Input\EditingCubeCursorInputProcessor.cs" />
     <Compile Include="Input\InputProcessorComponentFactory.cs" />
     <Compile Include="Input\PlayingCameraInputProcessor.cs" />
     <Compile Include="Input\PlayingCubeInteractionsInputProcessor.cs" />
     <Compile Include="Input\InputProcessor.cs" />
-    <Compile Include="Input\NocubelessInputProcessorChooser.cs" />
+    <Compile Include="Input\NocubelessInputProcessorSelector.cs" />
     <Compile Include="Input\PlayerEntityInputProcessor.cs" />
     <Compile Include="Input\InputProcessorComponent.cs" />
     <Compile Include="Input\Input.cs" />
@@ -101,7 +103,7 @@
     <Compile Include="Menus 2D\Color Picker\PickerCube.cs" />
     <Compile Include="Menus 2D\TextBox.cs" />
     <Compile Include="Menus 2D\TextInput.cs" />
-    <Compile Include="Player\EulerCamera.cs" />
+    <Compile Include="Player\PlayingCamera.cs" />
     <Compile Include="Player\DynamicEntitiesComponent.cs" />
     <Compile Include="Player\DynamicEntity.cs" />
     <Compile Include="Player\Player.cs" />

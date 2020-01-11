@@ -100,9 +100,9 @@ namespace Nocubeless
             float gaps = 1 / Nocubeless.CubeWorld.GetGraphicsCubeRatio(); // DESIGN: don't do 1 / x
 
             EffectMatrices effectMatrices =
-                new EffectMatrices(Nocubeless.Camera.ProjectionMatrix,
-                Nocubeless.Camera.ViewMatrix,
-                Nocubeless.Camera.WorldMatrix);
+                new EffectMatrices(Nocubeless.Camera.GetProjection(),
+                Nocubeless.Camera.GetView(),
+                Matrix.Identity);
             chunkDrawer.Draw(ref chunk, position, gaps, effectMatrices);
         }
         private void DrawCube(Cube cube, float transparency = 1.0f)
@@ -110,9 +110,9 @@ namespace Nocubeless
             Vector3 cubeScenePosition = Nocubeless.CubeWorld.GetGraphicsCubePosition(cube.Coordinates);
 
             EffectMatrices effectMatrices =
-                new EffectMatrices(Nocubeless.Camera.ProjectionMatrix,
-                Nocubeless.Camera.ViewMatrix,
-                Nocubeless.Camera.WorldMatrix);
+                new EffectMatrices(Nocubeless.Camera.GetProjection(),
+                Nocubeless.Camera.GetView(),
+                Matrix.Identity);
 
             cubeDrawer.Draw(cubeScenePosition, cube.Color.ToVector3(), effectMatrices, transparency);
         }

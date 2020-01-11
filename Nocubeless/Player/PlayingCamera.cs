@@ -7,21 +7,12 @@ using WorldCoordinates = Microsoft.Xna.Framework.Vector3;
 
 namespace Nocubeless
 {
-	internal class EulerCamera
+	internal class PlayingCamera : Camera
 	{
-		private float radiansFov;
-		public float Fov {
-			get => MathHelper.ToDegrees(radiansFov);
-			set => radiansFov = MathHelper.ToRadians(value);
-		}
-		public float AspectRatio { get; set; }
-
-		public Vector3 ScreenPosition { get; set; }
 		public WorldCoordinates WorldPosition { get; set; }
 		public Vector3 Front { get; set; }
-		public Vector3 Up { get; private set; }
 		public Vector3 Right { get; private set; }
-		public float Sensitivity { get; set; }
+		public float Sensitivity { get; set; } // SDNMSG: Is that clever? It's rather the InputProcessor or the Camera directly that should know the Sensitivity (think)?
 		private float pitch = 0.0f;
 		private float yaw = 0.0f;
 
@@ -29,32 +20,20 @@ namespace Nocubeless
 		public float MaxFov { get; set; }
 		private float defaultFov;
 
-		public Vector3 Target {
+		public override Vector3 Target {
 			get {
 				return ScreenPosition + Front;
 			}
-		}
-
-		// TODO optimizing
-		public Matrix ProjectionMatrix {
-			get {
-				const float zNear = 0.0005f, zFar = 100.0f;
-				return Matrix.CreatePerspectiveFieldOfView(
-					radiansFov,
-					AspectRatio,
-					zNear, zFar);
+			set {
+				Front = value - ScreenPosition;
 			}
 		}
 
-		public Matrix ViewMatrix {
-			get {
-				return Matrix.CreateLookAt(ScreenPosition, Target, Up);
-			}
-		}
+		protected override float ZNear => 0.0005f;
+		protected override float ZFar => 100.0f;
+		
 
-		public Matrix WorldMatrix { get; set; } = Matrix.Identity;
-
-		public EulerCamera(CameraSettings settings, Viewport viewport)
+		public PlayingCamera(CameraSettings settings, Viewport viewport)
 		{
 			defaultFov = MathHelper.ToRadians(settings.DefaultFov);
 			radiansFov = defaultFov;
@@ -83,21 +62,22 @@ namespace Nocubeless
 				(float)(Math.Cos(this.pitch) * Math.Cos(this.yaw)),
 				(float)Math.Sin(this.pitch),
 				(float)(Math.Cos(this.pitch) * Math.Sin(this.yaw)));
+
 			Right = Vector3.Normalize(Vector3.Cross(Front, Up));
 		}
 
-		public void RotateWorld(float pitch, float yaw, Vector3 around)
+		public void RotateAround(float pitch, float yaw, Vector3 around)
 		{
 			const float maxPitch = MathHelper.PiOver2 - 0.01f;
 			this.pitch = MathHelper.Clamp(this.pitch - pitch * Sensitivity, -maxPitch, maxPitch);
 			this.yaw -= yaw * Sensitivity;
 
-			ScreenPosition = around + new Vector3(
+			ScreenPosition = new Vector3(
 				(float)(Math.Cos(this.pitch) * Math.Cos(this.yaw)),
 				(float)Math.Sin(this.pitch),
 				(float)(Math.Cos(this.pitch) * Math.Sin(this.yaw)));
 
-			Front = around - ScreenPosition;
+			Target = around;
 		}
 
 		public void Zoom(float percentage)

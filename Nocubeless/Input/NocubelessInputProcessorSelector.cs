@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	class NocubelessInputProcessorChooser : NocubelessComponent
+	class NocubelessInputProcessorSelector : NocubelessComponent // SDNMSG: I renamed it Selector
 	{
 		private readonly InputProcessorComponent playingInput;
 		private readonly InputProcessorComponent editingInput;
 
-		public NocubelessInputProcessorChooser(Nocubeless nocubeless) : base(nocubeless)
+		public NocubelessInputProcessorSelector(Nocubeless nocubeless) : base(nocubeless)
 		{
 			playingInput = InputProcessorComponentFactory.PlayingMode(Nocubeless);
 			editingInput = InputProcessorComponentFactory.EditingMode(Nocubeless);

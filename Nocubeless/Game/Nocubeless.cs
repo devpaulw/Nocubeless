@@ -21,7 +21,7 @@ namespace Nocubeless
 		public NocubelessSettings Settings { get; set; }
 		public NocubelessState CurrentState { get; set; }
 
-		public EulerCamera Camera { get; set; }
+		public PlayingCamera Camera { get; set; }
 		public CubeWorld CubeWorld { get; set; }
 		public Player Player { get; set;}
 
@@ -39,7 +39,7 @@ namespace Nocubeless
 		{
 			SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-			Camera = new EulerCamera(Settings.Camera, GraphicsDevice.Viewport);
+			Camera = new PlayingCamera(Settings.Camera, GraphicsDevice.Viewport);
 			CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nclws"));
 			Player = new Player(PlayerSettings.Default, WorldCoordinates.Zero);
 
@@ -56,7 +56,7 @@ namespace Nocubeless
 
 			#region Components Linking
 			Components.Add(new ColorPickerMenu(this));
-			Components.Add(new NocubelessInputProcessorChooser(this));
+			Components.Add(new NocubelessInputProcessorSelector(this));
 			Components.Add(new DynamicEntitiesComponent(this));
 			Components.Add(new CubeWorldProcessor(this));
 			Components.Add(new InfoDisplayer(this));
