@@ -18,7 +18,7 @@ namespace Nocubeless
                 return _red;
             }
             set {
-                _red = Normalize(value);
+                _red = Clamp(value);
             }
         }
         public int Green {
@@ -26,7 +26,7 @@ namespace Nocubeless
                 return _green;
             }
             set {
-                _green = Normalize(value);
+                _green = Clamp(value);
             }
         }
         public int Blue {
@@ -34,7 +34,7 @@ namespace Nocubeless
                 return _blue;
             }
             set {
-                _blue = Normalize(value);
+                _blue = Clamp(value);
             }
         }
 
@@ -54,10 +54,9 @@ namespace Nocubeless
             return new Vector3(r, g, b);
         }
 
-        public static int Normalize(int value)
+        public static int Clamp(int value)
         {
-            if (value > UnitMax) return UnitMax;
-            else return value;
+            return MathHelper.Clamp(value, 0, UnitMax);
         }
 
         public override bool Equals(object obj)

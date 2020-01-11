@@ -39,7 +39,7 @@ namespace Nocubeless
                 {
                     Framerate = 120,
                     UnlimitedFramerate = true,
-                    VSync =  false,
+                    VSync =  true,
                     FullScreen = true,
                     ChunkViewDistance = 4
                 };

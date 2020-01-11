@@ -68,7 +68,7 @@ namespace Nocubeless
 
 				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.Player.GetNextWorldPositionTowards(direction).ToCubeCoordinates()))
 				{
-					direction -= Nocubeless.Camera.Up * Nocubeless.Player.Settings.FlyingSpeed;
+					direction -= Nocubeless.Camera.Up * Nocubeless.Player.Settings.FlyingSpeed; // SDNMSG: Bug reported, it's faster/slower varying with many PCs
 				}
 			}
 			if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveDown))

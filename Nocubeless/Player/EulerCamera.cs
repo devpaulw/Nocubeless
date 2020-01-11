@@ -86,9 +86,18 @@ namespace Nocubeless
 			Right = Vector3.Normalize(Vector3.Cross(Front, Up));
 		}
 
-		public void RotateWorld(float pitch, float yaw)
+		public void RotateWorld(float pitch, float yaw, Vector3 around)
 		{
-			WorldMatrix *= Matrix.CreateRotationX(pitch) * Matrix.CreateRotationY(yaw);
+			const float maxPitch = MathHelper.PiOver2 - 0.01f;
+			this.pitch = MathHelper.Clamp(this.pitch - pitch * Sensitivity, -maxPitch, maxPitch);
+			this.yaw -= yaw * Sensitivity;
+
+			ScreenPosition = around + new Vector3(
+				(float)(Math.Cos(this.pitch) * Math.Cos(this.yaw)),
+				(float)Math.Sin(this.pitch),
+				(float)(Math.Cos(this.pitch) * Math.Sin(this.yaw)));
+
+			Front = around - ScreenPosition;
 		}
 
 		public void Zoom(float percentage)

@@ -14,7 +14,7 @@ namespace Nocubeless
             get {
                 return new SongSettings
                 {
-                    MusicEnabled = false
+                    MusicEnabled = true
                 };
             }
         }
