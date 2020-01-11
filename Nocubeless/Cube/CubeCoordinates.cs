@@ -12,7 +12,6 @@ namespace Nocubeless
 		public int X { get; set; }
 		public int Y { get; set; }
 		public int Z { get; set; }
-		public static CubeCoordinates Origin { get => new CubeCoordinates(0, 0, 0); }
 		public CubeCoordinates(int x, int y, int z)
 		{
 			X = x;

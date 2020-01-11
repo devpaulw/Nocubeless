@@ -12,7 +12,10 @@ namespace Nocubeless
 	{
 		public static CubeCoordinates ToCubeCoordinates(this WorldCoordinates coordinates)
 		{
-			return new CubeCoordinates((int)Math.Round(coordinates.X), (int)Math.Round(coordinates.Y), (int)Math.Round(coordinates.Z));
+			return new CubeCoordinates(
+				(int)Math.Round(coordinates.X),
+				(int)Math.Round(coordinates.Y),
+				(int)Math.Round(coordinates.Z));
 		}
 	}
 }

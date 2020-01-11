@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using WorldCoordinates = Microsoft.Xna.Framework.Vector3;
 
 namespace Nocubeless
 {
@@ -40,7 +41,7 @@ namespace Nocubeless
 
 			Camera = new EulerCamera(Settings.Camera, GraphicsDevice.Viewport);
 			CubeWorld = new CubeWorld(Settings.CubeWorld, /*new ShallowCubeWorldHandler()*/ new CubeWorldSaveHandler("save.nclws"));
-			Player = new Player(PlayerSettings.Default, CubeCoordinates.Origin);
+			Player = new Player(PlayerSettings.Default, WorldCoordinates.Zero);
 
 			#region Graphics Config
 			var blendState = BlendState.AlphaBlend;

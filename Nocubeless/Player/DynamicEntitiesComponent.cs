@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	// update the speed of all dynamic elements to be synchronised with the framerate
 	class DynamicEntitiesComponent : NocubelessComponent
 	{
 		private List<DynamicEntity> dynamicEntities;
@@ -16,8 +15,12 @@ namespace Nocubeless
 		{
 			dynamicEntities = new List<DynamicEntity>();
 			Add(Nocubeless.Player);
-			//Nocubeless.Player.ratio = Nocubeless.CubeWorld.GetGraphicsCubeRatio(); // TMP
-			Nocubeless.Player.Speed *= Nocubeless.CubeWorld.GetGraphicsCubeRatio();
+
+			// convert the settings speeds into worldSpeeds
+			Nocubeless.Player.Settings.FlyingSpeed *= Nocubeless.CubeWorld.GetGraphicsCubeRatio();
+			Nocubeless.Player.Settings.RunningSpeed *= Nocubeless.CubeWorld.GetGraphicsCubeRatio();
+			Nocubeless.Player.Settings.WalkingSpeed *= Nocubeless.CubeWorld.GetGraphicsCubeRatio();
+			Nocubeless.Player.Speed = Nocubeless.Player.Settings.WalkingSpeed;
 		}
 
 		public void Add(DynamicEntity entity)

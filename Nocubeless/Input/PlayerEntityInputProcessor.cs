@@ -83,9 +83,7 @@ namespace Nocubeless
 			if (!IsTargetingCubeIntersection(direction))
 			{
 				Nocubeless.Player.Move(direction);
-				Console.WriteLine("from: " + Nocubeless.Player.WorldPosition);
-				Nocubeless.Camera.ScreenPosition = Nocubeless.CubeWorld.GetGraphicsCubePosition(Nocubeless.Player.WorldPosition.ToCubeCoordinates());
-				Console.WriteLine("to: " + Nocubeless.Camera.ScreenPosition);
+				Nocubeless.Camera.ScreenPosition = Nocubeless.CubeWorld.ToGraphicsCoordinates(Nocubeless.Player.WorldPosition);
 			}
 		}
 

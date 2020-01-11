@@ -11,15 +11,6 @@ namespace Nocubeless
 	abstract class DynamicEntity
 	{
 		public WorldCoordinates WorldPosition { get; set; }
-		//public float Speed
-		//{
-		//	get => worldSpeed;
-		//	set
-		//	{
-		//		worldSpeed = value;
-		//		screenSpeed = worldSpeed * deltaTime;
-		//	}
-		//}
 		public float Speed
 		{
 			get => worldSpeed;
@@ -28,11 +19,10 @@ namespace Nocubeless
 				UpdateSpeed();
 			}
 		}
+
 		private float worldSpeed;
 		private float actualSpeed;
-
 		private float deltaTime = 0;
-		public float ratio { get; set; } // TMP CHEAT
 
 		public DynamicEntity(WorldCoordinates position)
 		{

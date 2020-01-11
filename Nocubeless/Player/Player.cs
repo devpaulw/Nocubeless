@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WorldCoordinates = Microsoft.Xna.Framework.Vector3;
 
 namespace Nocubeless
 {
@@ -15,12 +16,11 @@ namespace Nocubeless
 		public PlayerSettings Settings { get; set; }
 		public CubeColor NextColorToLay { get; set; }
 
-		public Player(PlayerSettings settings, CubeCoordinates position) : base(position.ToVector3())
+		public Player(PlayerSettings settings, WorldCoordinates position) : base(position)
 		{
 			Width = settings.Width;
 			Height = settings.Height;
 			Length = settings.Length;
-			Speed = settings.WalkingSpeed;
 			Settings = settings;
 		}
 	}
