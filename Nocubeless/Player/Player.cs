@@ -9,7 +9,6 @@ namespace Nocubeless
 {
 	class Player : DynamicEntity
 	{
-		public CubeCoordinates WorldPosition { get; set; }
 		public float Width { get; set; }
 		public float Height { get; set; }
 		public float Length { get; set; }
@@ -18,7 +17,6 @@ namespace Nocubeless
 
 		public Player(PlayerSettings settings, CubeCoordinates position) : base(position.ToVector3())
 		{
-			WorldPosition = position;
 			Width = settings.Width;
 			Height = settings.Height;
 			Length = settings.Length;

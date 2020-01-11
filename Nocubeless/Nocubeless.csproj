@@ -118,6 +118,7 @@
     <Compile Include="Settings\PlayerSettings.cs" />
     <Compile Include="Settings\SongSettings.cs" />
     <Compile Include="Three Dimensional\EffectMatrices.cs" />
+    <Compile Include="Three Dimensional\WorldCoordinatesHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

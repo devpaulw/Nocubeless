@@ -53,7 +53,7 @@ namespace Nocubeless
             fpsCounter.Update(gameTime);
             state = GetLitteralState();
 
-            PlayerCoordinates = Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Camera.Position);
+            PlayerCoordinates = Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Camera.ScreenPosition);
             ChunkCoordinates = CubeChunkHelper.FindBaseCoordinates(PlayerCoordinates);
 
             int margin = 2;

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-	// the class that decides which input processor to call
 	class NocubelessInputProcessorChooser : NocubelessComponent
 	{
 		private readonly InputProcessorComponent playingInput;

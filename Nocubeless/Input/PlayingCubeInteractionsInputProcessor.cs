@@ -73,9 +73,9 @@ namespace Nocubeless
 		private bool AreColliding(Player player, Cube cube)
 		{
 			const float cubeSize = 0.1f;
-			var cubeMiddlePoint = new Vector3(cube.Coordinates.X + cubeSize / 2, cube.Coordinates.Y + cubeSize / 2, cube.Coordinates.Z + cubeSize / 2) / Nocubeless.CubeWorld.GetGraphicsCubeRatio();
-			var middlePoint = new Vector3(player.ScreenCoordinates.X + player.Width / 2, player.ScreenCoordinates.Y + player.Height / 2, player.ScreenCoordinates.Z + player.Length / 2);
-			Vector3 gap = middlePoint - cubeMiddlePoint;
+			var cubeMiddlePoint = new Vector3(cube.Coordinates.X + cubeSize / 2, cube.Coordinates.Y + cubeSize / 2, cube.Coordinates.Z + cubeSize / 2);
+			var playerMiddlePoint = new Vector3(player.WorldPosition.X + player.Width / 2, player.WorldPosition.Y + player.Height / 2, player.WorldPosition.Z + player.Length / 2);
+			Vector3 gap = playerMiddlePoint - cubeMiddlePoint;
 			gap.X = Math.Abs(gap.X);
 			gap.Y = Math.Abs(gap.Y);
 			gap.Z = Math.Abs(gap.Z);
