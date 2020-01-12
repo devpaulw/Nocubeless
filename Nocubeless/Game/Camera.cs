@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,17 @@ namespace Nocubeless
 			get => MathHelper.ToDegrees(radiansFov);
 			set => radiansFov = MathHelper.ToRadians(value);
 		}
-		public float AspectRatio { get; set; }
+		public float AspectRatio { get; }
 		public Vector3 ScreenPosition { get; set; }
 		public Vector3 Up { get; set; }
 		public abstract Vector3 Target { get; set; }
+
+		public Camera(float fov, Viewport viewport)
+		{
+			Fov = fov;
+			AspectRatio = viewport.AspectRatio;
+			Up = Vector3.UnitY;
+		}
 
 		public Matrix GetView()
 		{

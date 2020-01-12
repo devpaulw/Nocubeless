@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,29 +8,30 @@ using System.Threading.Tasks;
 
 namespace Nocubeless
 {
-    class EditingCamera
-    {
+	class EditingCamera : Camera
+	{
+		public override Vector3 Target { get; set; }
+		protected override float ZNear => 0.0005f;
+		protected override float ZFar => 1000.0f;
 
-		//public Vector3 Position { get; set; }
-		//public Vector3 Front { get; set; }
-		//public Vector3 Up { get; private set; }
-		//public Vector3 Right { get; private set; }
+		private float pitch = 0.0f;
+		private float yaw = 0.0f;
 
-		//private float pitch = 0.0f;
-		//private float yaw = 0.0f;
+		public EditingCamera(CameraSettings settings, Viewport viewport) : base(settings.DefaultFov, viewport) { }
 
-		//public float MinFov { get; set; }
-		//public float MaxFov { get; set; }
-		//private float defaultFov;
+		
+		public void RotateAround(float pitch, float yaw, Vector3 around)
+		{
+			const float maxPitch = MathHelper.PiOver2 - 0.01f;
+			this.pitch = MathHelper.Clamp(this.pitch - pitch, -maxPitch, maxPitch);
+			this.yaw -= yaw;
 
-		//public Vector3 Target {
-		//	get {
-		//		return Position + Front;
-		//	}
-		//}
+			ScreenPosition = new Vector3(
+				(float)(Math.Cos(this.pitch) * Math.Cos(this.yaw)),
+				(float)Math.Sin(this.pitch),
+				(float)(Math.Cos(this.pitch) * Math.Sin(this.yaw)));
 
-		//public EditingCamera(CameraSettings settings, Viewport viewport)
-		//{
-		//}
+			Target = around;
+		}
 	}
 }

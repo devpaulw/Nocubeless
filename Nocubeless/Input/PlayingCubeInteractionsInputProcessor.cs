@@ -30,7 +30,7 @@ namespace Nocubeless
 
 			if (shouldLayCube)
 			{
-				CubeCoordinates cubeToPreviewPosition = Nocubeless.CubeWorld.GetTargetedNewCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+				CubeCoordinates cubeToPreviewPosition = Nocubeless.CubeWorld.GetTargetedNewCube((PlayingCamera)Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
 				Cube cubeToLay = new Cube(Nocubeless.Player.NextColorToLay, cubeToPreviewPosition);
 
 				if (!AreColliding(Nocubeless.Player, cubeToLay))
@@ -53,7 +53,7 @@ namespace Nocubeless
 
 				if (Input.WasLeftMouseButtonJustPressed())
 				{
-					CubeCoordinates cubeToBreakPosition = Nocubeless.CubeWorld.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+					CubeCoordinates cubeToBreakPosition = Nocubeless.CubeWorld.GetTargetedCube((PlayingCamera)Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
 					Nocubeless.CubeWorld.BreakCube(cubeToBreakPosition);
 				}
 			}
@@ -62,7 +62,7 @@ namespace Nocubeless
 		public void Pick()
 		{
 			// TODO: Put in  separated another class
-			var targetCubeCoordinates = Nocubeless.CubeWorld.GetTargetedCube(Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
+			var targetCubeCoordinates = Nocubeless.CubeWorld.GetTargetedCube((PlayingCamera)Nocubeless.Camera, Nocubeless.Settings.CubeHandler.MaxLayingDistance);
 			var targetCubeColor = Nocubeless.CubeWorld.GetCubeColorAt(targetCubeCoordinates);
 
 			if (targetCubeColor != null)

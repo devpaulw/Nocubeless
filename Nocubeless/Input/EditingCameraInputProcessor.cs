@@ -22,13 +22,10 @@ namespace Nocubeless
 			int deltaY = Input.CurrentMouseState.Y - Input.MiddlePoint.Y,
 				deltaX = Input.MiddlePoint.X - Input.CurrentMouseState.X;
 
-			//Nocubeless.Camera.Rotate(cameraRotationRatio * deltaY, cameraRotationRatio * deltaX);
-			Nocubeless.Camera.RotateAround(cameraRotationRatio * deltaY, cameraRotationRatio * deltaX, 
-				Vector3.Zero
-				/*Nocubeless.CubeWorld.GetGraphicsCubePosition(
-					Nocubeless.CubeWorld.GetTargetedCube(
-						Nocubeless.Camera, 
-						Nocubeless.Settings.CubeHandler.MaxLayingDistance))*/);
+			((EditingCamera)Nocubeless.Camera).RotateAround(
+				cameraRotationRatio * deltaY * Nocubeless.Settings.Camera.DefaultSensitivity, 
+				cameraRotationRatio * deltaX * Nocubeless.Settings.Camera.DefaultSensitivity, 
+				Vector3.Zero);
 
 			Input.SetMouseInTheMiddle();
 		}

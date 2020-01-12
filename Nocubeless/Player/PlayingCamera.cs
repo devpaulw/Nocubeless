@@ -12,7 +12,7 @@ namespace Nocubeless
 		public WorldCoordinates WorldPosition { get; set; }
 		public Vector3 Front { get; set; }
 		public Vector3 Right { get; private set; }
-		public float Sensitivity { get; set; } // SDNMSG: Is that clever? It's rather the InputProcessor or the Camera directly that should know the Sensitivity (think)?
+		public float Sensitivity { get; set; } // SDNMSG: Is that clever? It's rather the InputProcessor or the Camera directly that should know the Sensitivity (think)? There is my example in my Editing Camera
 		private float pitch = 0.0f;
 		private float yaw = 0.0f;
 
@@ -33,14 +33,13 @@ namespace Nocubeless
 		protected override float ZFar => 100.0f;
 		
 
-		public PlayingCamera(CameraSettings settings, Viewport viewport)
+		public PlayingCamera(CameraSettings settings, Viewport viewport) : base(settings.DefaultFov, viewport)
 		{
 			defaultFov = MathHelper.ToRadians(settings.DefaultFov);
-			radiansFov = defaultFov;
-			AspectRatio = viewport.AspectRatio;
 			Sensitivity = settings.DefaultSensitivity;
 
-			Reset();
+			Front = Vector3.UnitZ;
+			Right = Vector3.Cross(Front, Up);
 
 			MinFov = 0.5f;
 			MaxFov = 2.0f;
@@ -52,7 +51,7 @@ namespace Nocubeless
 			WorldPosition += velocity;
 		}
 
-		public void Rotate(float pitch, float yaw) // In fact, I think these functions should not be directly in the Camera class (I mean with pitch and yaw) // BBMSG indeed you can move them
+		public void Rotate(float pitch, float yaw)
 		{
 			const float maxPitch = MathHelper.PiOver2 - 0.01f;
 			this.pitch = MathHelper.Clamp(this.pitch - pitch * Sensitivity, -maxPitch, maxPitch);
@@ -66,30 +65,9 @@ namespace Nocubeless
 			Right = Vector3.Normalize(Vector3.Cross(Front, Up));
 		}
 
-		public void RotateAround(float pitch, float yaw, Vector3 around)
-		{
-			const float maxPitch = MathHelper.PiOver2 - 0.01f;
-			this.pitch = MathHelper.Clamp(this.pitch - pitch * Sensitivity, -maxPitch, maxPitch);
-			this.yaw -= yaw * Sensitivity;
-
-			ScreenPosition = new Vector3(
-				(float)(Math.Cos(this.pitch) * Math.Cos(this.yaw)),
-				(float)Math.Sin(this.pitch),
-				(float)(Math.Cos(this.pitch) * Math.Sin(this.yaw)));
-
-			Target = around;
-		}
-
 		public void Zoom(float percentage)
 		{
 			radiansFov = MathHelper.Clamp(defaultFov / (percentage / 100.0f), MinFov, MaxFov);
-		}
-
-		public void Reset()
-		{
-			Front = Vector3.UnitZ;
-			Up = Vector3.UnitY;
-			Right = Vector3.Cross(Front, Up);
 		}
 	}
 }

@@ -28,7 +28,7 @@ namespace Nocubeless
 			var direction = Vector3.Zero;
 			if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveRight))
 			{
-				direction = Nocubeless.Camera.Right;
+				direction = ((PlayingCamera)Nocubeless.Camera).Right; // SDNMSG: You see, I'm often using this because I know in this case it will always be the Playing Camera
 				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.Player.GetNextWorldPositionTowards(direction).ToCubeCoordinates()))
 				{
 					direction = Vector3.Zero;
@@ -36,7 +36,7 @@ namespace Nocubeless
 			}
 			if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveLeft))
 			{
-				direction = -Nocubeless.Camera.Right;
+				direction = -((PlayingCamera)Nocubeless.Camera).Right;
 				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.Player.GetNextWorldPositionTowards(direction).ToCubeCoordinates()))
 				{
 					direction = Vector3.Zero;
@@ -45,20 +45,20 @@ namespace Nocubeless
 
 			if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveForward))
 			{
-				direction += Nocubeless.Camera.Front;
+				direction += (Nocubeless.Camera as PlayingCamera).Front; // SDNMSG: This is probably a better convention, right? If you have other ideas to handle the Hybrid Camera system in Nocubeless, share it
 
 				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.Player.GetNextWorldPositionTowards(direction).ToCubeCoordinates()))
 				{
-					direction -= Nocubeless.Camera.Front;
+					direction -= ((PlayingCamera)Nocubeless.Camera).Front;
 				}
 			}
 			if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveBackward))
 			{
-				direction -= Nocubeless.Camera.Front;
+				direction -= ((PlayingCamera)Nocubeless.Camera).Front;
 
 				if (!Nocubeless.CubeWorld.IsFreeSpace(Nocubeless.Player.GetNextWorldPositionTowards(direction).ToCubeCoordinates()))
 				{
-					direction += Nocubeless.Camera.Front;
+					direction += ((PlayingCamera)Nocubeless.Camera).Front;
 				}
 			}
 

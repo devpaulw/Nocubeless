@@ -15,18 +15,18 @@ namespace Nocubeless
 		public override void Process()
 		{
 			const float cameraRotationRatio = 1f / 57f;
-			Nocubeless.Camera.Rotate(cameraRotationRatio * (Input.CurrentMouseState.Y - Input.MiddlePoint.Y), cameraRotationRatio * (Input.MiddlePoint.X - Input.CurrentMouseState.X));
+			((PlayingCamera)Nocubeless.Camera).Rotate(cameraRotationRatio * (Input.CurrentMouseState.Y - Input.MiddlePoint.Y), cameraRotationRatio * (Input.MiddlePoint.X - Input.CurrentMouseState.X));
 			Input.SetMouseInTheMiddle();
 
 			if (Input.WasJustPressed(Nocubeless.Settings.Keys.Zoom))
 			{
-				Nocubeless.Camera.Zoom(Nocubeless.Settings.Camera.ZoomPercentage);
-				Nocubeless.Camera.Sensitivity = Nocubeless.Settings.Camera.SensitivityWhenZooming;
+				((PlayingCamera)Nocubeless.Camera).Zoom(Nocubeless.Settings.Camera.ZoomPercentage);
+				((PlayingCamera)Nocubeless.Camera).Sensitivity = Nocubeless.Settings.Camera.SensitivityWhenZooming;
 			}
 			else if (Input.WasJustReleased(Nocubeless.Settings.Keys.Zoom))
 			{
-				Nocubeless.Camera.Zoom(100);
-				Nocubeless.Camera.Sensitivity = Nocubeless.Settings.Camera.DefaultSensitivity;
+				((PlayingCamera)Nocubeless.Camera).Zoom(100);
+				((PlayingCamera)Nocubeless.Camera).Sensitivity = Nocubeless.Settings.Camera.DefaultSensitivity;
 			}
 		}
 	}

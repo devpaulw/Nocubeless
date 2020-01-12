@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,13 @@ namespace Nocubeless
         public NocubelessEnvironmentSelector(Nocubeless nocubeless) : base(nocubeless)
         {
 
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+
+
+            base.Update(gameTime);
         }
     }
 }

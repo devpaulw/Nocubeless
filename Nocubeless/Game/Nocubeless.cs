@@ -21,13 +21,15 @@ namespace Nocubeless
 		public NocubelessSettings Settings { get; set; }
 		public NocubelessState CurrentState { get; set; }
 
-		public PlayingCamera Camera { get; set; }
+		public Camera Camera { get; set; }
 		public CubeWorld CubeWorld { get; set; }
 		public Player Player { get; set;}
 
 		public Nocubeless()
 		{
 			graphicsDeviceManager = new GraphicsDeviceManager(this);
+
+			CurrentState = NocubelessState.Playing;
 
 			Content.RootDirectory = "MGContent"; // DESIGN: Content better handler
 

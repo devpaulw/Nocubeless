@@ -46,12 +46,13 @@ namespace Nocubeless
 			{
 				if (Nocubeless.CurrentState == NocubelessState.Playing)
 				{
-					Nocubeless.Camera.Reset();
 					Nocubeless.CurrentState = NocubelessState.Editing;
+					Nocubeless.Camera = new EditingCamera(Nocubeless.Settings.Camera, Game.GraphicsDevice.Viewport);
 				}
 				else if (Nocubeless.CurrentState == NocubelessState.Editing)
 				{
 					Nocubeless.CurrentState = NocubelessState.Playing;
+					Nocubeless.Camera = new PlayingCamera(Nocubeless.Settings.Camera, Game.GraphicsDevice.Viewport);
 					Input.SetMouseInTheMiddle(); // important! Do not ignore
 				}
 			}
