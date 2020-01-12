@@ -23,7 +23,7 @@ namespace Nocubeless
 				deltaX = Input.MiddlePoint.X - Input.CurrentMouseState.X;
 
 			((EditingCamera)Nocubeless.Camera).RotateAround(
-				cameraRotationRatio * deltaY * Nocubeless.Settings.Camera.DefaultSensitivity, 
+				-cameraRotationRatio * deltaY * Nocubeless.Settings.Camera.DefaultSensitivity, 
 				cameraRotationRatio * deltaX * Nocubeless.Settings.Camera.DefaultSensitivity, 
 				Vector3.Zero);
 

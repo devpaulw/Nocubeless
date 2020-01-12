@@ -32,7 +32,7 @@ namespace Nocubeless
 				editingInput.Process();
 		}
 
-		void SwitchStates()
+		void SwitchStates() // TODO: Make events and enable when game starts
 		{
 			if (Input.WasJustPressed(Nocubeless.Settings.Keys.ShowColorPicker))
 			{
@@ -40,6 +40,7 @@ namespace Nocubeless
 					Nocubeless.CurrentState = NocubelessState.ColorPicking;
 				else if (Nocubeless.CurrentState == NocubelessState.ColorPicking)
 					Nocubeless.CurrentState = NocubelessState.Editing;
+					
 			}
 
 			if (Input.WasJustPressed(Nocubeless.Settings.Keys.SwitchMode))
@@ -48,6 +49,8 @@ namespace Nocubeless
 				{
 					Nocubeless.CurrentState = NocubelessState.Editing;
 					Nocubeless.Camera = new EditingCamera(Nocubeless.Settings.Camera, Game.GraphicsDevice.Viewport);
+					Nocubeless.CubeWorld.PreviewableCube.Coordinates =
+						Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Camera.ScreenPosition);
 				}
 				else if (Nocubeless.CurrentState == NocubelessState.Editing)
 				{

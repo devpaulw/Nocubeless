@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WorldCoordinates = Microsoft.Xna.Framework.Vector3;
 
 namespace Nocubeless
 {
@@ -18,7 +19,6 @@ namespace Nocubeless
 		private float yaw = 0.0f;
 
 		public EditingCamera(CameraSettings settings, Viewport viewport) : base(settings.DefaultFov, viewport) { }
-
 		
 		public void RotateAround(float pitch, float yaw, Vector3 around)
 		{

@@ -22,7 +22,7 @@ namespace Nocubeless
                 direction = new CubeCoordinates(-1, 0, 0);
             else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveLeft))
                 direction = new CubeCoordinates(1, 0, 0);
-            else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveUpward))
+            else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveForward))
                 direction = new CubeCoordinates(0, 0, 1);
             else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveBackward))
                 direction = new CubeCoordinates(0, 0, -1);

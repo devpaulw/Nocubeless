@@ -19,6 +19,11 @@ namespace Nocubeless
 		public Vector3 Up { get; set; }
 		public abstract Vector3 Target { get; set; }
 
+		protected abstract float ZNear { get; }
+		protected abstract float ZFar { get; }
+
+		protected float radiansFov;
+
 		public Camera(float fov, Viewport viewport)
 		{
 			Fov = fov;
@@ -38,10 +43,5 @@ namespace Nocubeless
 				AspectRatio,
 				ZNear, ZFar);
 		}
-
-		protected abstract float ZNear { get; }
-		protected abstract float ZFar { get; }
-
-		protected float radiansFov;
 	}
 }

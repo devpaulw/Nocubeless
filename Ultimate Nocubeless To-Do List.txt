@@ -11,7 +11,6 @@ The Ultimate Nocubeless To-Do List File:
 - Screenshot Button
 - Cube previewer: update this and make it better: V2
 - Make the Online Mode
-- Collisions
 - Menu with settings, worlds, online...
 - Cube Handling Helper V2
 - Song replaying and other songs by the way
