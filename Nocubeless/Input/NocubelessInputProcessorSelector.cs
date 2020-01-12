@@ -37,27 +37,18 @@ namespace Nocubeless
 			if (Input.WasJustPressed(Nocubeless.Settings.Keys.ShowColorPicker))
 			{
 				if (Nocubeless.CurrentState == NocubelessState.Editing)
-					Nocubeless.CurrentState = NocubelessState.ColorPicking;
+					Nocubeless.SetState(NocubelessState.ColorPicking);
 				else if (Nocubeless.CurrentState == NocubelessState.ColorPicking)
-					Nocubeless.CurrentState = NocubelessState.Editing;
+					Nocubeless.SetState(NocubelessState.Editing, NocubelessState.ColorPicking);
 					
 			}
 
 			if (Input.WasJustPressed(Nocubeless.Settings.Keys.SwitchMode))
 			{
 				if (Nocubeless.CurrentState == NocubelessState.Playing)
-				{
-					Nocubeless.CurrentState = NocubelessState.Editing;
-					Nocubeless.Camera = new EditingCamera(Nocubeless.Settings.Camera, Game.GraphicsDevice.Viewport);
-					Nocubeless.CubeWorld.PreviewableCube.Coordinates =
-						Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Camera.ScreenPosition);
-				}
+					Nocubeless.SetState(NocubelessState.Editing);			
 				else if (Nocubeless.CurrentState == NocubelessState.Editing)
-				{
-					Nocubeless.CurrentState = NocubelessState.Playing;
-					Nocubeless.Camera = new PlayingCamera(Nocubeless.Settings.Camera, Game.GraphicsDevice.Viewport);
-					Input.SetMouseInTheMiddle(); // important! Do not ignore
-				}
+					Nocubeless.SetState(NocubelessState.Playing);
 			}
 		}
 	}

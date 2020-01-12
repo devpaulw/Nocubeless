@@ -81,6 +81,7 @@
     <Compile Include="Editor\EditingCamera.cs" />
     <Compile Include="Effects\CubeEffect.cs" />
     <Compile Include="Game\Camera.cs" />
+    <Compile Include="Game\NocubelessApp.cs" />
     <Compile Include="Game\NocubelessEnvironmentSelector.cs" />
     <Compile Include="Input\EditingCameraInputProcessor.cs" />
     <Compile Include="Input\EditingCubeCursorInputProcessor.cs" />

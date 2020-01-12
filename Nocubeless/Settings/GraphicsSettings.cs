@@ -16,22 +16,6 @@ namespace Nocubeless
         public bool FullScreen { get; set; }
         public int ChunkViewDistance { get; set; }
 
-        public void SetToGame(Game game, GraphicsDeviceManager graphicsDeviceManager)
-        {
-            graphicsDeviceManager.IsFullScreen = FullScreen;
-            graphicsDeviceManager.SynchronizeWithVerticalRetrace = VSync;
-
-            if (FullScreen | true) // Make the fullscreen mode consistent with window resolution
-            {
-                graphicsDeviceManager.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-                graphicsDeviceManager.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            }
-
-            game.IsFixedTimeStep = !UnlimitedFramerate;
-            game.TargetElapsedTime = TimeSpan.FromSeconds(1 / Framerate); // Set framerate
-            game.IsMouseVisible = true;
-        }
-
         public static GraphicsSettings Default
         {
             get {
@@ -40,7 +24,7 @@ namespace Nocubeless
                     Framerate = 120,
                     UnlimitedFramerate = true,
                     VSync =  true,
-                    FullScreen = true,
+                    FullScreen = false,
                     ChunkViewDistance = 4
                 };
             }
