@@ -10,8 +10,9 @@ namespace Nocubeless
 	internal class PlayingCamera : Camera
 	{
 		public WorldCoordinates WorldPosition { get; set; }
-		public Vector3 Front { get; set; }
-		public Vector3 Right { get; private set; }
+		public override Vector3 Up { get; protected set; }
+		public override Vector3 Front { get; protected set; }
+		public override Vector3 Right { get; protected set; }
 		public float Sensitivity { get; set; } // SDNMSG: Is that clever? It's rather the InputProcessor or the Camera directly that should know the Sensitivity (think)? There is my example in my Editing Camera
 		private float pitch = 0.0f;
 		private float yaw = 0.0f;
@@ -24,7 +25,7 @@ namespace Nocubeless
 			get {
 				return ScreenPosition + Front;
 			}
-			set {
+			protected set {
 				Front = value - ScreenPosition;
 			}
 		}

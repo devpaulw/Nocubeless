@@ -43,7 +43,7 @@ namespace Nocubeless
 					
 			}
 
-			if (Input.WasJustPressed(Nocubeless.Settings.Keys.SwitchMode))
+			if (Input.WasJustPressed(Nocubeless.Settings.Keys.ToggleMode))
 			{
 				if (Nocubeless.CurrentState == NocubelessState.Playing)
 					Nocubeless.SetState(NocubelessState.Editing);			

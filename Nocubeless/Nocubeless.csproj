@@ -83,8 +83,8 @@
     <Compile Include="Game\Camera.cs" />
     <Compile Include="Game\NocubelessApp.cs" />
     <Compile Include="Game\NocubelessEnvironmentSelector.cs" />
-    <Compile Include="Input\EditingCameraInputProcessor.cs" />
-    <Compile Include="Input\EditingCubeCursorInputProcessor.cs" />
+    <Compile Include="Editor\Input\EditingCameraInputProcessor.cs" />
+    <Compile Include="Editor\Input\EditingCubeCursorInputProcessor.cs" />
     <Compile Include="Input\InputProcessorComponentFactory.cs" />
     <Compile Include="Input\PlayingCameraInputProcessor.cs" />
     <Compile Include="Input\PlayingCubeInteractionsInputProcessor.cs" />

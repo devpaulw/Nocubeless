@@ -18,7 +18,7 @@ namespace Nocubeless
 
 		public override void Process()
 		{
-			if (Input.WasJustPressed(Nocubeless.Settings.Keys.SwitchLayBreak))
+			if (Input.WasJustPressed(Nocubeless.Settings.Keys.ToggleLayBreak))
 			{
 				shouldLayCube = !shouldLayCube;
 			}

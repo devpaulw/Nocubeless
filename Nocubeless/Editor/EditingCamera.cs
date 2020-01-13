@@ -10,7 +10,16 @@ namespace Nocubeless
 {
 	class EditingCamera : Camera
 	{
-		public override Vector3 Target { get; set; }
+		public override Vector3 Up { get; protected set; }
+		public override Vector3 Front { 
+			get => Target - ScreenPosition;
+			protected set => Target = value + ScreenPosition; 
+		}
+		public override Vector3 Right {
+			get => Vector3.Cross(Up, Right);
+			protected set => throw new NotImplementedException();
+		}
+		public override Vector3 Target { get; protected set; }
 		protected override float ZNear => 0.0005f; // temp, waiting shader update
 		protected override float ZFar => 1000.0f;
 

@@ -16,8 +16,10 @@ namespace Nocubeless
 		}
 		public float AspectRatio { get; }
 		public Vector3 ScreenPosition { get; set; }
-		public Vector3 Up { get; set; }
-		public abstract Vector3 Target { get; set; }
+		public abstract Vector3 Up { get; protected set; }
+		public abstract Vector3 Front { get; protected set; }
+		public abstract Vector3 Right { get; protected set; }
+		public abstract Vector3 Target { get; protected set; }
 
 		protected abstract float ZNear { get; }
 		protected abstract float ZFar { get; }
