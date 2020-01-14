@@ -3,3 +3,4 @@ The Ultimate Nocubeless Bug List File:
 - Cannot use odd Chunk Size
 - We don't arise with the upright head
 - Can't quit Color Picker with C
+- Remove mouse from windows and put it again in edit mode cause weird movements

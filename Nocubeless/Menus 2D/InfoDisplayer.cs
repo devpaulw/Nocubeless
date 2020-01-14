@@ -84,7 +84,8 @@ namespace Nocubeless
 
             Nocubeless.SpriteBatch.DrawString(font, 
                 "Player coordinates:\n" + PlayerCoordinates.ToString() + 
-                "\nPlayer chunk coordinates:\n" + ChunkCoordinates.ToString() +
+                "\nIn chunk: " + ChunkCoordinates.ToString() +
+                "\nPreviewable cube coordinates:\n" + Nocubeless.CubeWorld.PreviewableCube.Coordinates.ToString() +
                 "\n\nCurrent state: " + state,
                 coordinatesDrawPosition, Color.Black);
 

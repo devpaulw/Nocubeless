@@ -11,15 +11,19 @@ namespace Nocubeless
 	class EditingCamera : Camera
 	{
 		public override Vector3 Up { get; protected set; }
-		public override Vector3 Front { 
-			get => Target - ScreenPosition;
-			protected set => Target = value + ScreenPosition; 
-		}
+		public override Vector3 Front { get; protected set; }
 		public override Vector3 Right {
-			get => Vector3.Cross(Up, Right);
+			get => Vector3.Normalize(Vector3.Cross(Front, Up));
 			protected set => throw new NotImplementedException();
 		}
-		public override Vector3 Target { get; protected set; }
+		public override Vector3 Target {
+			get {
+				return ScreenPosition + Front;
+			}
+			protected set {
+				Front = value - ScreenPosition;
+			}
+		}
 		protected override float ZNear => 0.0005f; // temp, waiting shader update
 		protected override float ZFar => 1000.0f;
 
@@ -32,25 +36,28 @@ namespace Nocubeless
 			RotateAround(0.0f, 0.0f, Target);
 		}
 		
-		public void Move(float xPosition, float yPosition)
+		public void Move(float xPosition = 0.0f, float yPosition = 0.0f, float zPosition = 0.0f)
 		{
-			Vector3 direction = new Vector3(xPosition, yPosition, 0);
-			ScreenPosition += direction;
-			Target += direction;
+			ScreenPosition += Right * xPosition;
+			ScreenPosition += Up * yPosition;
+			ScreenPosition += Front * zPosition;
 		}
 
 		public void RotateAround(float pitch, float yaw, Vector3 around)
 		{
 			const float maxPitch = MathHelper.PiOver2 - 0.01f;
-			this.pitch = MathHelper.Clamp(this.pitch - pitch, -maxPitch, maxPitch);
-			this.yaw -= yaw;
+			this.pitch = MathHelper.Clamp(this.pitch + pitch, -maxPitch, maxPitch);
+			this.yaw += yaw;
 
-			ScreenPosition = new Vector3(
-				(float)(Math.Cos(this.pitch) * Math.Cos(this.yaw)),
-				(float)Math.Sin(this.pitch),
-				(float)(Math.Cos(this.pitch) * Math.Sin(this.yaw)));
+			Matrix rotation = Matrix.CreateRotationX(this.pitch) *
+				Matrix.CreateRotationY(this.yaw);
 
-			Target = around;
+			Vector3 originalFront = -Vector3.UnitZ,
+				originalUp = Vector3.UnitY;
+
+			ScreenPosition = Target + Vector3.Transform(originalFront, rotation);
+			Front = around - ScreenPosition;
+			Up = Vector3.Transform(originalUp, rotation);
 		}
 	}
 }

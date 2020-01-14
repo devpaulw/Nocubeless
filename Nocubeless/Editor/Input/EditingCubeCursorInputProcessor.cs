@@ -9,34 +9,28 @@ namespace Nocubeless
 {
     class EditingCubeCursorInputProcessor : InputProcessor
     {
-        public CubeCoordinates direction;
-
         public EditingCubeCursorInputProcessor(Nocubeless nocubeless) : base(nocubeless)
         {
-            direction = new CubeCoordinates(0, 1, 0);
         }
 
         public override void Process()
         {
-            if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveRight))
-                direction = new CubeCoordinates(-1, 0, 0);
-            else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveLeft))
-                direction = new CubeCoordinates(1, 0, 0);
-            else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveForward))
-                direction = new CubeCoordinates(0, 0, 1);
-            else if (Input.CurrentKeyboardState.IsKeyDown(Nocubeless.Settings.Keys.MoveBackward))
-                direction = new CubeCoordinates(0, 0, -1);
-            else
-                direction = new CubeCoordinates(0, 1, 0);
+            CubeCoordinates direction = new CubeCoordinates(0, 0, 0);
 
-            int scrollWheelMovement = Input.GetScrollWheelMovement();
+            if (Input.WasJustPressed(Nocubeless.Settings.Keys.MoveRight))
+                direction = new CubeCoordinates(Nocubeless.Camera.Right);
+            else if (Input.WasJustPressed(Nocubeless.Settings.Keys.MoveLeft))
+                direction = new CubeCoordinates(-Nocubeless.Camera.Right);
+            else if (Input.WasJustPressed(Nocubeless.Settings.Keys.MoveForward))
+                direction = new CubeCoordinates(Nocubeless.Camera.Front);
+            else if (Input.WasJustPressed(Nocubeless.Settings.Keys.MoveBackward))
+                direction = new CubeCoordinates(-Nocubeless.Camera.Front);
+            else if (Input.WasJustPressed(Nocubeless.Settings.Keys.MoveUpward))
+                direction = new CubeCoordinates(Nocubeless.Camera.Up);
+            else if (Input.WasJustPressed(Nocubeless.Settings.Keys.MoveDown))
+                direction = new CubeCoordinates(-Nocubeless.Camera.Up);
 
-            if (scrollWheelMovement != 0)
-            {
-                scrollWheelMovement /= Math.Abs(scrollWheelMovement);
-
-                Nocubeless.CubeWorld.PreviewableCube.Coordinates += direction * scrollWheelMovement;
-            }
+            Nocubeless.CubeWorld.PreviewableCube.Coordinates += direction;
 
             Cube cubeToLay = new Cube(Nocubeless.Player.NextColorToLay /*TODO: Change with a kind of Editing/NextColorToLay*/, Nocubeless.CubeWorld.PreviewableCube.Coordinates);
             Nocubeless.CubeWorld.PreviewCube(cubeToLay);
