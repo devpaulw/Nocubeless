@@ -25,7 +25,7 @@ namespace Nocubeless
                     UnlimitedFramerate = true,
                     VSync =  true,
                     FullScreen = false,
-                    ChunkViewDistance = 4
+                    ChunkViewDistance = 6
                 };
             }
         }

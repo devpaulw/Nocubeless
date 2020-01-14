@@ -4,3 +4,4 @@ The Ultimate Nocubeless Bug List File:
 - We don't arise with the upright head
 - Can't quit Color Picker with C
 - Remove mouse from windows and put it again in edit mode cause weird movements
+- Front and Up in Editing Camera is too large

@@ -14,6 +14,7 @@ namespace Nocubeless
         public CameraSettings Camera { get; set; }
         public CubeWorldSettings CubeWorld { get; set; }
         public CubeHandlerSettings CubeHandler { get; set; }
+        public EditingModeSettings EditingMode { get; set; }
 
 
         public static NocubelessSettings Default {
@@ -25,7 +26,8 @@ namespace Nocubeless
                     Keys = InputKeySettings.DefaultFrench,
                     Camera = CameraSettings.Default,
                     CubeWorld = CubeWorldSettings.Default,
-                    CubeHandler = CubeHandlerSettings.Default
+                    CubeHandler = CubeHandlerSettings.Default,
+                    EditingMode = EditingModeSettings.Default
                 };
             }
         }

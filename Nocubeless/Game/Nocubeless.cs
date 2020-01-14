@@ -35,7 +35,10 @@ namespace Nocubeless
 					{
 						Camera = new PlayingCamera(Settings.Camera, GraphicsDevice.Viewport);
 						Input.SetMouseInTheMiddle(); // important! Do not ignore
+
 						clearColor = new Color(149, 165, 166);
+
+						if (Settings.Song.MusicEnabled) MediaPlayer.Play(Content.Load<Song>("Music/playing_theme")); // I'm nice, I am making only one line for fun by waiting Content Design Update
 					}
 					break;
 
@@ -46,9 +49,11 @@ namespace Nocubeless
 							CubeWorld.PreviewableCube.Coordinates =
 								CubeWorld.GetCoordinatesFromGraphics(Camera.ScreenPosition);
 
-							Camera = new EditingCamera(Settings.Camera, GraphicsDevice.Viewport);
+							Camera = new EditingCamera(Settings.Camera, GraphicsDevice.Viewport, Settings.EditingMode.WorldRotationDistance);
 							
 							clearColor = Color.CadetBlue;
+
+							if (Settings.Song.MusicEnabled) MediaPlayer.Play(Content.Load<Song>("Music/editing_theme")); // I'm nice, I am making only one line for fun by waiting Content Design Update
 						}
 					}
 					break;

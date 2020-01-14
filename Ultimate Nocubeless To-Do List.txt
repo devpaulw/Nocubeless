@@ -22,3 +22,14 @@ The Ultimate Nocubeless To-Do List File:
 - Color Picker V2
 - Save System V3
 - Fast Edit Tools
+
+SpydotNet:
+Break mode, pick
+Cube move faster
+TOMORROW:
+- Break a cube 
+- Fix bug of too large up and front
+- Pick color
+- Cube move faster
+- Grid
+- ... Chunk fix...

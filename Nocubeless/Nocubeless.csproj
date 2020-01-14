@@ -115,6 +115,7 @@
     <Compile Include="Settings\CameraSettings.cs" />
     <Compile Include="Settings\CubeHandlerSettings.cs" />
     <Compile Include="Settings\CubeWorldSettings.cs" />
+    <Compile Include="Settings\EditingModeSettings.cs" />
     <Compile Include="Settings\GraphicsSettings.cs" />
     <Compile Include="Settings\InputKeySettings.cs" />
     <Compile Include="Settings\NocubelessSettings.cs" />

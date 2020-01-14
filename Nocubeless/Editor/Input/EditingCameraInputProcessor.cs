@@ -48,8 +48,8 @@ namespace Nocubeless
 					deltaX = Input.OldMouseState.X - Input.CurrentMouseState.X;
 
 				(Nocubeless.Camera as EditingCamera).Move(
-					cameraMoveRatio * deltaX * Nocubeless.Settings.Camera.DefaultSensitivity,
-					cameraMoveRatio * deltaY * Nocubeless.Settings.Camera.DefaultSensitivity);
+					cameraMoveRatio * deltaX * Nocubeless.Settings.Camera.DefaultSensitivity * Nocubeless.Settings.EditingMode.MoveSpeed, // TODO: Separate both of these
+					cameraMoveRatio * deltaY * Nocubeless.Settings.Camera.DefaultSensitivity * Nocubeless.Settings.EditingMode.MoveSpeed);
 			}
 
 			float scrollWheelMovement = Input.GetScrollWheelMovement();
@@ -57,7 +57,9 @@ namespace Nocubeless
 			{
 				scrollWheelMovement /= Math.Abs(scrollWheelMovement);
 				scrollWheelMovement /= Nocubeless.CubeWorld.GetGraphicsCubeRatio();
-				(Nocubeless.Camera as EditingCamera).Move(zPosition: scrollWheelMovement);
+				scrollWheelMovement *= Nocubeless.Settings.EditingMode.ScrollSpeed;
+
+				(Nocubeless.Camera as EditingCamera).Zoom(scrollWheelMovement);
 			}
 
 			//Input.SetMouseInTheMiddle();

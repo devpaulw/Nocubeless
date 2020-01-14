@@ -28,8 +28,8 @@
 /build:Menus/Color Picker/InputTextBoxFont.spritefont
 
 #begin Menus/Color Picker/Sensation.fnt
-/importer:
-/processor:
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
 /build:Menus/Color Picker/Sensation.fnt
 
 #begin Menus/Color Picker/Sensation_0.png
@@ -51,9 +51,15 @@
 /processorParam:TextureFormat=Compressed
 /build:Menus/Font.spritefont
 
-#begin Music/main_theme.mp3
+#begin Music/editing_theme.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Music/main_theme.mp3
+/build:Music/editing_theme.mp3
+
+#begin Music/playing_theme.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/playing_theme.mp3
 

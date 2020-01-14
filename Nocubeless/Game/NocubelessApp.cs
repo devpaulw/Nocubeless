@@ -61,7 +61,7 @@ namespace Nocubeless
 
 		protected override void LoadContent()
 		{
-			if (Settings.Song.MusicEnabled) MediaPlayer.Play(Content.Load<Song>("Music/main_theme")); // I'm nice, I am making only one line for fun by waiting Content Design Update
+			
 		}
 
 		protected override void Update(GameTime gameTime)
