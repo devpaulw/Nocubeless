@@ -9,13 +9,16 @@ namespace Nocubeless
 {
     class EditingCubeCursorInputProcessor : InputProcessor
     {
+        bool shouldBreakCube = false;
+
         public EditingCubeCursorInputProcessor(Nocubeless nocubeless) : base(nocubeless)
         {
+
         }
 
         public override void Process()
         {
-            CubeCoordinates direction = new CubeCoordinates(0, 0, 0);
+            var direction = new CubeCoordinates(0, 0, 0);
 
             if (Input.WasJustPressed(Nocubeless.Settings.Keys.MoveRight))
                 direction = new CubeCoordinates(Nocubeless.Camera.Right);
@@ -32,13 +35,43 @@ namespace Nocubeless
 
             Nocubeless.CubeWorld.PreviewableCube.Coordinates += direction;
 
-            Cube cubeToLay = new Cube(Nocubeless.Player.NextColorToLay /*TODO: Change with a kind of Editing/NextColorToLay*/, Nocubeless.CubeWorld.PreviewableCube.Coordinates);
+            if (Input.WasJustPressed(Nocubeless.Settings.Keys.ToggleLayBreak))
+            {
+                shouldBreakCube ^= true;
+            }
+
+            var cubeToLay = new Cube(Nocubeless.Player.NextColorToLay /*TODO: Change with a kind of Editing/NextColorToLay*/, Nocubeless.CubeWorld.PreviewableCube.Coordinates); // Make the Editor Cube class
             Nocubeless.CubeWorld.PreviewCube(cubeToLay);
 
-            if (Input.WasRightMouseButtonJustPressed())
+            if (Input.WasRightMouseButtonJustPressed() && !shouldBreakCube)
             {
                 Nocubeless.CubeWorld.LayCube(cubeToLay);
             }
+
+            if (Input.WasLeftMouseButtonJustPressed() && shouldBreakCube)
+            {
+                Nocubeless.CubeWorld.BreakCube(Nocubeless.CubeWorld.PreviewableCube.Coordinates);
+            }
+
+            if (Input.WasMiddleMouseButtonJustPressed() && shouldBreakCube)
+            {
+                Pick();
+            }
+
+            if (Input.WasJustPressed(Nocubeless.Settings.Keys.SetPreviewableCubeAtTheFront))
+            {
+                Nocubeless.CubeWorld.PreviewableCube.Coordinates = Nocubeless.CubeWorld.GetCoordinatesFromGraphics(Nocubeless.Camera.Target);
+            }
+        }
+
+        void Pick()
+        {
+            // TODO: Put in  separated another class
+            var targetCubeCoordinates = Nocubeless.CubeWorld.PreviewableCube.Coordinates;
+            var targetCubeColor = Nocubeless.CubeWorld.GetCubeColorAt(targetCubeCoordinates);
+
+            if (targetCubeColor != null)
+                Nocubeless.Player.NextColorToLay = targetCubeColor;
         }
     }
 }

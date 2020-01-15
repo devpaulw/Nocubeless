@@ -20,6 +20,7 @@ namespace Nocubeless
         public Keys ShowColorPicker { get; set; }
         public Keys Zoom { get; set; }
         public Keys ToggleMode { get; set; }
+        public Keys SetPreviewableCubeAtTheFront { get; set; }
 
         public static InputKeySettings DefaultUSEnglish {
             get {
@@ -35,7 +36,8 @@ namespace Nocubeless
                     ToggleLayBreak = Keys.X,
                     Zoom = Keys.V,
                     ShowColorPicker = Keys.C,
-                    ToggleMode = Keys.E
+                    ToggleMode = Keys.E,
+                    SetPreviewableCubeAtTheFront = Keys.F
                 };
             }
         }
@@ -55,7 +57,8 @@ namespace Nocubeless
                     Zoom = Keys.V,
                     ToggleLayBreak = Keys.X,
                     ShowColorPicker = Keys.C,
-                    ToggleMode = Keys.E
+                    ToggleMode = Keys.E,
+                    SetPreviewableCubeAtTheFront = Keys.F
                 };
             }
         }
