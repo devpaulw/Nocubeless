@@ -144,7 +144,9 @@ namespace Nocubeless
 
 		public override string ToString()
 		{
-			return "{X:" + X + "; Y:" + Y + "; Z:" + Z + "}";
+			if (this is null is false)
+				return "{X:" + X + "; Y:" + Y + "; Z:" + Z + "}";
+			else return "None";
 		}
 		#endregion
 	}

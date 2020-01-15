@@ -15,7 +15,7 @@ namespace Nocubeless
 
 		public override Vector3 Up {
 			get {
-				return _up;// / WorldRotationDistance;
+				return _up / WorldRotationDistance;
 			}
 			protected set {
 				_up = value;
@@ -23,19 +23,19 @@ namespace Nocubeless
 		}
 		public override Vector3 Front {
 			get {
-				return _front;// / WorldRotationDistance;
+				return _front / WorldRotationDistance;
 			}
 			protected set {
 				_front = value;
 			}
 		}
 		public override Vector3 Right {
-			get => Vector3.Normalize(Vector3.Cross(Front, Up));
+			get => Vector3.Normalize(Vector3.Cross(_front, _up));
 			protected set => throw new NotImplementedException();
 		}
 		public override Vector3 Target {
 			get {
-				return ScreenPosition + Front;
+				return ScreenPosition + _front;
 			}
 			protected set {
 				Front = value - ScreenPosition;

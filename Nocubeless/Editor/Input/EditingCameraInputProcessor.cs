@@ -21,10 +21,6 @@ namespace Nocubeless
 			if (Input.WasMiddleMouseButtonJustPressed())
 			{
 				rotateAround = Nocubeless.Camera.Target;
-
-				//rotateAround = Nocubeless.CubeWorld.GetGraphicsCubePosition(
-				//		Nocubeless.CubeWorld.GetTargetedCube(
-				//			Nocubeless.Camera as EditingCamera, Nocubeless.Settings.CubeHandler.MaxLayingDistance));
 			}
 
 			if (Input.CurrentMouseState.MiddleButton == ButtonState.Pressed)
@@ -61,8 +57,6 @@ namespace Nocubeless
 
 				(Nocubeless.Camera as EditingCamera).Zoom(scrollWheelMovement);
 			}
-
-			//Input.SetMouseInTheMiddle();
 		}
 	}
 }

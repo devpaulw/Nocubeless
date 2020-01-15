@@ -18,7 +18,7 @@ namespace Nocubeless
 				{
 					WorldRotationDistance = 2.0f,
 					MoveSpeed = 1.5f,
-					ScrollSpeed = 1.0f
+					ScrollSpeed = 2.0f
 				};
 			}
 		}

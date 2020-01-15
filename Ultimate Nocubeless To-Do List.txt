@@ -27,8 +27,8 @@ SpydotNet:
 Break mode, pick
 Cube move faster
 TOMORROW:
+- Be able to lay a cube in our target with a key
 - Break a cube 
-- Fix bug of too large up and front
 - Pick color
 - Cube move faster
 - Grid
