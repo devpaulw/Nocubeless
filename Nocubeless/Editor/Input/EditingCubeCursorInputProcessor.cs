@@ -37,7 +37,7 @@ namespace Nocubeless
 
             if (Input.WasJustPressed(Nocubeless.Settings.Keys.ToggleLayBreak))
             {
-                shouldBreakCube ^= true;
+                shouldBreakCube = !shouldBreakCube;
             }
 
             var cubeToLay = new Cube(Nocubeless.Player.NextColorToLay /*TODO: Change with a kind of Editing/NextColorToLay*/, Nocubeless.CubeWorld.PreviewableCube.Coordinates); // Make the Editor Cube class
